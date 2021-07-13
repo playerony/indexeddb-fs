@@ -21,6 +21,7 @@
     "open:coverage": "open ./coverage/lcov-report/src/index.html",
     "prepare": "husky install",
     "test": "jest",
+    "test:ci": "jest --ci --coverage --forceExit",
     "test:coverage": "jest --collectCoverage",
     "test:watch": "jest --watch",
     "typecheck": "tsc --noEmit"
