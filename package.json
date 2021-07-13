@@ -1,0 +1,52 @@
+{
+  "name": "indexeddb-fs",
+  "version": "1.0.0",
+  "description": "An fs dedicated for browser. It works based on indexed-db.",
+  "license": "MIT",
+  "author": "Paweł Wojtasiński",
+  "homepage": "https://github.com/playerony/indexeddb-fs#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/playerony/indexeddb-fs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/playerony/indexeddb-fs/issues"
+  },
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "format": "prettier --write \"src/**/*\"",
+    "lint": "eslint --ext .ts \"src/**/*\"",
+    "lint:fix": "eslint --fix \"src/**/*\"",
+    "open:coverage": "open ./coverage/lcov-report/src/index.html",
+    "prepare": "husky install",
+    "test": "jest",
+    "test:coverage": "jest --collectCoverage",
+    "test:watch": "jest --watch",
+    "typecheck": "tsc --noEmit"
+  },
+  "types": "dist/index.d.ts",
+  "devDependencies": {
+    "@types/jest": "^26.0.24",
+    "@typescript-eslint/eslint-plugin": "^4.28.3",
+    "@typescript-eslint/parser": "^4.28.3",
+    "eslint": "^7.30.0",
+    "eslint-config-airbnb-typescript": "^12.3.1",
+    "eslint-plugin-import": "^2.23.4",
+    "husky": "^7.0.1",
+    "jest": "^27.0.6",
+    "lint-staged": "^11.0.1",
+    "prettier": "^2.3.2",
+    "prettier-package-json": "^2.6.0",
+    "typescript": "^4.3.5"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "npm test",
+      "pre-commit": "lint-staged && npm test"
+    }
+  }
+}
