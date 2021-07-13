@@ -8,4 +8,7 @@ module.exports = {
     },
   },
   roots: ['<rootDir>/src'],
+  transform: { '^.+\\.ts$': 'ts-jest' },
+  modulePathIgnorePatterns: ['node_modules'],
+  testMatch: ['**/__tests__/**/*.+(ts|js)', '**/?(*.)+(spec|test).+(ts|js)'],
 };
