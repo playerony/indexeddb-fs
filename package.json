@@ -15,6 +15,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc --build tsconfig.build.json",
+    "check": "concurrently \"npm run lint\" \"npm run typecheck\" \"npm run test\"",
     "format": "prettier --write \"src/**/*\"",
     "lint": "eslint \"src/**/*\"",
     "lint:fix": "eslint --fix \"src/**/*\"",
@@ -27,6 +28,9 @@
     "typecheck": "tsc --noEmit -p tsconfig.base.json"
   },
   "types": "dist/index.d.ts",
+  "dependencies": {
+    "concurrently": "^6.2.0"
+  },
   "devDependencies": {
     "@types/jest": "^26.0.24",
     "@typescript-eslint/eslint-plugin": "^4.28.3",
