@@ -1,5 +1,5 @@
 {
-  "*.src/**/*": "prettier --write",
+  "*.lib/**/*": "prettier --write",
   "*.{js,css,md}": "prettier --write",
   "*.{js,ts}": "npm run lint:fix --cache",
   "package.json": "prettier-package-json --write"

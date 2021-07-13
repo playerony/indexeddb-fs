@@ -7,7 +7,7 @@ module.exports = {
       tsconfig: '<rootDir>/tsconfig.base.json',
     },
   },
-  roots: ['<rootDir>/src'],
+  roots: ['<rootDir>/lib'],
   transform: { '^.+\\.ts$': 'ts-jest' },
   modulePathIgnorePatterns: ['node_modules'],
   testMatch: ['**/__tests__/**/*.+(ts|js)', '**/?(*.)+(spec|test).+(ts|js)'],
