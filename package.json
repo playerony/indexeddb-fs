@@ -14,9 +14,9 @@
   },
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc --build tsconfig.build.json",
     "format": "prettier --write \"src/**/*\"",
-    "lint": "eslint --ext .ts \"src/**/*\"",
+    "lint": "eslint \"src/**/*\"",
     "lint:fix": "eslint --fix \"src/**/*\"",
     "open:coverage": "open ./coverage/lcov-report/src/index.html",
     "prepare": "husky install",
@@ -24,7 +24,7 @@
     "test:ci": "jest --ci --coverage --forceExit",
     "test:coverage": "jest --collectCoverage",
     "test:watch": "jest --watch",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit -p tsconfig.base.json"
   },
   "types": "dist/index.d.ts",
   "devDependencies": {
