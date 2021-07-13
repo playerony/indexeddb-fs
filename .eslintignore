@@ -1,0 +1,5 @@
+*.json
+*.ts.snap
+
+dist
+node_modules

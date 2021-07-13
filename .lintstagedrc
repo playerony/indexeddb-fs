@@ -1,6 +1,6 @@
 {
   "*.src/**/*": "prettier --write",
   "*.{js,css,md}": "prettier --write",
-  "*.{js,ts}": "eslint --cache --fix",
+  "*.{js,ts}": "npm run lint:fix --cache",
   "package.json": "prettier-package-json --write"
 }

@@ -5,8 +5,7 @@
   ],
   "exclude": [
     "dist",
-    "node_modules",
-    "/**/*.(test|spec).ts"
+    "node_modules"
   ],
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig.json to read more about this file */
