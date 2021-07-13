@@ -15,15 +15,7 @@
         "*.ts",
         "*.js"
       ],
-      "rules": {
-        "no-unused-vars": "off",
-        "no-await-in-loop": "off",
-        "no-underscore-dangle": "off",
-        "no-use-before-define": "off",
-        "no-restricted-syntax": "off",
-        "implicit-arrow-linebreak": "off",
-        "import/prefer-default-export": "off"
-      }
+      "rules": {}
     }
   ]
 }
