@@ -12,10 +12,8 @@
   "overrides": [
     {
       "files": [
-        "*.ts",
-        "*.js"
-      ],
-      "rules": {}
+        "*.ts"
+      ]
     }
   ]
 }
