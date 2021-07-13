@@ -1,0 +1,21 @@
+{
+  "extends": "airbnb-typescript/base",
+  "env": {
+    "node": true,
+    "browser": true
+  },
+  "parserOptions": {
+    "project": [
+      "./tsconfig.json"
+    ]
+  },
+  "overrides": [
+    {
+      "files": [
+        "*.ts",
+        "*.js"
+      ],
+      "rules": {}
+    }
+  ]
+}
