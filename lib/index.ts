@@ -1,4 +1,5 @@
-import { isIndexedDBSupport } from './utils';
+import { createFS } from './createFS.function';
 
-// eslint-disable-next-line no-console
-console.log(isIndexedDBSupport());
+const fs = createFS({ databaseName: 'test-db-4' });
+
+fs.writeFile('test.txt', 'test');

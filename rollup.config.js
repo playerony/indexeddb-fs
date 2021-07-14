@@ -1,6 +1,7 @@
 import babel from '@rollup/plugin-babel';
 import { terser } from 'rollup-plugin-terser';
 import typescript from 'rollup-plugin-typescript2';
+import nodePolyfills from 'rollup-plugin-node-polyfills';
 
 const input = 'lib/index.ts';
 
@@ -12,7 +13,11 @@ export default [
       format: 'es',
       file: 'dist/index.es.js',
     },
-    plugins: [typescript({ tsconfig: 'tsconfig.build.json' }), babel({ extensions: ['.ts'] })],
+    plugins: [
+      nodePolyfills(),
+      typescript({ tsconfig: 'tsconfig.build.json' }),
+      babel({ extensions: ['.ts'] }),
+    ],
   },
 
   // UMD
@@ -25,6 +30,7 @@ export default [
       file: 'dist/index.umd.min.js',
     },
     plugins: [
+      nodePolyfills(),
       typescript({ tsconfig: 'tsconfig.build.json' }),
       babel({ extensions: ['.ts'], exclude: 'node_modules/**' }),
       terser(),
