@@ -34,7 +34,7 @@
   },
   "types": "dist/index.d.ts",
   "dependencies": {
-    "path-browserify": "^1.0.1"
+    "path": "^0.12.7"
   },
   "devDependencies": {
     "@commitlint/cli": "^12.1.4",
