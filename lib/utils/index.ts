@@ -1,1 +1,1 @@
-export * from './functions';
+export * from './is-indexeddb-support.function';

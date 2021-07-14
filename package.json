@@ -18,7 +18,8 @@
     "build": "npm run build:clean && npm run build:dist",
     "build:clean": "rimraf dist",
     "build:dist": "rollup -c",
-    "check": "concurrently \"npm run lint\" \"npm run typecheck\" \"npm run test\"",
+    "check": "npm run lint && npm run typecheck && npm run test",
+    "commitlint": "commitlint -- --from=main",
     "format": "prettier --write \"lib/**/*\"",
     "lint": "eslint \"./lib/**/*\"",
     "lint:fix": "eslint --fix \"./lib/**/*\"",
@@ -32,10 +33,9 @@
     "typecheck": "tsc --noEmit -p tsconfig.base.json"
   },
   "types": "dist/index.d.ts",
-  "dependencies": {
-    "concurrently": "^6.2.0"
-  },
   "devDependencies": {
+    "@commitlint/cli": "^12.1.4",
+    "@commitlint/config-conventional": "^12.1.4",
     "@rollup/plugin-babel": "^5.3.0",
     "@types/jest": "^26.0.24",
     "@typescript-eslint/eslint-plugin": "^4.28.3",

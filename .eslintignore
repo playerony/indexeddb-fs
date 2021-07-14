@@ -6,3 +6,4 @@ node_modules
 
 jest.config.js
 rollup.config.js
+commitlint.config.js
