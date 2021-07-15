@@ -2,6 +2,7 @@ import path from 'path';
 
 import { isIndexedDBSupport, initializeDatabase } from './utils';
 
+import { FileEntry } from './types';
 import { CreateFSProps } from './createFS.types';
 
 export function createFS({
@@ -21,27 +22,62 @@ export function createFS({
   }
 
   const initializeObjectStore = async (type: IDBTransactionMode): Promise<IDBObjectStore> => {
-    const db = await initializeDatabase({
+    const database = await initializeDatabase({
       storeName,
       databaseName,
       indexedDBVersion,
       rootDirectoryName,
     });
 
-    const transaction = db.transaction(storeName, type);
+    const transaction = database.transaction(storeName, type);
     return transaction.objectStore(storeName);
   };
 
-  async function writeFile<TData = any>(fileName: string, data: TData): Promise<void> {
+  async function writeFile<TData = any>(filePath: string, data: TData): Promise<void> {
     const objectStore = await initializeObjectStore('readwrite');
 
     return new Promise((resolve, reject) => {
-      const request = objectStore.put({
+      const entry: FileEntry<TData> = {
         data,
         type: 'file',
-        path: fileName,
-        dir: path.dirname(fileName),
-      });
+        path: filePath,
+        createdAt: Date.now(),
+        dir: path.dirname(filePath),
+      };
+
+      const request = objectStore.put(entry);
+
+      request.onerror = reject;
+      request.onsuccess = () => resolve();
+    });
+  }
+
+  async function readFile<TData = any>(filePath: string): Promise<FileEntry<TData>> {
+    const objectStore = await initializeObjectStore('readonly');
+
+    return new Promise((resolve, reject) => {
+      const request = objectStore.get(filePath);
+
+      request.onerror = reject;
+
+      request.onsuccess = (event: Event) => {
+        const targetWithType = event.target as IDBRequest;
+        const response = targetWithType.result;
+
+        if (response?.data) {
+          resolve(response?.data);
+        } else {
+          reject(new Error('File not found.'));
+        }
+      };
+    });
+  }
+
+  async function removeFile(filePath: string): Promise<void> {
+    const objectStore = await initializeObjectStore('readwrite');
+
+    return new Promise((resolve, reject) => {
+      const request = objectStore.delete(filePath);
 
       request.onerror = reject;
       request.onsuccess = () => resolve();
@@ -50,5 +86,5 @@ export function createFS({
 
   initialize();
 
-  return { writeFile };
+  return { readFile, writeFile, removeFile };
 }
