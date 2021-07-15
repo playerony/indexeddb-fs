@@ -16,6 +16,7 @@
         "*.js"
       ],
       "rules": {
+        "no-console": "off",
         "no-confusing-arrow": "off",
         "operator-linebreak": "off",
         "object-curly-newline": "off",
