@@ -1,9 +1,10 @@
 export type EntryType = 'file' | 'directory';
 
 interface Entry<TType extends EntryType> {
-  dir: string;
-  path: string;
   type: TType;
+  name: string;
+  fullPath: string;
+  directory: string;
   createdAt: number;
 }
 

@@ -3,11 +3,10 @@ import { createFS } from './createFS.function';
 const fs = createFS({ databaseName: 'test-db-4' });
 
 const doActions = async () => {
-  await fs.writeFile('foo/test.txt', 'test 123');
+  await fs.createDirectory('foo3/foo4');
 
-  const content = await fs.readFile('foo/test.txt');
+  const content = await fs.readDirectory('foo3');
 
-  // eslint-disable-next-line no-console
   console.log(content);
 };
 
