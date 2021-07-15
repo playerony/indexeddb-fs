@@ -52,11 +52,11 @@ export function createFS({
     });
   }
 
-  async function readFile<TData = any>(fileName: string): Promise<FileEntry<TData>> {
+  async function readFile<TData = any>(filePath: string): Promise<FileEntry<TData>> {
     const objectStore = await initializeObjectStore('readonly');
 
     return new Promise((resolve, reject) => {
-      const request = objectStore.get(fileName);
+      const request = objectStore.get(filePath);
 
       request.onerror = reject;
 
