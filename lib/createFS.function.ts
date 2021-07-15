@@ -33,16 +33,16 @@ export function createFS({
     return transaction.objectStore(storeName);
   };
 
-  async function writeFile<TData = any>(fileName: string, data: TData): Promise<void> {
+  async function writeFile<TData = any>(filePath: string, data: TData): Promise<void> {
     const objectStore = await initializeObjectStore('readwrite');
 
     return new Promise((resolve, reject) => {
       const entry: FileEntry<TData> = {
         data,
         type: 'file',
-        path: fileName,
+        path: filePath,
         createdAt: Date.now(),
-        dir: path.dirname(fileName),
+        dir: path.dirname(filePath),
       };
 
       const request = objectStore.put(entry);
@@ -52,7 +52,7 @@ export function createFS({
     });
   }
 
-  async function readFileWithDetails<TData = any>(fileName: string): Promise<FileEntry<TData>> {
+  async function readFile<TData = any>(fileName: string): Promise<FileEntry<TData>> {
     const objectStore = await initializeObjectStore('readonly');
 
     return new Promise((resolve, reject) => {
@@ -64,8 +64,8 @@ export function createFS({
         const targetWithType = event.target as IDBRequest;
         const response = targetWithType.result;
 
-        if (response) {
-          resolve(response);
+        if (response?.data) {
+          resolve(response?.data);
         } else {
           reject(new Error('File not found.'));
         }
@@ -73,21 +73,11 @@ export function createFS({
     });
   }
 
-  async function readFile<TData = any>(fileName: string): Promise<TData | null> {
-    try {
-      const fileDetails = await readFileWithDetails(fileName);
-
-      return fileDetails?.data || null;
-    } catch (error) {
-      throw new Error(error);
-    }
-  }
-
-  async function removeFile(fileName: string): Promise<void> {
+  async function removeFile(filePath: string): Promise<void> {
     const objectStore = await initializeObjectStore('readwrite');
 
     return new Promise((resolve, reject) => {
-      const request = objectStore.delete(fileName);
+      const request = objectStore.delete(filePath);
 
       request.onerror = reject;
       request.onsuccess = () => resolve();
@@ -96,5 +86,5 @@ export function createFS({
 
   initialize();
 
-  return { readFile, writeFile, removeFile, readFileWithDetails };
+  return { readFile, writeFile, removeFile };
 }
