@@ -3,5 +3,8 @@ export * from './initialize-database.function';
 export * from './is-function/is-function.function';
 export * from './open-indexeddb-connection.function';
 export * from './is-valid-path/is-valid-path.function';
+export * from './starts-with-stash/starts-with-slash.function';
 export * from './is-indexeddb-support/is-indexeddb-support.function';
+export * from './has-root-directory-prefix/has-root-directory-prefix.function';
+export * from './with-root-directory-prefix/with-root-directory-prefix.function';
 export * from './format-and-validate-full-path/format-and-validate-full-path.function';
