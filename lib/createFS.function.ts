@@ -1,6 +1,10 @@
 import path from 'path';
 
-import { isIndexedDBSupport, initializeDatabase, formatAndValidateFullPath } from '@utils';
+import {
+  isIndexedDBSupport,
+  formatAndValidateFullPath,
+  initializeObjectStoreDecorator,
+} from '@utils';
 
 import { CreateFSProps } from './createFS.types';
 import { FileEntry, DirectoryEntry } from '@types';
@@ -23,17 +27,11 @@ export function createFS({
     }
   }
 
-  const initializeObjectStore = async (type: IDBTransactionMode): Promise<IDBObjectStore> => {
-    const database = await initializeDatabase({
-      databaseName,
-      databaseVersion,
-      objectStoreName,
-      rootDirectoryName,
-    });
-
-    const transaction = database.transaction(objectStoreName, type);
-    return transaction.objectStore(objectStoreName);
-  };
+  const initializeObjectStore = initializeObjectStoreDecorator({
+    databaseName,
+    databaseVersion,
+    objectStoreName,
+  });
 
   async function exists(fullPath: string): Promise<boolean> {
     const verifiedFullPath = formatAndValidateFullPath(fullPath, rootDirectoryName);

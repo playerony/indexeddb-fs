@@ -1,8 +1,8 @@
 import { openIndexedDBConnection } from '@utils';
 
-import { CreateFSProps } from '../../createFS.types';
+import { InitializeDatabaseProps } from './initialize-database.types';
 
-import { OBJECT_STORE_INDEX_NAME, OBJECT_STORE_KEY_PATH } from '../../constants';
+import { OBJECT_STORE_INDEX_NAME, OBJECT_STORE_KEY_PATH } from '../../../constants';
 
 function getDatabaseObjectFromTarget(target: EventTarget | null): IDBDatabase | null {
   if (!target) {
@@ -24,11 +24,11 @@ export const initializeDatabase = ({
   databaseName,
   databaseVersion,
   objectStoreName,
-}: Required<CreateFSProps>): Promise<IDBDatabase> =>
+}: InitializeDatabaseProps): Promise<IDBDatabase> =>
   new Promise((resolve, reject) => {
-    const req = openIndexedDBConnection(databaseName, databaseVersion);
+    const request = openIndexedDBConnection(databaseName, databaseVersion);
 
-    req.onupgradeneeded = ({ target }: IDBVersionChangeEvent) => {
+    request.onupgradeneeded = ({ target }: IDBVersionChangeEvent) => {
       const database = getDatabaseObjectFromTarget(target) as any;
 
       throwDatabaseOpenError(reject, database);
@@ -40,7 +40,7 @@ export const initializeDatabase = ({
       objectStore.createIndex(OBJECT_STORE_INDEX_NAME, OBJECT_STORE_INDEX_NAME, { unique: false });
     };
 
-    req.onsuccess = ({ target }: Event) => {
+    request.onsuccess = ({ target }: Event) => {
       const database = getDatabaseObjectFromTarget(target);
 
       throwDatabaseOpenError(reject, database);
@@ -48,5 +48,5 @@ export const initializeDatabase = ({
       resolve(getDatabaseObjectFromTarget(target) as IDBDatabase);
     };
 
-    req.onerror = reject;
+    request.onerror = reject;
   });
