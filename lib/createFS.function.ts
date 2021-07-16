@@ -1,9 +1,9 @@
 import path from 'path';
 
-import { isIndexedDBSupport, initializeDatabase, withTrailingSlash } from './utils';
+import { isIndexedDBSupport, initializeDatabase, formatAndValidateFullPath } from '@utils';
 
 import { CreateFSProps } from './createFS.types';
-import { FileEntry, DirectoryEntry } from './types';
+import { FileEntry, DirectoryEntry } from '@types';
 
 import { OBJECT_STORE_INDEX_NAME } from './constants';
 
@@ -11,6 +11,7 @@ export function createFS({
   databaseName,
   databaseVersion = 10,
   objectStoreName = 'files',
+  rootDirectoryName = 'root',
 }: CreateFSProps) {
   function initialize() {
     checkIndexedDBSupport();
@@ -27,23 +28,46 @@ export function createFS({
       databaseName,
       databaseVersion,
       objectStoreName,
+      rootDirectoryName,
     });
 
     const transaction = database.transaction(objectStoreName, type);
     return transaction.objectStore(objectStoreName);
   };
 
-  async function writeFile<TData = any>(filePath: string, data: TData): Promise<void> {
+  async function exists(fullPath: string): Promise<boolean> {
+    const verifiedFullPath = formatAndValidateFullPath(rootDirectoryName, fullPath);
+
+    const objectStore = await initializeObjectStore('readonly');
+    const objectStoreIndex = objectStore.index(OBJECT_STORE_INDEX_NAME);
+
+    const keyRange = IDBKeyRange.only(verifiedFullPath);
+    const request = objectStoreIndex.openCursor(keyRange);
+
+    return new Promise((resolve) => {
+      request.onerror = () => resolve(false);
+      request.onsuccess = (event: Event) => {
+        const targetWithType = event.target as IDBRequest;
+        const cursor = targetWithType.result as IDBCursorWithValue;
+
+        resolve(Boolean(cursor?.value?.createdAt));
+      };
+    });
+  }
+
+  async function writeFile<TData = any>(fullPath: string, data: TData): Promise<void> {
+    const verifiedFullPath = formatAndValidateFullPath(rootDirectoryName, fullPath);
+
     const objectStore = await initializeObjectStore('readwrite');
 
     return new Promise((resolve, reject) => {
       const entry: FileEntry<TData> = {
         data,
         type: 'file',
-        fullPath: filePath,
         createdAt: Date.now(),
-        name: path.basename(filePath),
-        directory: path.dirname(filePath),
+        fullPath: verifiedFullPath,
+        name: path.basename(verifiedFullPath),
+        directory: path.dirname(verifiedFullPath),
       };
 
       const request = objectStore.put(entry);
@@ -53,11 +77,13 @@ export function createFS({
     });
   }
 
-  async function readFile<TData = any>(filePath: string): Promise<FileEntry<TData>> {
+  async function readFile<TData = any>(fullPath: string): Promise<FileEntry<TData>> {
+    const verifiedFullPath = formatAndValidateFullPath(rootDirectoryName, fullPath);
+
     const objectStore = await initializeObjectStore('readonly');
 
     return new Promise((resolve, reject) => {
-      const request = objectStore.get(filePath);
+      const request = objectStore.get(verifiedFullPath);
 
       request.onerror = reject;
 
@@ -74,48 +100,50 @@ export function createFS({
     });
   }
 
-  async function removeFile(filePath: string): Promise<void> {
+  async function removeFile(fullPath: string): Promise<void> {
+    const verifiedFullPath = formatAndValidateFullPath(rootDirectoryName, fullPath);
+
     const objectStore = await initializeObjectStore('readwrite');
 
     return new Promise((resolve, reject) => {
-      const request = objectStore.delete(filePath);
+      const request = objectStore.delete(verifiedFullPath);
 
       request.onerror = reject;
       request.onsuccess = () => resolve();
     });
   }
 
-  async function createDirectory(fullPath: string): Promise<void> {
+  async function createDirectory(fullPath: string): Promise<DirectoryEntry> {
+    const verifiedFullPath = formatAndValidateFullPath(rootDirectoryName, fullPath);
+
     const objectStore = await initializeObjectStore('readwrite');
 
     return new Promise((resolve, reject) => {
-      const directory = withTrailingSlash(fullPath);
-
       const entry: DirectoryEntry = {
-        fullPath,
         type: 'directory',
         createdAt: Date.now(),
-        name: path.basename(directory),
-        directory: path.dirname(directory),
+        fullPath: verifiedFullPath,
+        name: path.basename(verifiedFullPath),
+        directory: path.dirname(verifiedFullPath),
       };
 
       const request = objectStore.put(entry);
 
       request.onerror = reject;
-      request.onsuccess = () => resolve();
+      request.onsuccess = () => resolve(entry);
     });
   }
 
   async function readDirectory(fullPath: string): Promise<any[]> {
+    const verifiedFullPath = formatAndValidateFullPath(rootDirectoryName, fullPath);
+
     const objectStore = await initializeObjectStore('readonly');
 
     return new Promise((resolve, reject) => {
-      const directory = fullPath;
-
       const objectStoreIndex = objectStore.index(OBJECT_STORE_INDEX_NAME);
 
-      const range = IDBKeyRange.only(directory);
-      const request = objectStoreIndex.openCursor(range);
+      const keyRange = IDBKeyRange.only(verifiedFullPath);
+      const request = objectStoreIndex.openCursor(keyRange);
 
       request.onerror = reject;
 
@@ -128,9 +156,9 @@ export function createFS({
           const { value } = cursor;
 
           const entry = {
-            fullPath,
             type: value.type,
             createdAt: Date.now(),
+            fullPath: verifiedFullPath,
             name: path.basename(value.fullPath),
             directory: path.dirname(value.fullPath),
           };
@@ -144,7 +172,31 @@ export function createFS({
     });
   }
 
+  async function removeDirectory(fullPath: string) {
+    const verifiedFullPath = formatAndValidateFullPath(rootDirectoryName, fullPath);
+
+    const files = await readDirectory(verifiedFullPath);
+
+    if (!files || !files.length) {
+      return null;
+    }
+
+    files.forEach(async (_file) => {
+      await removeFile(`${_file.fullPath}/${_file.name}`);
+    });
+
+    return null;
+  }
+
   initialize();
 
-  return { readFile, writeFile, removeFile, readDirectory, createDirectory };
+  return {
+    exists,
+    readFile,
+    writeFile,
+    removeFile,
+    readDirectory,
+    createDirectory,
+    removeDirectory,
+  };
 }

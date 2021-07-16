@@ -1,14 +1,18 @@
+const mapPathsFromTsConfig = require('jest-module-name-mapper').default;
+
 module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
   globals: {
     'ts-jest': {
       diagnostics: false,
-      tsconfig: '<rootDir>/tsconfig.base.json',
+      tsconfig: '<rootDir>/tsconfig.json',
     },
   },
   roots: ['<rootDir>/lib'],
+  setupFiles: ['fake-indexeddb/auto'],
   transform: { '^.+\\.ts$': 'ts-jest' },
+  moduleNameMapper: mapPathsFromTsConfig(),
   modulePathIgnorePatterns: ['node_modules'],
-  testMatch: ['**/__tests__/**/*.+(ts|js)', '**/?(*.)+(spec|test).+(ts|js)'],
+  testMatch: ['**/?(*.)+(spec|test).+(ts|js)'],
 };
