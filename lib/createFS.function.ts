@@ -36,7 +36,7 @@ export function createFS({
   };
 
   async function exists(fullPath: string): Promise<boolean> {
-    const verifiedFullPath = formatAndValidateFullPath(rootDirectoryName, fullPath);
+    const verifiedFullPath = formatAndValidateFullPath(fullPath, rootDirectoryName);
 
     const objectStore = await initializeObjectStore('readonly');
     const objectStoreIndex = objectStore.index(OBJECT_STORE_INDEX_NAME);
@@ -56,7 +56,7 @@ export function createFS({
   }
 
   async function writeFile<TData = any>(fullPath: string, data: TData): Promise<void> {
-    const verifiedFullPath = formatAndValidateFullPath(rootDirectoryName, fullPath);
+    const verifiedFullPath = formatAndValidateFullPath(fullPath, rootDirectoryName);
 
     const objectStore = await initializeObjectStore('readwrite');
 
@@ -78,7 +78,7 @@ export function createFS({
   }
 
   async function readFile<TData = any>(fullPath: string): Promise<FileEntry<TData>> {
-    const verifiedFullPath = formatAndValidateFullPath(rootDirectoryName, fullPath);
+    const verifiedFullPath = formatAndValidateFullPath(fullPath, rootDirectoryName);
 
     const objectStore = await initializeObjectStore('readonly');
 
@@ -101,7 +101,7 @@ export function createFS({
   }
 
   async function removeFile(fullPath: string): Promise<void> {
-    const verifiedFullPath = formatAndValidateFullPath(rootDirectoryName, fullPath);
+    const verifiedFullPath = formatAndValidateFullPath(fullPath, rootDirectoryName);
 
     const objectStore = await initializeObjectStore('readwrite');
 
@@ -114,7 +114,7 @@ export function createFS({
   }
 
   async function createDirectory(fullPath: string): Promise<DirectoryEntry> {
-    const verifiedFullPath = formatAndValidateFullPath(rootDirectoryName, fullPath);
+    const verifiedFullPath = formatAndValidateFullPath(fullPath, rootDirectoryName);
 
     const objectStore = await initializeObjectStore('readwrite');
 
@@ -135,7 +135,7 @@ export function createFS({
   }
 
   async function readDirectory(fullPath: string): Promise<any[]> {
-    const verifiedFullPath = formatAndValidateFullPath(rootDirectoryName, fullPath);
+    const verifiedFullPath = formatAndValidateFullPath(fullPath, rootDirectoryName);
 
     const objectStore = await initializeObjectStore('readonly');
 
@@ -173,7 +173,7 @@ export function createFS({
   }
 
   async function removeDirectory(fullPath: string) {
-    const verifiedFullPath = formatAndValidateFullPath(rootDirectoryName, fullPath);
+    const verifiedFullPath = formatAndValidateFullPath(fullPath, rootDirectoryName);
 
     const files = await readDirectory(verifiedFullPath);
 

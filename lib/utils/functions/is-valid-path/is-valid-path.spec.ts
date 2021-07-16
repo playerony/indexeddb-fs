@@ -24,6 +24,7 @@ describe('isValidPath Function', () => {
   });
 
   it('should return false when the provided path is invalid', () => {
+    expect(isValidPath('')).toBeFalsy();
     expect(isValidPath('dir1')).toBeFalsy();
     expect(isValidPath('dir1/')).toBeFalsy();
     expect(isValidPath('/dir1')).toBeFalsy();

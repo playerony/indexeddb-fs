@@ -1,30 +1,17 @@
-import { isValidPath } from '@utils';
+import { isString, isValidPath, withRootDirectoryPrefix } from '@utils';
 
-const startsWithSlash = (fullPath: string) => fullPath[0] === '/';
-
-const hasRootPrefix = (rootDirectoryName: string, fullPath: string): boolean =>
-  fullPath.startsWith(rootDirectoryName);
-
-function withRootPrefix(rootDirectoryName: string, fullPath: string) {
-  const isRootPrefix = hasRootPrefix(rootDirectoryName, fullPath);
-
-  if (!isRootPrefix) {
-    const hasFirstSlash = startsWithSlash(fullPath);
-
-    return `${rootDirectoryName}${hasFirstSlash ? '' : '/'}${fullPath}`;
+export function formatAndValidateFullPath(fullPath: string, rootDirectoryName: string): string {
+  if (!isString(rootDirectoryName) || rootDirectoryName === '') {
+    throw new Error('rootDirectoryName parameter was not provided');
   }
 
-  return fullPath;
-}
-
-export function formatAndValidateFullPath(rootDirectoryName: string, fullPath: string): string {
-  if (!fullPath) {
-    return rootDirectoryName;
+  if (!isString(fullPath)) {
+    throw new Error('fullPath parameter was not provided');
   }
 
-  const fullPathWithPrefix = withRootPrefix(rootDirectoryName, fullPath);
+  const fullPathWithPrefix = withRootDirectoryPrefix(fullPath, rootDirectoryName);
 
-  if (!isValidPath(fullPathWithPrefix)) {
+  if (!fullPathWithPrefix || !isValidPath(fullPathWithPrefix)) {
     throw new Error(`"${fullPath}" path is invalid`);
   }
 
