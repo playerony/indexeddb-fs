@@ -1,10 +1,6 @@
 import path from 'path';
 
-import {
-  isIndexedDBSupport,
-  initializeDatabase,
-  formatAndValidateFullPath,
-} from './utils/functions';
+import { isIndexedDBSupport, initializeDatabase, formatAndValidateFullPath } from '@utils';
 
 import { CreateFSProps } from './createFS.types';
 import { FileEntry, DirectoryEntry } from './types';
