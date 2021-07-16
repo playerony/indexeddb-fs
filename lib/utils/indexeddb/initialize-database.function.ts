@@ -1,4 +1,4 @@
-import { openIndexedDBConnection } from '.';
+import { openIndexedDBConnection } from '@utils';
 
 import { CreateFSProps } from '../../createFS.types';
 
