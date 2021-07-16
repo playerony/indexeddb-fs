@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@types/*": [
+        "./lib/types/*"
+      ],
+      "@types": [
+        "./lib/types"
+      ],
+      "@utils/*": [
+        "./lib/utils/*"
+      ],
+      "@utils": [
+        "./lib/utils"
+      ]
+    }
+  }
+}

@@ -1,8 +1,8 @@
 import { openIndexedDBConnection } from '.';
 
-import { CreateFSProps } from '../createFS.types';
+import { CreateFSProps } from '../../createFS.types';
 
-import { OBJECT_STORE_INDEX_NAME, OBJECT_STORE_KEY_PATH } from '../constants';
+import { OBJECT_STORE_INDEX_NAME, OBJECT_STORE_KEY_PATH } from '../../constants';
 
 function getDatabaseObjectFromTarget(target: EventTarget | null): IDBDatabase | null {
   if (!target) {

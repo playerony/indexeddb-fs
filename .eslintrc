@@ -6,7 +6,7 @@
   },
   "parserOptions": {
     "project": [
-      "./tsconfig.base.json"
+      "./tsconfig.json"
     ]
   },
   "overrides": [

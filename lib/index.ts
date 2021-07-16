@@ -3,11 +3,12 @@ import { createFS } from './createFS.function';
 const fs = createFS({ databaseName: 'test-db-4' });
 
 const doActions = async () => {
-  await fs.createDirectory('foo3/foo4');
+  console.log(await fs.createDirectory('foo3/f'));
 
-  const content = await fs.readDirectory('foo3');
+  const exists1 = await fs.exists('foo3');
+  const exists2 = await fs.exists('foo5');
 
-  console.log(content);
+  console.log(exists1, exists2);
 };
 
 doActions();
