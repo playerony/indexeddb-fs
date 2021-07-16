@@ -17,6 +17,7 @@
       ],
       "rules": {
         "no-console": "off",
+        "import/order": "off",
         "no-confusing-arrow": "off",
         "operator-linebreak": "off",
         "object-curly-newline": "off",

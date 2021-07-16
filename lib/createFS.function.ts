@@ -3,7 +3,7 @@ import path from 'path';
 import { isIndexedDBSupport, initializeDatabase, formatAndValidateFullPath } from '@utils';
 
 import { CreateFSProps } from './createFS.types';
-import { FileEntry, DirectoryEntry } from './types';
+import { FileEntry, DirectoryEntry } from '@types';
 
 import { OBJECT_STORE_INDEX_NAME } from './constants';
 
