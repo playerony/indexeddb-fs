@@ -37,10 +37,10 @@ describe('formatAndValidateFullPath Function', () => {
   });
 
   it('should throw an error when passed fullPath is invalid', () => {
-    expect(() => formatAndValidateFullPath('', 'root')).toThrow('"" path is invalid');
+    expect(() => formatAndValidateFullPath('', 'root')).toThrow('"" path is invalid.');
 
     expect(() => formatAndValidateFullPath('//double_slash', 'root')).toThrow(
-      '"//double_slash" path is invalid',
+      '"//double_slash" path is invalid.',
     );
   });
 });
