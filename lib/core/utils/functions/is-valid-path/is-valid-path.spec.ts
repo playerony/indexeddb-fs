@@ -1,4 +1,5 @@
-import { isValidPath, functionImportTest } from '@utils';
+import { functionImportTest } from '@utils';
+import { isValidPath } from './is-valid-path.function';
 
 describe('isValidPath Function', () => {
   functionImportTest(isValidPath);

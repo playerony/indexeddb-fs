@@ -1,4 +1,4 @@
-import { initializeDatabase } from '@utils';
+import { initializeDatabase } from '..';
 
 import { InitializeObjectStoreDecoratorProps } from './initialize-object-store-decorator.types';
 

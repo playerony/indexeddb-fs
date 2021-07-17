@@ -1,4 +1,5 @@
-import { functionImportTest, initializeObjectStoreDecorator } from '@utils';
+import { functionImportTest } from '@utils';
+import { initializeObjectStoreDecorator } from './initialize-object-store-decorator.function';
 
 describe('initializeObjectStoreDecorator Function', () => {
   functionImportTest(initializeObjectStoreDecorator);

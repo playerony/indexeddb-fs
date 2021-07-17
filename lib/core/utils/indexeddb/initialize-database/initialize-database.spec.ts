@@ -1,4 +1,5 @@
-import { functionImportTest, initializeDatabase } from '@utils';
+import { functionImportTest } from '@utils';
+import { initializeDatabase } from './initialize-database.function';
 
 describe('initializeDatabase Function', () => {
   functionImportTest(initializeDatabase);

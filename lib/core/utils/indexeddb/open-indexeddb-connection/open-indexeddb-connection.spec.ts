@@ -1,4 +1,5 @@
-import { functionImportTest, openIndexedDBConnection } from '@utils';
+import { functionImportTest } from '@utils';
+import { openIndexedDBConnection } from './open-indexeddb-connection.function';
 
 describe('openIndexedDBConnection Function', () => {
   functionImportTest(openIndexedDBConnection);

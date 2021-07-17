@@ -4,12 +4,12 @@ import {
   isIndexedDBSupport,
   formatAndValidateFullPath,
   initializeObjectStoreDecorator,
-} from '@utils';
+} from '@core/utils';
 
-import { CreateFSProps } from './createFS.types';
+import { CreateFSProps } from './create-fs.types';
 import { FileEntry, DirectoryEntry } from '@types';
 
-import { OBJECT_STORE_INDEX_NAME } from './constants';
+import { OBJECT_STORE_INDEX_NAME } from '@constants';
 
 export function createFS({
   databaseName,

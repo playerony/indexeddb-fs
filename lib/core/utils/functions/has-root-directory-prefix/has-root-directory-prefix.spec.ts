@@ -1,4 +1,5 @@
-import { functionImportTest, hasRootDirectoryPrefix } from '@utils';
+import { functionImportTest } from '@utils';
+import { hasRootDirectoryPrefix } from './has-root-directory-prefix.function';
 
 describe('hasRootDirectoryPrefix Function', () => {
   functionImportTest(hasRootDirectoryPrefix);
