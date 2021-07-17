@@ -1,4 +1,5 @@
-import { isString, isValidPath, withRootDirectoryPrefix } from '@utils';
+import { isString } from '@utils';
+import { isValidPath, withRootDirectoryPrefix } from '..';
 
 export function formatAndValidateFullPath(fullPath: string, rootDirectoryName: string): string {
   if (!isString(rootDirectoryName) || rootDirectoryName === '') {

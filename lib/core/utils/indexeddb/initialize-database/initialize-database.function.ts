@@ -1,8 +1,8 @@
-import { openIndexedDBConnection } from '@utils';
+import { openIndexedDBConnection } from '..';
 
 import { InitializeDatabaseProps } from './initialize-database.types';
 
-import { OBJECT_STORE_INDEX_NAME, OBJECT_STORE_KEY_PATH } from '../../../constants';
+import { OBJECT_STORE_INDEX_NAME, OBJECT_STORE_KEY_PATH } from '@constants';
 
 function getDatabaseObjectFromTarget(target: EventTarget | null): IDBDatabase | null {
   if (!target) {

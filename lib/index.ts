@@ -1,4 +1,4 @@
-import { createFS } from './createFS.function';
+import { createFS } from '@core';
 
 const fs = createFS({ databaseName: 'test-db-4' });
 

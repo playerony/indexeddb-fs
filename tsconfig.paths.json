@@ -13,7 +13,16 @@
       ],
       "@utils": [
         "./lib/utils"
-      ]
+      ],
+      "@constants": [
+        "./lib/constants"
+      ],
+      "@core/*": [
+        "./lib/core/*"
+      ],
+      "@core": [
+        "./lib/core"
+      ],
     }
   }
 }
