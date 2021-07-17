@@ -2,6 +2,7 @@ import path from 'path';
 
 import {
   isIndexedDBSupport,
+  validateCreateFSProps,
   formatAndValidateFullPath,
   initializeObjectStoreDecorator,
 } from '@core/utils';
@@ -9,22 +10,33 @@ import {
 import { CreateFSProps } from './create-fs.types';
 import { FileEntry, DirectoryEntry } from '@types';
 
+import { defaultProps } from './create-fs.defaults';
 import { OBJECT_STORE_INDEX_NAME } from '@constants';
 
 export function createFS({
-  databaseName,
-  databaseVersion = 10,
-  objectStoreName = 'files',
-  rootDirectoryName = 'root',
-}: CreateFSProps) {
+  databaseName = defaultProps.databaseName,
+  databaseVersion = defaultProps.databaseVersion,
+  objectStoreName = defaultProps.objectStoreName,
+  rootDirectoryName = defaultProps.rootDirectoryName,
+}: CreateFSProps = defaultProps) {
   function initialize() {
     checkIndexedDBSupport();
+    validateProps();
   }
 
   function checkIndexedDBSupport() {
     if (!isIndexedDBSupport()) {
       throw new Error('Your browser does not support indexedDB.');
     }
+  }
+
+  function validateProps() {
+    validateCreateFSProps({
+      databaseName,
+      objectStoreName,
+      databaseVersion,
+      rootDirectoryName,
+    });
   }
 
   const initializeObjectStore = initializeObjectStoreDecorator({

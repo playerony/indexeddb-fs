@@ -1,6 +1,5 @@
 export interface CreateFSProps {
-  databaseName: string;
-
+  databaseName?: string;
   databaseVersion?: number;
   objectStoreName?: string;
   rootDirectoryName?: string;
