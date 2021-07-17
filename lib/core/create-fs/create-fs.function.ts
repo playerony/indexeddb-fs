@@ -6,9 +6,10 @@ import {
   formatAndValidateFullPath,
   initializeObjectStoreDecorator,
 } from '@core/utils';
+import { existsDecorator, writeFileDecorator, createDirectoryDecorator } from './parts';
 
+import { FileEntry } from '@types';
 import { CreateFSProps } from './create-fs.types';
-import { FileEntry, DirectoryEntry } from '@types';
 
 import { defaultProps } from './create-fs.defaults';
 import { OBJECT_STORE_INDEX_NAME } from '@constants';
@@ -45,47 +46,19 @@ export function createFS({
     objectStoreName,
   });
 
-  async function exists(fullPath: string): Promise<boolean> {
-    const verifiedFullPath = formatAndValidateFullPath(fullPath, rootDirectoryName);
+  const exists = existsDecorator({ rootDirectoryName, initializeObjectStore });
 
-    const objectStore = await initializeObjectStore('readonly');
-    const objectStoreIndex = objectStore.index(OBJECT_STORE_INDEX_NAME);
+  const writeFile = writeFileDecorator({
+    exists,
+    rootDirectoryName,
+    initializeObjectStore,
+  });
 
-    const keyRange = IDBKeyRange.only(verifiedFullPath);
-    const request = objectStoreIndex.openCursor(keyRange);
-
-    return new Promise((resolve) => {
-      request.onerror = () => resolve(false);
-      request.onsuccess = (event: Event) => {
-        const targetWithType = event.target as IDBRequest;
-        const cursor = targetWithType.result as IDBCursorWithValue;
-
-        resolve(Boolean(cursor?.value?.createdAt));
-      };
-    });
-  }
-
-  async function writeFile<TData = any>(fullPath: string, data: TData): Promise<void> {
-    const verifiedFullPath = formatAndValidateFullPath(fullPath, rootDirectoryName);
-
-    const objectStore = await initializeObjectStore('readwrite');
-
-    return new Promise((resolve, reject) => {
-      const entry: FileEntry<TData> = {
-        data,
-        type: 'file',
-        createdAt: Date.now(),
-        fullPath: verifiedFullPath,
-        name: path.basename(verifiedFullPath),
-        directory: path.dirname(verifiedFullPath),
-      };
-
-      const request = objectStore.put(entry);
-
-      request.onerror = reject;
-      request.onsuccess = () => resolve();
-    });
-  }
+  const createDirectory = createDirectoryDecorator({
+    exists,
+    rootDirectoryName,
+    initializeObjectStore,
+  });
 
   async function readFile<TData = any>(fullPath: string): Promise<FileEntry<TData>> {
     const verifiedFullPath = formatAndValidateFullPath(fullPath, rootDirectoryName);
@@ -101,7 +74,7 @@ export function createFS({
         const targetWithType = event.target as IDBRequest;
         const response = targetWithType.result;
 
-        if (response?.data) {
+        if (response?.createdAt) {
           resolve(response?.data);
         } else {
           reject(new Error('File not found.'));
@@ -120,27 +93,6 @@ export function createFS({
 
       request.onerror = reject;
       request.onsuccess = () => resolve();
-    });
-  }
-
-  async function createDirectory(fullPath: string): Promise<DirectoryEntry> {
-    const verifiedFullPath = formatAndValidateFullPath(fullPath, rootDirectoryName);
-
-    const objectStore = await initializeObjectStore('readwrite');
-
-    return new Promise((resolve, reject) => {
-      const entry: DirectoryEntry = {
-        type: 'directory',
-        createdAt: Date.now(),
-        fullPath: verifiedFullPath,
-        name: path.basename(verifiedFullPath),
-        directory: path.dirname(verifiedFullPath),
-      };
-
-      const request = objectStore.put(entry);
-
-      request.onerror = reject;
-      request.onsuccess = () => resolve(entry);
     });
   }
 

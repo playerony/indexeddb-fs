@@ -13,7 +13,7 @@ export function formatAndValidateFullPath(fullPath: string, rootDirectoryName: s
   const fullPathWithPrefix = withRootDirectoryPrefix(fullPath, rootDirectoryName);
 
   if (!fullPathWithPrefix || !isValidPath(fullPathWithPrefix)) {
-    throw new Error(`"${fullPath}" path is invalid`);
+    throw new Error(`"${fullPath}" path is invalid.`);
   }
 
   return fullPathWithPrefix;
