@@ -1,7 +1,9 @@
 import babel from '@rollup/plugin-babel';
 import { terser } from 'rollup-plugin-terser';
+import commonjs from '@rollup/plugin-commonjs';
 import typescript from 'rollup-plugin-typescript2';
 import nodePolyfills from 'rollup-plugin-node-polyfills';
+import { nodeResolve } from '@rollup/plugin-node-resolve';
 
 const input = 'lib/index.ts';
 
@@ -17,6 +19,8 @@ export default [
       nodePolyfills(),
       typescript({ tsconfig: 'tsconfig.build.json' }),
       babel({ extensions: ['.ts'] }),
+      nodeResolve({ preferBuiltins: false }),
+      commonjs(),
     ],
   },
 
@@ -34,6 +38,8 @@ export default [
       typescript({ tsconfig: 'tsconfig.build.json' }),
       babel({ extensions: ['.ts'], exclude: 'node_modules/**' }),
       terser(),
+      nodeResolve({ preferBuiltins: false }),
+      commonjs(),
     ],
   },
 ];
