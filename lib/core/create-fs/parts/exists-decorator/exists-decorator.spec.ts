@@ -1,8 +1,8 @@
 import { functionImportTest } from '@utils';
 
-import { createDirectoryDecorator } from '..';
 import { initializeObjectStoreDecorator } from '@core/utils';
 import { existsDecorator } from './exists-decorator.function';
+import { writeFileDecorator, removeFileDecorator, createDirectoryDecorator } from '..';
 
 const databaseVersion = 1;
 const rootDirectoryName = 'root';
@@ -17,6 +17,18 @@ const initializeObjectStore = initializeObjectStoreDecorator({
 
 const exists = existsDecorator({ rootDirectoryName, initializeObjectStore });
 
+const writeFile = writeFileDecorator({
+  exists,
+  rootDirectoryName,
+  initializeObjectStore,
+});
+
+const removeFile = removeFileDecorator({
+  exists,
+  rootDirectoryName,
+  initializeObjectStore,
+});
+
 const createDirectory = createDirectoryDecorator({
   exists,
   rootDirectoryName,
@@ -30,6 +42,19 @@ describe('exists Function', () => {
     await expect(exists('test')).resolves.toBeFalsy();
 
     await createDirectory('test');
+    await expect(exists('tes')).resolves.toBeFalsy();
     await expect(exists('test')).resolves.toBeTruthy();
+  });
+
+  it('should check if file exists', async () => {
+    await expect(exists('file.txt')).resolves.toBeFalsy();
+
+    await writeFile('file.txt', 'test');
+    await expect(exists('file.tx')).resolves.toBeFalsy();
+    await expect(exists('file.txt')).resolves.toBeTruthy();
+    await expect(exists('test/file.tx')).resolves.toBeFalsy();
+
+    await removeFile('file.txt');
+    await expect(exists('file.txt')).resolves.toBeFalsy();
   });
 });

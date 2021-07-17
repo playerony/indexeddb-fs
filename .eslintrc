@@ -17,14 +17,18 @@
       ],
       "rules": {
         "no-console": "off",
-        "import/order": "off",
+        "no-await-in-loop": "off",
         "no-confusing-arrow": "off",
         "operator-linebreak": "off",
+        "no-underscore-dangle": "off",
         "object-curly-newline": "off",
+        "no-restricted-syntax": "off",
         "implicit-arrow-linebreak": "off",
+        "import/order": "off",
         "import/no-cycle": "off",
         "import/prefer-default-export": "off",
         "@typescript-eslint/indent": "off",
+        "@typescript-eslint/naming-convention": "off",
         "@typescript-eslint/no-use-before-define": "off"
       }
     }
