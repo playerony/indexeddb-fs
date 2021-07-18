@@ -4,9 +4,15 @@ import { FileEntry } from '@types';
 import { ReadFileDecoratorProps } from './read-file-decorator.types';
 
 export const readFileDecorator =
-  ({ rootDirectoryName, initializeObjectStore }: ReadFileDecoratorProps) =>
+  ({ isFile, rootDirectoryName, initializeObjectStore }: ReadFileDecoratorProps) =>
   async <TData = any>(fullPath: string): Promise<FileEntry<TData>> => {
     const verifiedFullPath = formatAndValidateFullPath(fullPath, rootDirectoryName);
+
+    const targetIsOfTypeFile = await isFile(fullPath);
+
+    if (!targetIsOfTypeFile) {
+      throw new Error(`"${fullPath}" is not a file.`);
+    }
 
     const objectStore = await initializeObjectStore('readonly');
 
@@ -19,11 +25,7 @@ export const readFileDecorator =
         const targetWithType = event.target as IDBRequest;
         const response = targetWithType.result;
 
-        if (response?.createdAt) {
-          resolve(response?.data);
-        } else {
-          reject(new Error('File not found.'));
-        }
+        resolve(response?.data);
       };
     });
   };

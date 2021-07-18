@@ -1,16 +1,16 @@
 import { formatAndValidateFullPath } from '@core/utils';
 
-import { RemoveFileDecoratorProps } from './remove-file-decorator.types';
+import { RemoveDecoratorProps } from './remove-decorator.types';
 
-export const removeFileDecorator =
-  ({ isFile, rootDirectoryName, initializeObjectStore }: RemoveFileDecoratorProps) =>
+export const removeDecorator =
+  ({ exists, rootDirectoryName, initializeObjectStore }: RemoveDecoratorProps) =>
   async (fullPath: string): Promise<void> => {
     const verifiedFullPath = formatAndValidateFullPath(fullPath, rootDirectoryName);
 
-    const targetIsOfTypeFile = await isFile(fullPath);
+    const doesDirectoryExists = await exists(verifiedFullPath);
 
-    if (!targetIsOfTypeFile) {
-      throw new Error(`"${fullPath}" is not a file.`);
+    if (!doesDirectoryExists) {
+      throw new Error(`"${fullPath}" file or directory does not exist.`);
     }
 
     const objectStore = await initializeObjectStore('readwrite');

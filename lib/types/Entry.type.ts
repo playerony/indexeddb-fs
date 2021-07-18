@@ -1,4 +1,7 @@
-export type EntryType = 'file' | 'directory';
+export enum EntryType {
+  FILE = 'file',
+  DIRECTORY = 'directory',
+}
 
 interface Entry<TType extends EntryType> {
   type: TType;
@@ -8,8 +11,8 @@ interface Entry<TType extends EntryType> {
   createdAt: number;
 }
 
-export interface FileEntry<TData = any> extends Entry<'file'> {
+export interface FileEntry<TData = any> extends Entry<EntryType.FILE> {
   data: TData;
 }
 
-export interface DirectoryEntry extends Entry<'directory'> {}
+export interface DirectoryEntry extends Entry<EntryType.DIRECTORY> {}

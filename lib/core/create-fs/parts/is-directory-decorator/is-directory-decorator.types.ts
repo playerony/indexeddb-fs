@@ -1,6 +1,6 @@
-export interface ReadFileDecoratorProps {
+export interface IsDirectoryDecoratorProps {
   rootDirectoryName: string;
 
-  isFile: (fullPath: string) => Promise<boolean>;
+  exists: (fullPath: string) => Promise<boolean>;
   initializeObjectStore: (type: IDBTransactionMode) => Promise<IDBObjectStore>;
 }

@@ -2,7 +2,7 @@ import { functionImportTest } from '@utils';
 
 import { initializeObjectStoreDecorator } from '@core/utils';
 import { existsDecorator } from './exists-decorator.function';
-import { writeFileDecorator, removeFileDecorator, createDirectoryDecorator } from '..';
+import { writeFileDecorator, removeDecorator, createDirectoryDecorator } from '..';
 
 const databaseVersion = 1;
 const rootDirectoryName = 'root';
@@ -23,7 +23,7 @@ const writeFile = writeFileDecorator({
   initializeObjectStore,
 });
 
-const removeFile = removeFileDecorator({
+const remove = removeDecorator({
   exists,
   rootDirectoryName,
   initializeObjectStore,
@@ -54,7 +54,7 @@ describe('exists Function', () => {
     await expect(exists('file.txt')).resolves.toBeTruthy();
     await expect(exists('test/file.tx')).resolves.toBeFalsy();
 
-    await removeFile('file.txt');
+    await remove('file.txt');
     await expect(exists('file.txt')).resolves.toBeFalsy();
   });
 });

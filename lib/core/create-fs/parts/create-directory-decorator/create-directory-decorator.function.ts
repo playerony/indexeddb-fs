@@ -2,7 +2,7 @@ import path from 'path';
 
 import { formatAndValidateFullPath } from '@core/utils';
 
-import { DirectoryEntry } from '@types';
+import { EntryType, DirectoryEntry } from '@types';
 import { CreateDirectoryDecoratorProps } from './create-directory-decorator.types';
 
 export const createDirectoryDecorator =
@@ -26,8 +26,8 @@ export const createDirectoryDecorator =
       const entry: DirectoryEntry = {
         directory,
         name: basename,
-        type: 'directory',
         createdAt: Date.now(),
+        type: EntryType.DIRECTORY,
         fullPath: verifiedFullPath,
       };
 
