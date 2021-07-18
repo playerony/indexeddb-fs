@@ -4,6 +4,7 @@ import {
   existsDecorator,
   removeDecorator,
   writeFileDecorator,
+  isDirectoryDecorator,
   readDirectoryDecorator,
   createDirectoryDecorator,
 } from '..';
@@ -23,20 +24,26 @@ const initializeObjectStore = initializeObjectStoreDecorator({
 
 const exists = existsDecorator({ rootDirectoryName, initializeObjectStore });
 
-const writeFile = writeFileDecorator({
-  exists,
-  rootDirectoryName,
-  initializeObjectStore,
-});
-
 const remove = removeDecorator({
   exists,
   rootDirectoryName,
   initializeObjectStore,
 });
 
-const readDirectory = readDirectoryDecorator({
+const isDirectory = isDirectoryDecorator({
   exists,
+  rootDirectoryName,
+  initializeObjectStore,
+});
+
+const writeFile = writeFileDecorator({
+  exists,
+  rootDirectoryName,
+  initializeObjectStore,
+});
+
+const readDirectory = readDirectoryDecorator({
+  isDirectory,
   rootDirectoryName,
   initializeObjectStore,
 });
@@ -49,9 +56,9 @@ const createDirectory = createDirectoryDecorator({
 
 const removeDirectory = removeDirectoryDecorator({
   remove,
+  isDirectory,
   readDirectory,
   rootDirectoryName,
-  initializeObjectStore,
 });
 
 describe('removeDirectory Function', () => {
@@ -62,7 +69,15 @@ describe('removeDirectory Function', () => {
   });
 
   it('should throw an error when passed path does not exist', async () => {
-    await expect(removeDirectory('path')).rejects.toThrow('"root/path" directory does not exist.');
+    await expect(removeDirectory('path')).rejects.toThrow('"path" directory does not exist.');
+  });
+
+  it('should throw an error when passed path is not a directory', async () => {
+    await writeFile('file_as_directory', 'content');
+
+    await expect(removeDirectory('file_as_directory')).rejects.toThrow(
+      '"file_as_directory" is not a directory.',
+    );
   });
 
   it('should remove files and directories of passed fullPath', async () => {
@@ -77,14 +92,11 @@ describe('removeDirectory Function', () => {
     await createDirectory('test_directory/folder/foo/foo2/file.txt');
     await createDirectory('test_directory/folder/foo/foo2/foo3/foo4');
 
-    await expect(readDirectory('test_directory')).resolves.toHaveLength(3);
-    await expect(readDirectory('test_directory/folder')).resolves.toHaveLength(1);
-    await expect(readDirectory('test_directory/folder/foo/foo2')).resolves.toHaveLength(3);
-
     await removeDirectory('test_directory/folder/foo/foo2');
     await expect(exists('test_directory/folder/foo/foo2')).resolves.toBeFalsy();
 
-    await expect(readDirectory('test_directory')).resolves.toHaveLength(3);
+    const { files, directories } = await readDirectory('test_directory');
+    expect([...files, ...directories]).toHaveLength(3);
 
     await removeDirectory('test_directory');
     await expect(exists('test_directory')).resolves.toBeFalsy();

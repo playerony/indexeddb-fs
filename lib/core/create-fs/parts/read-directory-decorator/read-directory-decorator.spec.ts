@@ -1,8 +1,13 @@
 import { functionImportTest } from '@utils';
 
+import {
+  existsDecorator,
+  writeFileDecorator,
+  isDirectoryDecorator,
+  createDirectoryDecorator,
+} from '..';
 import { initializeObjectStoreDecorator } from '@core/utils';
 import { readDirectoryDecorator } from './read-directory-decorator.function';
-import { existsDecorator, writeFileDecorator, createDirectoryDecorator } from '..';
 
 const databaseVersion = 1;
 const rootDirectoryName = 'root';
@@ -23,8 +28,14 @@ const writeFile = writeFileDecorator({
   initializeObjectStore,
 });
 
-const readDirectory = readDirectoryDecorator({
+const isDirectory = isDirectoryDecorator({
   exists,
+  rootDirectoryName,
+  initializeObjectStore,
+});
+
+const readDirectory = readDirectoryDecorator({
+  isDirectory,
   rootDirectoryName,
   initializeObjectStore,
 });
@@ -49,7 +60,16 @@ describe('readDirectory Function', () => {
   it('should return empty array when directory is empty', async () => {
     await createDirectory('test_directory');
 
-    await expect(readDirectory('test_directory')).resolves.toEqual([]);
+    await expect(readDirectory('test_directory')).resolves.toEqual({ directories: [], files: [] });
+  });
+
+  it('should throw type error when selected target is not a directory', async () => {
+    await writeFile('test_file.txt', 'content');
+    await expect(exists('test_file.txt')).resolves.toBeTruthy();
+
+    await expect(readDirectory('test_file.txt')).rejects.toThrow(
+      '"test_file.txt" is not a directory.',
+    );
   });
 
   it('should return array of found objects', async () => {
@@ -57,22 +77,21 @@ describe('readDirectory Function', () => {
     await writeFile('test_directory/file.txt', 'content');
     await createDirectory('test_directory/folder');
 
-    const result = await readDirectory('test_directory');
+    const { files, directories } = await readDirectory('test_directory');
 
-    expect(result).toHaveLength(2);
+    expect(files).toHaveLength(1);
+    expect(directories).toHaveLength(1);
 
-    const [file, directory] = result;
+    // // @ts-ignore
+    expect(files[0].data).toEqual('content');
+    expect(files[0].type).toEqual('file');
+    expect(files[0].name).toEqual('file.txt');
+    expect(files[0].directory).toEqual('root/test_directory');
+    expect(files[0].fullPath).toEqual('root/test_directory/file.txt');
 
-    // @ts-ignore
-    expect(file.data).toEqual('content');
-    expect(file.type).toEqual('file');
-    expect(file.name).toEqual('file.txt');
-    expect(file.directory).toEqual('root/test_directory');
-    expect(file.fullPath).toEqual('root/test_directory/file.txt');
-
-    expect(directory.name).toEqual('folder');
-    expect(directory.type).toEqual('directory');
-    expect(directory.directory).toEqual('root/test_directory');
-    expect(directory.fullPath).toEqual('root/test_directory/folder');
+    expect(directories[0].name).toEqual('folder');
+    expect(directories[0].type).toEqual('directory');
+    expect(directories[0].directory).toEqual('root/test_directory');
+    expect(directories[0].fullPath).toEqual('root/test_directory/folder');
   });
 });

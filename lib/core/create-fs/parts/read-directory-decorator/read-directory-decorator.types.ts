@@ -1,6 +1,13 @@
-export interface ReatDirectoryDecoratorProps {
+import { FileEntry, DirectoryEntry } from '@types';
+
+export interface ReadDirectoryDecoratorProps {
   rootDirectoryName: string;
 
-  exists: (fullPath: string) => Promise<boolean>;
+  isDirectory: (fullPath: string) => Promise<boolean>;
   initializeObjectStore: (type: IDBTransactionMode) => Promise<IDBObjectStore>;
+}
+
+export interface ReadDirectoryDecoratorOutput {
+  files: FileEntry[];
+  directories: DirectoryEntry[];
 }

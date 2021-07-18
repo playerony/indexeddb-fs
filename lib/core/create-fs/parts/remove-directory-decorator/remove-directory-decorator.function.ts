@@ -4,38 +4,45 @@ import { RemoveDirectoryDecoratorProps } from './remove-directory-decorator.type
 
 export const removeDirectoryDecorator = ({
   remove,
+  isDirectory,
   readDirectory,
   rootDirectoryName,
 }: RemoveDirectoryDecoratorProps) => {
   async function removeNestedDirectory(fullPath: string): Promise<void> {
     const verifiedFullPath = formatAndValidateFullPath(fullPath, rootDirectoryName);
 
-    const files = await readDirectory(verifiedFullPath);
-    if (!files?.length) {
+    const { files, directories } = await readDirectory(verifiedFullPath);
+
+    if (files.length > 0) {
+      for (const _file of files) {
+        await remove(_file.fullPath);
+      }
+    }
+
+    if (!directories?.length) {
       await remove(fullPath);
 
       return;
     }
 
-    for (const _file of files) {
-      if (_file.type === 'directory') {
-        await removeNestedDirectory(_file.fullPath);
+    for (const _directory of directories) {
+      await removeNestedDirectory(_directory.fullPath);
 
-        try {
-          await remove(_file.fullPath);
-          // eslint-disable-next-line no-empty
-        } catch {}
-      } else {
-        await remove(_file.fullPath);
-      }
+      try {
+        await remove(_directory.fullPath);
+        // eslint-disable-next-line no-empty
+      } catch {}
     }
   }
 
   return async function removeDirectory(fullPath: string): Promise<void> {
-    const verifiedFullPath = formatAndValidateFullPath(fullPath, rootDirectoryName);
+    const targetIsOfTypeDirectory = await isDirectory(fullPath);
 
-    await removeNestedDirectory(verifiedFullPath);
+    if (!targetIsOfTypeDirectory) {
+      throw new Error(`"${fullPath}" is not a directory.`);
+    }
 
-    await remove(verifiedFullPath);
+    await removeNestedDirectory(fullPath);
+    await remove(fullPath);
   };
 };

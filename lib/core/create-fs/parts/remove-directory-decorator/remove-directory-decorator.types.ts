@@ -1,9 +1,9 @@
-import { FileEntry, DirectoryEntry } from '@types';
+import { ReadDirectoryDecoratorOutput } from '..';
 
 export interface RemoveDirectoryDecoratorProps {
   rootDirectoryName: string;
 
   remove: (fullPath: string) => Promise<void>;
-  readDirectory: (fullPath: string) => Promise<(FileEntry | DirectoryEntry)[]>;
-  initializeObjectStore: (type: IDBTransactionMode) => Promise<IDBObjectStore>;
+  isDirectory: (fullPath: string) => Promise<boolean>;
+  readDirectory: (fullPath: string) => Promise<ReadDirectoryDecoratorOutput>;
 }

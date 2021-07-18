@@ -3,4 +3,4 @@ import { FileEntry, DirectoryEntry } from '@types';
 
 export { createFS, FileEntry, DirectoryEntry, CreateFSProps };
 
-export default createFS();
+module.exports = createFS();
