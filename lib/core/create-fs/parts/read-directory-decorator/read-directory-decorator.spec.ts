@@ -82,7 +82,6 @@ describe('readDirectory Function', () => {
     expect(files).toHaveLength(1);
     expect(directories).toHaveLength(1);
 
-    // // @ts-ignore
     expect(files[0].data).toEqual('content');
     expect(files[0].type).toEqual('file');
     expect(files[0].name).toEqual('file.txt');
