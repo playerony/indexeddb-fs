@@ -1,8 +1,8 @@
 import { functionImportTest } from '@utils';
 
-import { existsDecorator, writeFileDecorator } from '..';
 import { initializeObjectStoreDecorator } from '@core/utils';
 import { removeFileDecorator } from './remove-file-decorator.function';
+import { isFileDecorator, existsDecorator, writeFileDecorator, createDirectoryDecorator } from '..';
 
 const databaseVersion = 1;
 const rootDirectoryName = 'root';
@@ -17,6 +17,12 @@ const initializeObjectStore = initializeObjectStoreDecorator({
 
 const exists = existsDecorator({ rootDirectoryName, initializeObjectStore });
 
+const isFile = isFileDecorator({
+  exists,
+  rootDirectoryName,
+  initializeObjectStore,
+});
+
 const writeFile = writeFileDecorator({
   exists,
   rootDirectoryName,
@@ -24,6 +30,12 @@ const writeFile = writeFileDecorator({
 });
 
 const removeFile = removeFileDecorator({
+  isFile,
+  rootDirectoryName,
+  initializeObjectStore,
+});
+
+const createDirectory = createDirectoryDecorator({
   exists,
   rootDirectoryName,
   initializeObjectStore,
@@ -38,6 +50,15 @@ describe('removeFile Function', () => {
 
   it('should throw an error when the user wants to delete a file that does not exist', async () => {
     await expect(removeFile('file.txt')).rejects.toThrow('"file.txt" file does not exist.');
+  });
+
+  it('should throw type error when selected target is not a file', async () => {
+    await createDirectory('directory_as_a_file');
+    await expect(exists('directory_as_a_file')).resolves.toBeTruthy();
+
+    await expect(removeFile('directory_as_a_file')).rejects.toThrow(
+      '"directory_as_a_file" is not a file.',
+    );
   });
 
   it('should remove created file in root directory', async () => {

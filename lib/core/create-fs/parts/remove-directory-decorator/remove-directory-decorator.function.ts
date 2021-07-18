@@ -3,7 +3,7 @@ import { formatAndValidateFullPath } from '@core/utils';
 import { RemoveDirectoryDecoratorProps } from './remove-directory-decorator.types';
 
 export const removeDirectoryDecorator = ({
-  removeFile,
+  remove,
   readDirectory,
   rootDirectoryName,
 }: RemoveDirectoryDecoratorProps) => {
@@ -12,7 +12,7 @@ export const removeDirectoryDecorator = ({
 
     const files = await readDirectory(verifiedFullPath);
     if (!files?.length) {
-      await removeFile(fullPath);
+      await remove(fullPath);
 
       return;
     }
@@ -22,11 +22,11 @@ export const removeDirectoryDecorator = ({
         await removeNestedDirectory(_file.fullPath);
 
         try {
-          await removeFile(_file.fullPath);
+          await remove(_file.fullPath);
           // eslint-disable-next-line no-empty
         } catch {}
       } else {
-        await removeFile(_file.fullPath);
+        await remove(_file.fullPath);
       }
     }
   }
@@ -36,6 +36,6 @@ export const removeDirectoryDecorator = ({
 
     await removeNestedDirectory(verifiedFullPath);
 
-    await removeFile(verifiedFullPath);
+    await remove(verifiedFullPath);
   };
 };

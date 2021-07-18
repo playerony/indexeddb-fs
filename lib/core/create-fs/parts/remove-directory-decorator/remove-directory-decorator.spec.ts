@@ -2,8 +2,8 @@ import { functionImportTest } from '@utils';
 
 import {
   existsDecorator,
+  removeDecorator,
   writeFileDecorator,
-  removeFileDecorator,
   readDirectoryDecorator,
   createDirectoryDecorator,
 } from '..';
@@ -29,7 +29,7 @@ const writeFile = writeFileDecorator({
   initializeObjectStore,
 });
 
-const removeFile = removeFileDecorator({
+const remove = removeDecorator({
   exists,
   rootDirectoryName,
   initializeObjectStore,
@@ -48,7 +48,7 @@ const createDirectory = createDirectoryDecorator({
 });
 
 const removeDirectory = removeDirectoryDecorator({
-  removeFile,
+  remove,
   readDirectory,
   rootDirectoryName,
   initializeObjectStore,

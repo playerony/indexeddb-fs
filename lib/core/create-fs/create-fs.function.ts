@@ -1,8 +1,11 @@
 import {
   existsDecorator,
+  isFileDecorator,
+  removeDecorator,
   readFileDecorator,
   writeFileDecorator,
   removeFileDecorator,
+  isDirectoryDecorator,
   readDirectoryDecorator,
   createDirectoryDecorator,
   removeDirectoryDecorator,
@@ -51,7 +54,20 @@ export function createFS({
 
   const exists = existsDecorator({ rootDirectoryName, initializeObjectStore });
 
+  const isFile = isFileDecorator({
+    exists,
+    rootDirectoryName,
+    initializeObjectStore,
+  });
+
+  const remove = removeDecorator({
+    exists,
+    rootDirectoryName,
+    initializeObjectStore,
+  });
+
   const readFile = readFileDecorator({
+    isFile,
     rootDirectoryName,
     initializeObjectStore,
   });
@@ -63,6 +79,12 @@ export function createFS({
   });
 
   const removeFile = removeFileDecorator({
+    isFile,
+    rootDirectoryName,
+    initializeObjectStore,
+  });
+
+  const isDirectory = isDirectoryDecorator({
     exists,
     rootDirectoryName,
     initializeObjectStore,
@@ -81,7 +103,7 @@ export function createFS({
   });
 
   const removeDirectory = removeDirectoryDecorator({
-    removeFile,
+    remove,
     readDirectory,
     rootDirectoryName,
     initializeObjectStore,
@@ -91,11 +113,18 @@ export function createFS({
 
   return {
     exists,
+    isFile,
+    remove,
     readFile,
     writeFile,
     removeFile,
+    isDirectory,
     readDirectory,
     createDirectory,
     removeDirectory,
+    databaseName,
+    databaseVersion,
+    objectStoreName,
+    rootDirectoryName,
   };
 }

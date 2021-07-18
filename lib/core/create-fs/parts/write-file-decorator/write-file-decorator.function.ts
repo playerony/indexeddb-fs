@@ -2,7 +2,7 @@ import path from 'path';
 
 import { formatAndValidateFullPath } from '@core/utils';
 
-import { FileEntry } from '@types';
+import { FileEntry, EntryType } from '@types';
 import { WriteFileDecoratorProps } from './write-file-decorator.types';
 
 export const writeFileDecorator =
@@ -26,8 +26,8 @@ export const writeFileDecorator =
       const entry: FileEntry<TData> = {
         data,
         directory,
-        type: 'file',
         name: basename,
+        type: EntryType.FILE,
         createdAt: Date.now(),
         fullPath: verifiedFullPath,
       };
