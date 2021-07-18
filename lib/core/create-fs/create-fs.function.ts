@@ -91,7 +91,7 @@ export function createFS({
   });
 
   const readDirectory = readDirectoryDecorator({
-    exists,
+    isDirectory,
     rootDirectoryName,
     initializeObjectStore,
   });
@@ -104,9 +104,9 @@ export function createFS({
 
   const removeDirectory = removeDirectoryDecorator({
     remove,
+    isDirectory,
     readDirectory,
     rootDirectoryName,
-    initializeObjectStore,
   });
 
   initialize();

@@ -1,19 +1,22 @@
 import { formatAndValidateFullPath } from '@core/utils';
 
-import { FileEntry, DirectoryEntry } from '@types';
-import { ReatDirectoryDecoratorProps } from './read-directory-decorator.types';
+import {
+  ReadDirectoryDecoratorProps,
+  ReadDirectoryDecoratorOutput,
+} from './read-directory-decorator.types';
+import { FileEntry, EntryType, DirectoryEntry } from '@types';
 
 import { OBJECT_STORE_INDEX_NAME } from '@constants';
 
 export const readDirectoryDecorator =
-  ({ exists, rootDirectoryName, initializeObjectStore }: ReatDirectoryDecoratorProps) =>
-  async (fullPath: string): Promise<(FileEntry | DirectoryEntry)[]> => {
+  ({ isDirectory, rootDirectoryName, initializeObjectStore }: ReadDirectoryDecoratorProps) =>
+  async (fullPath: string): Promise<ReadDirectoryDecoratorOutput> => {
     const verifiedFullPath = formatAndValidateFullPath(fullPath, rootDirectoryName);
 
-    const doesDirectoryExists = await exists(verifiedFullPath);
+    const targetIsOfTypeDirectory = await isDirectory(fullPath);
 
-    if (!doesDirectoryExists) {
-      throw new Error(`"${fullPath}" directory does not exist.`);
+    if (!targetIsOfTypeDirectory) {
+      throw new Error(`"${fullPath}" is not a directory.`);
     }
 
     const objectStore = await initializeObjectStore('readonly');
@@ -26,17 +29,24 @@ export const readDirectoryDecorator =
 
       request.onerror = reject;
 
-      const results: (FileEntry | DirectoryEntry)[] = [];
+      const foundFiles: FileEntry[] = [];
+      const foundDirectories: DirectoryEntry[] = [];
       request.onsuccess = (event: Event) => {
         const targetWithType = event.target as IDBRequest;
         const cursor = targetWithType.result as IDBCursorWithValue;
 
         if (cursor) {
-          results.push(cursor.value);
+          const { value } = cursor;
+
+          if (value.type === EntryType.FILE) {
+            foundFiles.push(value);
+          } else {
+            foundDirectories.push(value);
+          }
 
           cursor.continue();
         } else {
-          resolve(results);
+          resolve({ files: foundFiles, directories: foundDirectories });
         }
       };
     });
