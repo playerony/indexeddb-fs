@@ -22,7 +22,13 @@ describe('readDirectory Function', () => {
   it('should return empty array when directory is empty', async () => {
     await createDirectory('test_directory');
 
-    await expect(readDirectory('test_directory')).resolves.toEqual({ directories: [], files: [] });
+    await expect(readDirectory('test_directory')).resolves.toEqual({
+      files: [],
+      filesCount: 0,
+      isEmpty: true,
+      directories: [],
+      directoriesCount: 0,
+    });
   });
 
   it('should throw type error when selected target is not a directory', async () => {
@@ -39,10 +45,12 @@ describe('readDirectory Function', () => {
     await writeFile('test_directory/file.txt', 'content');
     await createDirectory('test_directory/folder');
 
-    const { files, directories } = await readDirectory('test_directory');
+    const { files, directories, filesCount, directoriesCount } = await readDirectory(
+      'test_directory',
+    );
 
-    expect(files).toHaveLength(1);
-    expect(directories).toHaveLength(1);
+    expect(filesCount).toEqual(1);
+    expect(directoriesCount).toEqual(1);
 
     expect(files[0].data).toEqual('content');
     expect(files[0].type).toEqual('file');

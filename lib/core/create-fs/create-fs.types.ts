@@ -20,6 +20,7 @@ export interface CreateFsOutput {
   exists: (fullPath: string) => Promise<boolean>;
   isFile: (fullPath: string) => Promise<boolean>;
   removeFile: (fullPath: string) => Promise<void>;
+  createRootDirectory: () => Promise<DirectoryEntry>;
   isDirectory: (fullPath: string) => Promise<boolean>;
   removeDirectory: (fullPath: string) => Promise<void>;
   createRootDirectoryIfDoesNotExist: () => Promise<void>;

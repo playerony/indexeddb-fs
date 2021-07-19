@@ -36,8 +36,11 @@ export const removeDirectoryDecorator = ({
   }
 
   return async function removeDirectory(fullPath: string): Promise<void> {
-    const targetIsOfTypeDirectory = await isDirectory(fullPath);
+    if (fullPath === rootDirectoryName) {
+      throw new Error(`Root directory: "${fullPath}" cannot be removed.`);
+    }
 
+    const targetIsOfTypeDirectory = await isDirectory(fullPath);
     if (!targetIsOfTypeDirectory) {
       throw new Error(`"${fullPath}" is not a directory.`);
     }
