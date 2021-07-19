@@ -15,6 +15,7 @@ export interface CreateFsOutput {
   databaseVersion: number;
   objectStoreName: string;
   rootDirectoryName: string;
+  hasRootDirectory: boolean;
   remove: (fullPath: string) => Promise<void>;
   exists: (fullPath: string) => Promise<boolean>;
   isFile: (fullPath: string) => Promise<boolean>;

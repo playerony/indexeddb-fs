@@ -146,6 +146,7 @@ export function createFs({
     databaseName,
     databaseVersion,
     objectStoreName,
+    hasRootDirectory,
     rootDirectoryName,
     createRootDirectoryIfDoesNotExist,
     exists: withRootDirectoryCheck(exists),
