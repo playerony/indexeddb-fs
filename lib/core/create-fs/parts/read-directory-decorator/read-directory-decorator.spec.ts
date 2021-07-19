@@ -1,49 +1,11 @@
+import { createFs } from '@core';
 import { functionImportTest } from '@utils';
 
-import {
-  existsDecorator,
-  writeFileDecorator,
-  isDirectoryDecorator,
-  createDirectoryDecorator,
-} from '..';
-import { initializeObjectStoreDecorator } from '@core/utils';
-import { readDirectoryDecorator } from './read-directory-decorator.function';
-
-const databaseVersion = 1;
-const rootDirectoryName = 'root';
-const databaseName = 'databaseName';
-const objectStoreName = 'objectStoreName';
-
-const initializeObjectStore = initializeObjectStoreDecorator({
-  databaseName,
-  databaseVersion,
-  objectStoreName,
-});
-
-const exists = existsDecorator({ rootDirectoryName, initializeObjectStore });
-
-const writeFile = writeFileDecorator({
-  exists,
-  rootDirectoryName,
-  initializeObjectStore,
-});
-
-const isDirectory = isDirectoryDecorator({
-  exists,
-  rootDirectoryName,
-  initializeObjectStore,
-});
-
-const readDirectory = readDirectoryDecorator({
-  isDirectory,
-  rootDirectoryName,
-  initializeObjectStore,
-});
-
-const createDirectory = createDirectoryDecorator({
-  exists,
-  rootDirectoryName,
-  initializeObjectStore,
+const { exists, writeFile, readDirectory, createDirectory } = createFs({
+  databaseVersion: 1,
+  rootDirectoryName: 'root',
+  databaseName: 'databaseName',
+  objectStoreName: 'objectStoreName',
 });
 
 describe('readDirectory Function', () => {

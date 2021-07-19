@@ -8,5 +8,6 @@ export * from './is-directory-decorator/is-directory-decorator.function';
 export * from './read-directory-decorator/read-directory-decorator.function';
 export * from './create-directory-decorator/create-directory-decorator.function';
 export * from './remove-directory-decorator/remove-directory-decorator.function';
+export * from './create-root-directory-decorator/create-root-directory-decorator.function';
 
 export * from './read-directory-decorator/read-directory-decorator.types';

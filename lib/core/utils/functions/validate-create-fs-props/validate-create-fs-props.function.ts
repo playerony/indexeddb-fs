@@ -1,11 +1,11 @@
 import { validate } from 'jsonschema';
 
-import { CreateFSProps } from '@core';
+import { CreateFsProps } from '@core';
 
-import { createFSPropsSchema } from './validate-create-fs-props.schema';
+import { createFsPropsSchema } from './validate-create-fs-props.schema';
 
-export function validateCreateFSProps(props: Required<CreateFSProps>): boolean {
-  const { valid, errors } = validate(props, createFSPropsSchema);
+export function validateCreateFSProps(props: Required<CreateFsProps>): boolean {
+  const { valid, errors } = validate(props, createFsPropsSchema);
 
   if (valid) {
     return valid;

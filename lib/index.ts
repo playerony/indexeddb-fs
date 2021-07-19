@@ -1,6 +1,6 @@
-import { createFS, CreateFSProps } from '@core';
 import { FileEntry, DirectoryEntry } from '@types';
+import { createFs, CreateFsProps, CreateFsOutput } from '@core';
 
-export { createFS, FileEntry, DirectoryEntry, CreateFSProps };
+export { createFs, FileEntry, DirectoryEntry, CreateFsProps, CreateFsOutput };
 
-module.exports = createFS();
+module.exports = createFs();
