@@ -1,38 +1,11 @@
+import { createFs } from '@core';
 import { functionImportTest } from '@utils';
 
-import { initializeObjectStoreDecorator } from '@core/utils';
-import { existsDecorator } from './exists-decorator.function';
-import { writeFileDecorator, removeDecorator, createDirectoryDecorator } from '..';
-
-const databaseVersion = 1;
-const rootDirectoryName = 'root';
-const databaseName = 'databaseName';
-const objectStoreName = 'objectStoreName';
-
-const initializeObjectStore = initializeObjectStoreDecorator({
-  databaseName,
-  databaseVersion,
-  objectStoreName,
-});
-
-const exists = existsDecorator({ rootDirectoryName, initializeObjectStore });
-
-const writeFile = writeFileDecorator({
-  exists,
-  rootDirectoryName,
-  initializeObjectStore,
-});
-
-const remove = removeDecorator({
-  exists,
-  rootDirectoryName,
-  initializeObjectStore,
-});
-
-const createDirectory = createDirectoryDecorator({
-  exists,
-  rootDirectoryName,
-  initializeObjectStore,
+const { remove, exists, writeFile, createDirectory } = createFs({
+  databaseVersion: 1,
+  rootDirectoryName: 'root',
+  databaseName: 'databaseName',
+  objectStoreName: 'objectStoreName',
 });
 
 describe('exists Function', () => {

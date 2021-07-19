@@ -7,17 +7,17 @@ exports[`validateCreateFSProps Function should contain proper validators 1`] = `
 
 exports[`validateCreateFSProps Function should require all object fields 1`] = `
 "Props passed to createFS function are invalid:
-[{\\"path\\":[],\\"property\\":\\"instance\\",\\"message\\":\\"requires property \\\\\\"databaseName\\\\\\"\\",\\"schema\\":\\"/CreateFSPropsSchema\\",\\"instance\\":{},\\"name\\":\\"required\\",\\"argument\\":\\"databaseName\\",\\"stack\\":\\"instance requires property \\\\\\"databaseName\\\\\\"\\"},{\\"path\\":[],\\"property\\":\\"instance\\",\\"message\\":\\"requires property \\\\\\"databaseVersion\\\\\\"\\",\\"schema\\":\\"/CreateFSPropsSchema\\",\\"instance\\":{},\\"name\\":\\"required\\",\\"argument\\":\\"databaseVersion\\",\\"stack\\":\\"instance requires property \\\\\\"databaseVersion\\\\\\"\\"},{\\"path\\":[],\\"property\\":\\"instance\\",\\"message\\":\\"requires property \\\\\\"objectStoreName\\\\\\"\\",\\"schema\\":\\"/CreateFSPropsSchema\\",\\"instance\\":{},\\"name\\":\\"required\\",\\"argument\\":\\"objectStoreName\\",\\"stack\\":\\"instance requires property \\\\\\"objectStoreName\\\\\\"\\"},{\\"path\\":[],\\"property\\":\\"instance\\",\\"message\\":\\"requires property \\\\\\"rootDirectoryName\\\\\\"\\",\\"schema\\":\\"/CreateFSPropsSchema\\",\\"instance\\":{},\\"name\\":\\"required\\",\\"argument\\":\\"rootDirectoryName\\",\\"stack\\":\\"instance requires property \\\\\\"rootDirectoryName\\\\\\"\\"}]"
+[{\\"path\\":[],\\"property\\":\\"instance\\",\\"message\\":\\"requires property \\\\\\"databaseName\\\\\\"\\",\\"schema\\":\\"/CreateFsPropsSchema\\",\\"instance\\":{},\\"name\\":\\"required\\",\\"argument\\":\\"databaseName\\",\\"stack\\":\\"instance requires property \\\\\\"databaseName\\\\\\"\\"},{\\"path\\":[],\\"property\\":\\"instance\\",\\"message\\":\\"requires property \\\\\\"databaseVersion\\\\\\"\\",\\"schema\\":\\"/CreateFsPropsSchema\\",\\"instance\\":{},\\"name\\":\\"required\\",\\"argument\\":\\"databaseVersion\\",\\"stack\\":\\"instance requires property \\\\\\"databaseVersion\\\\\\"\\"},{\\"path\\":[],\\"property\\":\\"instance\\",\\"message\\":\\"requires property \\\\\\"objectStoreName\\\\\\"\\",\\"schema\\":\\"/CreateFsPropsSchema\\",\\"instance\\":{},\\"name\\":\\"required\\",\\"argument\\":\\"objectStoreName\\",\\"stack\\":\\"instance requires property \\\\\\"objectStoreName\\\\\\"\\"},{\\"path\\":[],\\"property\\":\\"instance\\",\\"message\\":\\"requires property \\\\\\"rootDirectoryName\\\\\\"\\",\\"schema\\":\\"/CreateFsPropsSchema\\",\\"instance\\":{},\\"name\\":\\"required\\",\\"argument\\":\\"rootDirectoryName\\",\\"stack\\":\\"instance requires property \\\\\\"rootDirectoryName\\\\\\"\\"}]"
 `;
 
 exports[`validateCreateFSProps Function should throw an error when passed value is not an object 1`] = `
 "Props passed to createFS function are invalid:
-[{\\"path\\":[],\\"property\\":\\"instance\\",\\"message\\":\\"is not of a type(s) object\\",\\"schema\\":\\"/CreateFSPropsSchema\\",\\"instance\\":null,\\"name\\":\\"type\\",\\"argument\\":[\\"object\\"],\\"stack\\":\\"instance is not of a type(s) object\\"}]"
+[{\\"path\\":[],\\"property\\":\\"instance\\",\\"message\\":\\"is not of a type(s) object\\",\\"schema\\":\\"/CreateFsPropsSchema\\",\\"instance\\":null,\\"name\\":\\"type\\",\\"argument\\":[\\"object\\"],\\"stack\\":\\"instance is not of a type(s) object\\"}]"
 `;
 
 exports[`validateCreateFSProps Function snapshot test should match snapshot 1`] = `
 Object {
-  "id": "/CreateFSPropsSchema",
+  "id": "/CreateFsPropsSchema",
   "properties": Object {
     "databaseName": Object {
       "maxLength": 50,

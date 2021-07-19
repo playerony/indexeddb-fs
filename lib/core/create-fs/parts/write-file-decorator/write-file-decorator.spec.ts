@@ -1,32 +1,11 @@
+import { createFs } from '@core';
 import { functionImportTest } from '@utils';
 
-import { initializeObjectStoreDecorator } from '@core/utils';
-import { existsDecorator, createDirectoryDecorator } from '..';
-import { writeFileDecorator } from './write-file-decorator.function';
-
-const databaseVersion = 1;
-const rootDirectoryName = 'root';
-const databaseName = 'databaseName';
-const objectStoreName = 'objectStoreName';
-
-const initializeObjectStore = initializeObjectStoreDecorator({
-  databaseName,
-  databaseVersion,
-  objectStoreName,
-});
-
-const exists = existsDecorator({ rootDirectoryName, initializeObjectStore });
-
-const writeFile = writeFileDecorator({
-  exists,
-  rootDirectoryName,
-  initializeObjectStore,
-});
-
-const createDirectory = createDirectoryDecorator({
-  exists,
-  rootDirectoryName,
-  initializeObjectStore,
+const { writeFile, createDirectory } = createFs({
+  databaseVersion: 1,
+  rootDirectoryName: 'root',
+  databaseName: 'databaseName',
+  objectStoreName: 'objectStoreName',
 });
 
 describe('writeFile Function', () => {

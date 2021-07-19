@@ -10,6 +10,10 @@ export function formatAndValidateFullPath(fullPath: string, rootDirectoryName: s
     throw new Error('fullPath parameter was not provided');
   }
 
+  if (fullPath === rootDirectoryName) {
+    return rootDirectoryName;
+  }
+
   const fullPathWithPrefix = withRootDirectoryPrefix(fullPath, rootDirectoryName);
 
   if (!fullPathWithPrefix || !isValidPath(fullPathWithPrefix)) {

@@ -1,11 +1,11 @@
 import { toMatchSnapshot, functionImportTest } from '@utils';
 import { validateCreateFSProps } from './validate-create-fs-props.function';
 
-import { createFSPropsSchema } from './validate-create-fs-props.schema';
+import { createFsPropsSchema } from './validate-create-fs-props.schema';
 
 describe('validateCreateFSProps Function', () => {
   functionImportTest(validateCreateFSProps);
-  toMatchSnapshot(() => createFSPropsSchema);
+  toMatchSnapshot(() => createFsPropsSchema);
 
   it('should throw an error when passed value is not an object', () => {
     // @ts-ignore

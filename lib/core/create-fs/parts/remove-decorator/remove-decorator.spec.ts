@@ -1,32 +1,11 @@
+import { createFs } from '@core';
 import { functionImportTest } from '@utils';
 
-import { existsDecorator, writeFileDecorator } from '..';
-import { initializeObjectStoreDecorator } from '@core/utils';
-import { removeDecorator } from './remove-decorator.function';
-
-const databaseVersion = 1;
-const rootDirectoryName = 'root';
-const databaseName = 'databaseName';
-const objectStoreName = 'objectStoreName';
-
-const initializeObjectStore = initializeObjectStoreDecorator({
-  databaseName,
-  databaseVersion,
-  objectStoreName,
-});
-
-const exists = existsDecorator({ rootDirectoryName, initializeObjectStore });
-
-const remove = removeDecorator({
-  exists,
-  rootDirectoryName,
-  initializeObjectStore,
-});
-
-const writeFile = writeFileDecorator({
-  exists,
-  rootDirectoryName,
-  initializeObjectStore,
+const { remove, exists, writeFile } = createFs({
+  databaseVersion: 1,
+  rootDirectoryName: 'root',
+  databaseName: 'databaseName',
+  objectStoreName: 'objectStoreName',
 });
 
 describe('remove Function', () => {

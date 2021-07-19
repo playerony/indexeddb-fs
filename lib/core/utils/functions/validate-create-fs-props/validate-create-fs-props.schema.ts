@@ -1,8 +1,8 @@
 const stringRegExp = '^[a-zA-Z0-9_.-]*$';
 
-export const createFSPropsSchema = {
+export const createFsPropsSchema = {
   type: 'object',
-  id: '/CreateFSPropsSchema',
+  id: '/CreateFsPropsSchema',
   properties: {
     databaseName: {
       minLength: 4,

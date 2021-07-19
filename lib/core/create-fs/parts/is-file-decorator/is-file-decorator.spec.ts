@@ -1,38 +1,11 @@
+import { createFs } from '@core';
 import { functionImportTest } from '@utils';
 
-import { initializeObjectStoreDecorator } from '@core/utils';
-import { isFileDecorator } from './is-file-decorator.function';
-import { existsDecorator, writeFileDecorator, createDirectoryDecorator } from '..';
-
-const databaseVersion = 1;
-const rootDirectoryName = 'root';
-const databaseName = 'databaseName';
-const objectStoreName = 'objectStoreName';
-
-const initializeObjectStore = initializeObjectStoreDecorator({
-  databaseName,
-  databaseVersion,
-  objectStoreName,
-});
-
-const exists = existsDecorator({ rootDirectoryName, initializeObjectStore });
-
-const isFile = isFileDecorator({
-  exists,
-  rootDirectoryName,
-  initializeObjectStore,
-});
-
-const writeFile = writeFileDecorator({
-  exists,
-  rootDirectoryName,
-  initializeObjectStore,
-});
-
-const createDirectory = createDirectoryDecorator({
-  exists,
-  rootDirectoryName,
-  initializeObjectStore,
+const { isFile, writeFile, createDirectory } = createFs({
+  databaseVersion: 1,
+  rootDirectoryName: 'root',
+  databaseName: 'databaseName',
+  objectStoreName: 'objectStoreName',
 });
 
 describe('isFile Function', () => {
