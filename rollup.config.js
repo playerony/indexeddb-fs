@@ -17,7 +17,18 @@ export default [
     },
     plugins: [
       nodePolyfills(),
-      typescript({ tsconfig: 'tsconfig.build.json' }),
+      typescript({
+        tsconfig: 'tsconfig.build.json',
+        typescript: require('ttypescript'),
+        tsconfigDefaults: {
+          compilerOptions: {
+            plugins: [
+              { transform: 'typescript-transform-paths' },
+              { transform: 'typescript-transform-paths', afterDeclarations: true },
+            ],
+          },
+        },
+      }),
       babel({ extensions: ['.ts'] }),
       nodeResolve({ preferBuiltins: false }),
       commonjs(),
@@ -35,7 +46,18 @@ export default [
     },
     plugins: [
       nodePolyfills(),
-      typescript({ tsconfig: 'tsconfig.build.json' }),
+      typescript({
+        tsconfig: 'tsconfig.build.json',
+        typescript: require('ttypescript'),
+        tsconfigDefaults: {
+          compilerOptions: {
+            plugins: [
+              { transform: 'typescript-transform-paths' },
+              { transform: 'typescript-transform-paths', afterDeclarations: true },
+            ],
+          },
+        },
+      }),
       babel({ extensions: ['.ts'], exclude: 'node_modules/**' }),
       terser(),
       nodeResolve({ preferBuiltins: false }),
