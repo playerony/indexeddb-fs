@@ -9,7 +9,6 @@ export const isDirectoryDecorator =
     const verifiedFullPath = formatAndValidateFullPath(fullPath, rootDirectoryName);
 
     const doesDirectoryExists = await exists(verifiedFullPath);
-
     if (!doesDirectoryExists) {
       throw new Error(`"${fullPath}" directory does not exist.`);
     }

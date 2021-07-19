@@ -8,6 +8,9 @@ export interface ReadDirectoryDecoratorProps {
 }
 
 export interface ReadDirectoryDecoratorOutput {
+  isEmpty: boolean;
   files: FileEntry[];
+  filesCount: number;
+  directoriesCount: number;
   directories: DirectoryEntry[];
 }

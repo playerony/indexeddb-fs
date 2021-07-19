@@ -6,17 +6,19 @@ import { EntryType, DirectoryEntry } from '@types';
 import { CreateDirectoryDecoratorProps } from './create-directory-decorator.types';
 
 export const createDirectoryDecorator =
-  ({ exists, rootDirectoryName, initializeObjectStore }: CreateDirectoryDecoratorProps) =>
+  ({ isDirectory, rootDirectoryName, initializeObjectStore }: CreateDirectoryDecoratorProps) =>
   async (fullPath: string): Promise<DirectoryEntry> => {
     const verifiedFullPath = formatAndValidateFullPath(fullPath, rootDirectoryName);
+    if (verifiedFullPath === rootDirectoryName) {
+      throw new Error(`Root directory: "${verifiedFullPath}" already exist.`);
+    }
 
     const basename = path.basename(verifiedFullPath);
     const directory = path.dirname(verifiedFullPath);
 
-    const doesDirectoryExists = await exists(directory);
-
-    if (!doesDirectoryExists) {
-      throw new Error(`"${directory}" directory does not exist.`);
+    const targetIsTypeOfDirectory = await isDirectory(directory);
+    if (!targetIsTypeOfDirectory) {
+      throw new Error(`"${directory}" is not a directory.`);
     }
 
     const objectStore = await initializeObjectStore('readwrite');
@@ -24,6 +26,7 @@ export const createDirectoryDecorator =
     return new Promise((resolve, reject) => {
       const entry: DirectoryEntry = {
         directory,
+        isRoot: false,
         name: basename,
         createdAt: Date.now(),
         type: EntryType.DIRECTORY,

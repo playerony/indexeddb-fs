@@ -17,6 +17,12 @@ describe('writeFile Function', () => {
     );
   });
 
+  it('should throw an error when the user tries to create a root directory as a file', async () => {
+    await expect(writeFile('root', 'root')).rejects.toThrow(
+      'Root directory: "root" cannot be a file.',
+    );
+  });
+
   it('should throw an error when user wants to create a file in a folder that does not exist', async () => {
     await expect(createDirectory('test3/test2/test/file.txt')).rejects.toThrow(
       '"root/test3/test2/test" directory does not exist.',

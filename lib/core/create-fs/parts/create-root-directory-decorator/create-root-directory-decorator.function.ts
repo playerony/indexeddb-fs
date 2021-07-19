@@ -1,21 +1,18 @@
-import { formatAndValidateFullPath } from '@core/utils';
-
 import { EntryType, DirectoryEntry } from '@types';
 import { CreateRootDirectoryDecoratorProps } from './create-root-directory-decorator.types';
 
 export const createRootDirectoryDecorator =
   ({ rootDirectoryName, initializeObjectStore }: CreateRootDirectoryDecoratorProps) =>
-  async (fullPath: string): Promise<DirectoryEntry> => {
-    const verifiedFullPath = formatAndValidateFullPath(fullPath, rootDirectoryName);
-
+  async (): Promise<DirectoryEntry> => {
     const objectStore = await initializeObjectStore('readwrite');
 
     return new Promise((resolve, reject) => {
       const entry: DirectoryEntry = {
+        isRoot: true,
         createdAt: Date.now(),
         name: rootDirectoryName,
         type: EntryType.DIRECTORY,
-        fullPath: verifiedFullPath,
+        fullPath: rootDirectoryName,
         directory: rootDirectoryName,
       };
 

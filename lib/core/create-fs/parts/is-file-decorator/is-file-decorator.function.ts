@@ -8,9 +8,8 @@ export const isFileDecorator =
   async (fullPath: string): Promise<boolean> => {
     const verifiedFullPath = formatAndValidateFullPath(fullPath, rootDirectoryName);
 
-    const doesDirectoryExists = await exists(verifiedFullPath);
-
-    if (!doesDirectoryExists) {
+    const doesFileExist = await exists(verifiedFullPath);
+    if (!doesFileExist) {
       throw new Error(`"${fullPath}" file does not exist.`);
     }
 

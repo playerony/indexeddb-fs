@@ -103,7 +103,7 @@ export function createFs({
   });
 
   const createDirectory = createDirectoryDecorator({
-    exists,
+    isDirectory,
     rootDirectoryName,
     initializeObjectStore,
   });
@@ -125,7 +125,7 @@ export function createFs({
       hasRootDirectory = await exists(rootDirectoryName);
 
       if (!hasRootDirectory) {
-        await createRootDirectory(rootDirectoryName);
+        await createRootDirectory();
 
         hasRootDirectory = true;
       }
@@ -148,6 +148,7 @@ export function createFs({
     objectStoreName,
     hasRootDirectory,
     rootDirectoryName,
+    createRootDirectory,
     createRootDirectoryIfDoesNotExist,
     exists: withRootDirectoryCheck(exists),
     isFile: withRootDirectoryCheck(isFile),

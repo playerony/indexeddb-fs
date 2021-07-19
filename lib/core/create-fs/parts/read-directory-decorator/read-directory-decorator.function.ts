@@ -14,7 +14,6 @@ export const readDirectoryDecorator =
     const verifiedFullPath = formatAndValidateFullPath(fullPath, rootDirectoryName);
 
     const targetIsOfTypeDirectory = await isDirectory(fullPath);
-
     if (!targetIsOfTypeDirectory) {
       throw new Error(`"${fullPath}" is not a directory.`);
     }
@@ -46,7 +45,17 @@ export const readDirectoryDecorator =
 
           cursor.continue();
         } else {
-          resolve({ files: foundFiles, directories: foundDirectories });
+          const filesCount = foundFiles.length;
+          const directoriesCount = foundDirectories.length;
+          const isEmpty = filesCount === 0 && directoriesCount === 0;
+
+          resolve({
+            isEmpty,
+            filesCount,
+            directoriesCount,
+            files: foundFiles,
+            directories: foundDirectories,
+          });
         }
       };
     });

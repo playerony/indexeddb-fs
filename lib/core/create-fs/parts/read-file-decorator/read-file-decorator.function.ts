@@ -9,7 +9,6 @@ export const readFileDecorator =
     const verifiedFullPath = formatAndValidateFullPath(fullPath, rootDirectoryName);
 
     const targetIsOfTypeFile = await isFile(fullPath);
-
     if (!targetIsOfTypeFile) {
       throw new Error(`"${fullPath}" is not a file.`);
     }

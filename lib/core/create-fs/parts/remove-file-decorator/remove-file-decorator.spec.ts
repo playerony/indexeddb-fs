@@ -16,7 +16,11 @@ describe('removeFile Function', () => {
   });
 
   it('should throw an error when the user wants to delete a file that does not exist', async () => {
-    await expect(removeFile('file.txt')).rejects.toThrow('"file.txt" file does not exist.');
+    await expect(removeFile('file.txt')).rejects.toThrow('"root/file.txt" file does not exist.');
+  });
+
+  it('should throw an error when user tries to remove root directory', async () => {
+    await expect(removeFile('root')).rejects.toThrow('Root directory: "root" cannot be removed.');
   });
 
   it('should throw type error when selected target is not a file', async () => {

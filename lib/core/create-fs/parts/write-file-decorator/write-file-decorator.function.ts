@@ -9,14 +9,15 @@ export const writeFileDecorator =
   ({ exists, rootDirectoryName, initializeObjectStore }: WriteFileDecoratorProps) =>
   async <TData = any>(fullPath: string, data: TData): Promise<FileEntry<TData>> => {
     const verifiedFullPath = formatAndValidateFullPath(fullPath, rootDirectoryName);
+    if (verifiedFullPath === rootDirectoryName) {
+      throw new Error(`Root directory: "${verifiedFullPath}" cannot be a file.`);
+    }
 
     const basename = path.basename(verifiedFullPath);
     const directory = path.dirname(verifiedFullPath);
 
     const doesDirectoryExists = await exists(directory);
-    const isRootDirectory = directory === rootDirectoryName;
-
-    if (!isRootDirectory && !doesDirectoryExists) {
+    if (!doesDirectoryExists) {
       throw new Error(`"${directory}" directory does not exist.`);
     }
 

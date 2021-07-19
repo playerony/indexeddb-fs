@@ -15,4 +15,6 @@ export interface FileEntry<TData = any> extends Entry<EntryType.FILE> {
   data: TData;
 }
 
-export interface DirectoryEntry extends Entry<EntryType.DIRECTORY> {}
+export interface DirectoryEntry extends Entry<EntryType.DIRECTORY> {
+  isRoot: boolean;
+}
