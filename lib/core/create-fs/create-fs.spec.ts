@@ -60,7 +60,7 @@ describe('createFs Function', () => {
 
       expect(isEmpty).toBeFalsy();
       expect(filesCount).toEqual(2);
-      expect(directoriesCount).toEqual(2);
+      expect(directoriesCount).toEqual(1);
     });
   });
 
@@ -94,6 +94,6 @@ describe('createFs Function', () => {
     const { filesCount, directoriesCount } = await readDirectory(rootDirectoryName);
 
     expect(filesCount).toEqual(0);
-    expect(directoriesCount).toEqual(1);
+    expect(directoriesCount).toEqual(0);
   });
 });

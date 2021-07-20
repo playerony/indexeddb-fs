@@ -41,7 +41,7 @@ export const readDirectoryDecorator =
             const { data, ...restProps } = value;
 
             foundFiles.push(restProps);
-          } else {
+          } else if (value.type === EntryType.DIRECTORY && !value.isRoot) {
             foundDirectories.push(value);
           }
 
