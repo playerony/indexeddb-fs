@@ -13,6 +13,7 @@ export default [
     input,
     output: {
       format: 'es',
+      exports: 'named',
       file: 'dist/index.es.js',
     },
     plugins: [
@@ -41,6 +42,7 @@ export default [
     output: {
       format: 'umd',
       indent: false,
+      exports: 'named',
       name: 'indexeddb-fs',
       file: 'dist/index.umd.min.js',
     },
