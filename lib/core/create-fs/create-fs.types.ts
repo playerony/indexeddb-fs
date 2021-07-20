@@ -15,15 +15,12 @@ export interface CreateFsOutput {
   databaseVersion: number;
   objectStoreName: string;
   rootDirectoryName: string;
-  hasRootDirectory: boolean;
   remove: (fullPath: string) => Promise<void>;
   exists: (fullPath: string) => Promise<boolean>;
   isFile: (fullPath: string) => Promise<boolean>;
   removeFile: (fullPath: string) => Promise<void>;
-  createRootDirectory: () => Promise<DirectoryEntry>;
   isDirectory: (fullPath: string) => Promise<boolean>;
   removeDirectory: (fullPath: string) => Promise<void>;
-  createRootDirectoryIfDoesNotExist: () => Promise<void>;
   createDirectory: (fullPath: string) => Promise<DirectoryEntry>;
   readFile: <TData = any>(fullPath: string) => Promise<FileEntry<TData>>;
   readDirectory: (fullPath: string) => Promise<ReadDirectoryDecoratorOutput>;

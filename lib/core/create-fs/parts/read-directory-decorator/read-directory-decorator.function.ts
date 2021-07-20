@@ -15,7 +15,7 @@ export const readDirectoryDecorator =
 
     const targetIsOfTypeDirectory = await isDirectory(fullPath);
     if (!targetIsOfTypeDirectory) {
-      throw new Error(`"${fullPath}" is not a directory.`);
+      throw new Error(`"${verifiedFullPath}" is not a directory.`);
     }
 
     const objectStore = await initializeObjectStore('readonly');
@@ -38,7 +38,9 @@ export const readDirectoryDecorator =
           const { value } = cursor;
 
           if (value.type === EntryType.FILE) {
-            foundFiles.push(value);
+            const { data, ...restProps } = value;
+
+            foundFiles.push(restProps);
           } else {
             foundDirectories.push(value);
           }

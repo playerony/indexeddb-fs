@@ -32,6 +32,7 @@
     "test": "jest --detectOpenHandles --verbose",
     "test:ci": "jest --ci --detectOpenHandles --coverage --forceExit",
     "test:coverage": "jest --detectOpenHandles --collectCoverage",
+    "test:update-snapshot": "jest --detectOpenHandles --verbose --updateSnapshot",
     "test:watch": "jest --detectOpenHandles --verbose --watch",
     "typecheck": "tsc --noEmit"
   },

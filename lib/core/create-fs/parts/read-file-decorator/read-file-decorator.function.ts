@@ -10,7 +10,7 @@ export const readFileDecorator =
 
     const targetIsOfTypeFile = await isFile(fullPath);
     if (!targetIsOfTypeFile) {
-      throw new Error(`"${fullPath}" is not a file.`);
+      throw new Error(`"${verifiedFullPath}" is not a file.`);
     }
 
     const objectStore = await initializeObjectStore('readonly');

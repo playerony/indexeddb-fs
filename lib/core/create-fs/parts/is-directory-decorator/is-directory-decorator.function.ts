@@ -10,7 +10,7 @@ export const isDirectoryDecorator =
 
     const doesDirectoryExists = await exists(verifiedFullPath);
     if (!doesDirectoryExists) {
-      throw new Error(`"${fullPath}" directory does not exist.`);
+      throw new Error(`"${verifiedFullPath}" directory does not exist.`);
     }
 
     const objectStore = await initializeObjectStore('readonly');

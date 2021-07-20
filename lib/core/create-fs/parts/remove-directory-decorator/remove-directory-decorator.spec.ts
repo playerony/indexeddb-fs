@@ -16,13 +16,7 @@ describe('removeDirectory Function', () => {
   });
 
   it('should throw an error when passed path does not exist', async () => {
-    await expect(removeDirectory('path')).rejects.toThrow('"path" directory does not exist.');
-  });
-
-  it('should throw an error when user tries to remove root directory', async () => {
-    await expect(removeDirectory('root')).rejects.toThrow(
-      'Root directory: "root" cannot be removed.',
-    );
+    await expect(removeDirectory('path')).rejects.toThrow('"root/path" directory does not exist.');
   });
 
   it('should throw an error when passed path is not a directory', async () => {

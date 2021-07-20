@@ -16,8 +16,10 @@ describe('readFile Function', () => {
   });
 
   it('should throw an error when the file does not exist', async () => {
-    await expect(readFile('file.txt')).rejects.toThrow('"file.txt" file does not exist.');
-    await expect(readFile('test/file.txt')).rejects.toThrow('"test/file.txt" file does not exist.');
+    await expect(readFile('file.txt')).rejects.toThrow('"root/file.txt" file does not exist.');
+    await expect(readFile('test/file.txt')).rejects.toThrow(
+      '"root/test/file.txt" file does not exist.',
+    );
   });
 
   it('should throw type error when selected target is not a file', async () => {
@@ -25,13 +27,13 @@ describe('readFile Function', () => {
     await expect(exists('directory_as_a_file')).resolves.toBeTruthy();
 
     await expect(readFile('directory_as_a_file')).rejects.toThrow(
-      '"directory_as_a_file" is not a file.',
+      '"root/directory_as_a_file" is not a file.',
     );
   });
 
   it('should return content of found file', async () => {
-    await writeFile('file.txt', 'test content');
+    const file = await writeFile('file.txt', 'test 2 content');
 
-    await expect(readFile('file.txt')).resolves.toEqual('test content');
+    await expect(readFile(file.fullPath)).resolves.toEqual('test 2 content');
   });
 });

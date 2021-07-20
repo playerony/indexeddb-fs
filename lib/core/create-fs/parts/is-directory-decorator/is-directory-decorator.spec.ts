@@ -16,7 +16,9 @@ describe('isDirectory Function', () => {
   });
 
   it('should throw an error when the user wants to check a directory that does not exist', async () => {
-    await expect(isDirectory('directory')).rejects.toThrow('"directory" directory does not exist.');
+    await expect(isDirectory('directory')).rejects.toThrow(
+      '"root/directory" directory does not exist.',
+    );
   });
 
   it('should pass those scenarios', async () => {
