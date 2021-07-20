@@ -16,7 +16,7 @@ describe('isFile Function', () => {
   });
 
   it('should throw an error when the user wants to check a file that does not exist', async () => {
-    await expect(isFile('file.txt')).rejects.toThrow('"file.txt" file does not exist.');
+    await expect(isFile('file.txt')).rejects.toThrow('"root/file.txt" file does not exist.');
   });
 
   it('should pass those scenarios', async () => {

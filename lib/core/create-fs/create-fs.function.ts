@@ -27,8 +27,6 @@ export function createFs({
   objectStoreName = defaultProps.objectStoreName,
   rootDirectoryName = defaultProps.rootDirectoryName,
 }: CreateFsProps = defaultProps): CreateFsOutput {
-  let hasRootDirectory = false;
-
   function initialize() {
     checkIndexedDBSupport();
     validateProps();
@@ -121,14 +119,10 @@ export function createFs({
   });
 
   async function createRootDirectoryIfDoesNotExist(): Promise<void> {
+    const hasRootDirectory = await exists(rootDirectoryName);
+
     if (!hasRootDirectory) {
-      hasRootDirectory = await exists(rootDirectoryName);
-
-      if (!hasRootDirectory) {
-        await createRootDirectory();
-
-        hasRootDirectory = true;
-      }
+      await createRootDirectory();
     }
   }
 
@@ -146,10 +140,7 @@ export function createFs({
     databaseName,
     databaseVersion,
     objectStoreName,
-    hasRootDirectory,
     rootDirectoryName,
-    createRootDirectory,
-    createRootDirectoryIfDoesNotExist,
     exists: withRootDirectoryCheck(exists),
     isFile: withRootDirectoryCheck(isFile),
     remove: withRootDirectoryCheck(remove),

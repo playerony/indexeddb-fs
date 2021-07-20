@@ -16,7 +16,7 @@ describe('readDirectory Function', () => {
   });
 
   it('should throw an error when passed path does not exist', async () => {
-    await expect(readDirectory('path')).rejects.toThrow('"path" directory does not exist.');
+    await expect(readDirectory('path')).rejects.toThrow('"root/path" directory does not exist.');
   });
 
   it('should return empty array when directory is empty', async () => {
@@ -36,7 +36,7 @@ describe('readDirectory Function', () => {
     await expect(exists('test_file.txt')).resolves.toBeTruthy();
 
     await expect(readDirectory('test_file.txt')).rejects.toThrow(
-      '"test_file.txt" is not a directory.',
+      '"root/test_file.txt" is not a directory.',
     );
   });
 
@@ -52,7 +52,6 @@ describe('readDirectory Function', () => {
     expect(filesCount).toEqual(1);
     expect(directoriesCount).toEqual(1);
 
-    expect(files[0].data).toEqual('content');
     expect(files[0].type).toEqual('file');
     expect(files[0].name).toEqual('file.txt');
     expect(files[0].directory).toEqual('root/test_directory');

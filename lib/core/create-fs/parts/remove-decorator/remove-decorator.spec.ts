@@ -15,13 +15,9 @@ describe('remove Function', () => {
     await expect(remove('test//test2 ')).rejects.toThrow('"test//test2 " path is invalid.');
   });
 
-  it('should throw an error when user tries to remove root directory', async () => {
-    await expect(remove('root')).rejects.toThrow('Root directory: "root" cannot be removed.');
-  });
-
   it('should throw an error when the user wants to delete a file that does not exist', async () => {
     await expect(remove('file.txt')).rejects.toThrow(
-      '"file.txt" file or directory does not exist.',
+      '"root/file.txt" file or directory does not exist.',
     );
   });
 

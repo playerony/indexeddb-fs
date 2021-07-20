@@ -10,7 +10,7 @@ export const isFileDecorator =
 
     const doesFileExist = await exists(verifiedFullPath);
     if (!doesFileExist) {
-      throw new Error(`"${fullPath}" file does not exist.`);
+      throw new Error(`"${verifiedFullPath}" file does not exist.`);
     }
 
     const objectStore = await initializeObjectStore('readonly');

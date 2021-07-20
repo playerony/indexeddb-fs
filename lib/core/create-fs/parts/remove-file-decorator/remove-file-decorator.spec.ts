@@ -20,7 +20,7 @@ describe('removeFile Function', () => {
   });
 
   it('should throw an error when user tries to remove root directory', async () => {
-    await expect(removeFile('root')).rejects.toThrow('Root directory: "root" cannot be removed.');
+    await expect(removeFile('root')).rejects.toThrow('"root" is not a file.');
   });
 
   it('should throw type error when selected target is not a file', async () => {
@@ -28,7 +28,7 @@ describe('removeFile Function', () => {
     await expect(exists('directory_as_a_file')).resolves.toBeTruthy();
 
     await expect(removeFile('directory_as_a_file')).rejects.toThrow(
-      '"directory_as_a_file" is not a file.',
+      '"root/directory_as_a_file" is not a file.',
     );
   });
 

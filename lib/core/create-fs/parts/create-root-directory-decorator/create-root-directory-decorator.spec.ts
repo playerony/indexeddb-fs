@@ -1,11 +1,25 @@
 import { createFs } from '@core';
 import { functionImportTest } from '@utils';
 
-const { exists, createRootDirectory } = createFs({
+import { initializeObjectStoreDecorator } from '@core/utils';
+import { createRootDirectoryDecorator } from './create-root-directory-decorator.function';
+
+const { exists, rootDirectoryName } = createFs({
   databaseVersion: 1,
   rootDirectoryName: 'root',
   databaseName: 'databaseName',
   objectStoreName: 'objectStoreName',
+});
+
+const initializeObjectStore = initializeObjectStoreDecorator({
+  databaseVersion: 1,
+  databaseName: 'databaseName',
+  objectStoreName: 'objectStoreName',
+});
+
+const createRootDirectory = createRootDirectoryDecorator({
+  rootDirectoryName,
+  initializeObjectStore,
 });
 
 describe('createRootDirectory Function', () => {

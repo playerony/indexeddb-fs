@@ -6,13 +6,10 @@ export const removeDecorator =
   ({ exists, rootDirectoryName, initializeObjectStore }: RemoveDecoratorProps) =>
   async (fullPath: string): Promise<void> => {
     const verifiedFullPath = formatAndValidateFullPath(fullPath, rootDirectoryName);
-    if (verifiedFullPath === rootDirectoryName) {
-      throw new Error(`Root directory: "${fullPath}" cannot be removed.`);
-    }
 
     const doesDirectoryExists = await exists(verifiedFullPath);
     if (!doesDirectoryExists) {
-      throw new Error(`"${fullPath}" file or directory does not exist.`);
+      throw new Error(`"${verifiedFullPath}" file or directory does not exist.`);
     }
 
     const objectStore = await initializeObjectStore('readwrite');

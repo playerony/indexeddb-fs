@@ -16,13 +16,13 @@
         "*.js"
       ],
       "rules": {
-        "no-console": "off",
         "no-await-in-loop": "off",
         "no-confusing-arrow": "off",
         "operator-linebreak": "off",
         "no-underscore-dangle": "off",
         "object-curly-newline": "off",
         "no-restricted-syntax": "off",
+        "function-paren-newline": "off",
         "implicit-arrow-linebreak": "off",
         "import/order": "off",
         "import/no-cycle": "off",
