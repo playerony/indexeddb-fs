@@ -1,6 +1,6 @@
 {
   "name": "indexeddb-fs",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "An 'fs' kind of library dedicated for the browser. It works based on indexed-db.",
   "license": "MIT",
   "author": "Paweł Wojtasiński",

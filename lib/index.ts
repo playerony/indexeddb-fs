@@ -3,4 +3,5 @@ import { createFs, CreateFsProps, CreateFsOutput } from '@core';
 
 export { createFs, FileEntry, DirectoryEntry, CreateFsProps, CreateFsOutput };
 
-module.exports = createFs();
+const fs = createFs();
+export default fs;
