@@ -7,8 +7,8 @@ import { createRootDirectoryDecorator } from './create-root-directory-decorator.
 const { exists, rootDirectoryName } = createFs({
   databaseVersion: 1,
   rootDirectoryName: 'root',
-  databaseName: 'databaseName',
   objectStoreName: 'objectStoreName',
+  databaseName: 'createRootDirectory',
 });
 
 const initializeObjectStore = initializeObjectStoreDecorator({

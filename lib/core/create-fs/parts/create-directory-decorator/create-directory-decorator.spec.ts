@@ -4,7 +4,7 @@ import { functionImportTest } from '@utils';
 const { writeFile, createDirectory } = createFs({
   databaseVersion: 1,
   rootDirectoryName: 'root',
-  databaseName: 'databaseName',
+  databaseName: 'createDirectory',
   objectStoreName: 'objectStoreName',
 });
 

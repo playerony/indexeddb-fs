@@ -3,8 +3,8 @@ import { functionImportTest } from '@utils';
 
 const { remove, exists, writeFile } = createFs({
   databaseVersion: 1,
+  databaseName: 'remove',
   rootDirectoryName: 'root',
-  databaseName: 'databaseName',
   objectStoreName: 'objectStoreName',
 });
 
