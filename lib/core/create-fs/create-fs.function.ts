@@ -3,6 +3,7 @@ import {
   isFileDecorator,
   removeDecorator,
   detailsDecorator,
+  copyFileDecorator,
   readFileDecorator,
   writeFileDecorator,
   removeFileDecorator,
@@ -101,6 +102,15 @@ export function createFs({
     initializeObjectStore,
   });
 
+  const copyFile = copyFileDecorator({
+    exists,
+    isFile,
+    writeFile,
+    fileDetails,
+    isDirectory,
+    rootDirectoryName,
+  });
+
   const readDirectory = readDirectoryDecorator({
     isDirectory,
     rootDirectoryName,
@@ -161,7 +171,6 @@ export function createFs({
 
   // TODO rename
   // TODO moveFile
-  // TODO copyFile
   // TODO appendFile
   return {
     databaseName,
@@ -172,6 +181,7 @@ export function createFs({
     isFile: withRootDirectoryCheck(isFile),
     remove: withRootDirectoryCheck(remove),
     details: withRootDirectoryCheck(details),
+    copyFile: withRootDirectoryCheck(copyFile),
     readFile: withRootDirectoryCheck(readFile),
     writeFile: withRootDirectoryCheck(writeFile),
     removeFile: withRootDirectoryCheck(removeFile),

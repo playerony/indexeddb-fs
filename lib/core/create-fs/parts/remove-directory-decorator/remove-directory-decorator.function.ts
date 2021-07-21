@@ -12,7 +12,7 @@ export const removeDirectoryDecorator = ({
   async function removeNestedDirectory(fullPath: string): Promise<void> {
     const verifiedFullPath = formatAndValidateFullPath(fullPath, rootDirectoryName);
 
-    const { filesCount, directoriesCount, files, directories } = await readDirectory(
+    const { files, filesCount, directories, directoriesCount } = await readDirectory(
       verifiedFullPath,
     );
 
@@ -46,7 +46,7 @@ export const removeDirectoryDecorator = ({
     await removeNestedDirectory(fullPath);
 
     if (fullPath !== rootDirectoryName) {
-      await remove(fullPath);
+      await tryCatchWrapper(() => remove(fullPath));
     }
   };
 };
