@@ -2,13 +2,16 @@ import {
   existsDecorator,
   isFileDecorator,
   removeDecorator,
+  detailsDecorator,
   readFileDecorator,
   writeFileDecorator,
   removeFileDecorator,
   isDirectoryDecorator,
+  fileDetailsDecorator,
   readDirectoryDecorator,
   createDirectoryDecorator,
   removeDirectoryDecorator,
+  directoryDetailsDecorator,
   createRootDirectoryDecorator,
 } from './parts';
 import {
@@ -70,16 +73,14 @@ export function createFs({
     initializeObjectStore,
   });
 
-  const readFile = readFileDecorator({
+  const fileDetails = fileDetailsDecorator({
     isFile,
     rootDirectoryName,
     initializeObjectStore,
   });
 
-  const writeFile = writeFileDecorator({
-    exists,
-    rootDirectoryName,
-    initializeObjectStore,
+  const readFile = readFileDecorator({
+    fileDetails,
   });
 
   const removeFile = removeFileDecorator({
@@ -94,6 +95,12 @@ export function createFs({
     initializeObjectStore,
   });
 
+  const writeFile = writeFileDecorator({
+    isDirectory,
+    rootDirectoryName,
+    initializeObjectStore,
+  });
+
   const readDirectory = readDirectoryDecorator({
     isDirectory,
     rootDirectoryName,
@@ -101,6 +108,7 @@ export function createFs({
   });
 
   const createDirectory = createDirectoryDecorator({
+    isFile,
     isDirectory,
     rootDirectoryName,
     initializeObjectStore,
@@ -110,6 +118,21 @@ export function createFs({
     remove,
     isDirectory,
     readDirectory,
+    rootDirectoryName,
+  });
+
+  const directoryDetails = directoryDetailsDecorator({
+    isDirectory,
+    rootDirectoryName,
+    initializeObjectStore,
+  });
+
+  const details = detailsDecorator({
+    isFile,
+    exists,
+    isDirectory,
+    fileDetails,
+    directoryDetails,
     rootDirectoryName,
   });
 
@@ -136,6 +159,10 @@ export function createFs({
 
   initialize();
 
+  // TODO rename
+  // TODO moveFile
+  // TODO copyFile
+  // TODO appendFile
   return {
     databaseName,
     databaseVersion,
@@ -144,12 +171,15 @@ export function createFs({
     exists: withRootDirectoryCheck(exists),
     isFile: withRootDirectoryCheck(isFile),
     remove: withRootDirectoryCheck(remove),
+    details: withRootDirectoryCheck(details),
     readFile: withRootDirectoryCheck(readFile),
     writeFile: withRootDirectoryCheck(writeFile),
     removeFile: withRootDirectoryCheck(removeFile),
+    fileDetails: withRootDirectoryCheck(fileDetails),
     isDirectory: withRootDirectoryCheck(isDirectory),
     readDirectory: withRootDirectoryCheck(readDirectory),
     createDirectory: withRootDirectoryCheck(createDirectory),
     removeDirectory: withRootDirectoryCheck(removeDirectory),
+    directoryDetails: withRootDirectoryCheck(directoryDetails),
   };
 }

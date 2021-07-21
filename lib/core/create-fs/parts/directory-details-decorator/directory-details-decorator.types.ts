@@ -1,4 +1,4 @@
-export interface WriteFileDecoratorProps {
+export interface DirectoryDetailsDecoratorProps {
   rootDirectoryName: string;
 
   isDirectory: (fullPath: string) => Promise<boolean>;

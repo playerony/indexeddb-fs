@@ -7,8 +7,8 @@ export const removeDecorator =
   async (fullPath: string): Promise<void> => {
     const verifiedFullPath = formatAndValidateFullPath(fullPath, rootDirectoryName);
 
-    const doesDirectoryExists = await exists(verifiedFullPath);
-    if (!doesDirectoryExists) {
+    const doesTargetExist = await exists(verifiedFullPath);
+    if (!doesTargetExist) {
       throw new Error(`"${verifiedFullPath}" file or directory does not exist.`);
     }
 

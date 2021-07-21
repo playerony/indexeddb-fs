@@ -1,6 +1,6 @@
-export interface WriteFileDecoratorProps {
+export interface FileDetailsDecoratorProps {
   rootDirectoryName: string;
 
-  isDirectory: (fullPath: string) => Promise<boolean>;
+  isFile: (fullPath: string) => Promise<boolean>;
   initializeObjectStore: (type: IDBTransactionMode) => Promise<IDBObjectStore>;
 }

@@ -1,12 +1,18 @@
 import path from 'path';
 
+import { tryCatchWrapper } from '@utils';
 import { formatAndValidateFullPath } from '@core/utils';
 
 import { EntryType, DirectoryEntry } from '@types';
 import { CreateDirectoryDecoratorProps } from './create-directory-decorator.types';
 
 export const createDirectoryDecorator =
-  ({ isDirectory, rootDirectoryName, initializeObjectStore }: CreateDirectoryDecoratorProps) =>
+  ({
+    isFile,
+    isDirectory,
+    rootDirectoryName,
+    initializeObjectStore,
+  }: CreateDirectoryDecoratorProps) =>
   async (fullPath: string): Promise<DirectoryEntry> => {
     const verifiedFullPath = formatAndValidateFullPath(fullPath, rootDirectoryName);
     if (verifiedFullPath === rootDirectoryName) {
@@ -16,9 +22,20 @@ export const createDirectoryDecorator =
     const basename = path.basename(verifiedFullPath);
     const directory = path.dirname(verifiedFullPath);
 
-    const targetIsTypeOfDirectory = await isDirectory(directory);
-    if (!targetIsTypeOfDirectory) {
+    const doesDirectoryExists = await isDirectory(directory);
+    if (!doesDirectoryExists) {
       throw new Error(`"${directory}" is not a directory.`);
+    }
+
+    const targetIsTypeOfFile = await tryCatchWrapper(
+      () => isFile(verifiedFullPath),
+      () => false,
+    );
+
+    if (targetIsTypeOfFile) {
+      throw new Error(
+        `"${verifiedFullPath}" you cannot create a directory with the same name as the file.`,
+      );
     }
 
     const objectStore = await initializeObjectStore('readwrite');

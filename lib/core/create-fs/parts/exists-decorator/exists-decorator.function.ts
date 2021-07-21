@@ -15,10 +15,9 @@ export const existsDecorator =
       request.onerror = () => resolve(false);
 
       request.onsuccess = (event: Event) => {
-        const targetWithType = event.target as IDBRequest;
-        const response = targetWithType.result;
+        const { result } = event.target as IDBRequest;
 
-        resolve(Boolean(response?.createdAt));
+        resolve(Boolean(result?.createdAt));
       };
     });
   };

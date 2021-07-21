@@ -60,4 +60,11 @@ describe('writeFile Function', () => {
     expect(result.data).toEqual({ test: 'object' });
     expect(result.fullPath).toEqual('root/file3.txt');
   });
+
+  it('should throw an error when a user tries to create a file with the same name as the directory', async () => {
+    await createDirectory('example_of_directory');
+    await expect(writeFile('test2', { test: 'object' })).rejects.toThrow(
+      '"root/test2" you cannot create a file with the same name as the directory.',
+    );
+  });
 });

@@ -21,8 +21,11 @@ export interface CreateFsOutput {
   removeFile: (fullPath: string) => Promise<void>;
   isDirectory: (fullPath: string) => Promise<boolean>;
   removeDirectory: (fullPath: string) => Promise<void>;
+  readFile: <TData = any>(fullPath: string) => Promise<TData>;
   createDirectory: (fullPath: string) => Promise<DirectoryEntry>;
-  readFile: <TData = any>(fullPath: string) => Promise<FileEntry<TData>>;
+  directoryDetails: (fullPath: string) => Promise<DirectoryEntry>;
+  details: (fullPath: string) => Promise<FileEntry<any> | DirectoryEntry>;
+  fileDetails: <TData = any>(fullPath: string) => Promise<FileEntry<TData>>;
   readDirectory: (fullPath: string) => Promise<ReadDirectoryDecoratorOutput>;
   writeFile: <TData = any>(fullPath: string, data: TData) => Promise<FileEntry<TData>>;
 }
