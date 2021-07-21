@@ -1,10 +1,10 @@
-export const tryCatchWrapper = async <TData = any>(
+export const tryCatchWrapper = async <TData = any, TError = any>(
   func: () => Promise<TData>,
-  onError?: (error: any) => void,
+  onError?: (error: TError) => void,
 ): Promise<TData | null> => {
   try {
     return await func();
-  } catch (error) {
+  } catch (error: any) {
     if (onError) {
       onError(error);
     }
