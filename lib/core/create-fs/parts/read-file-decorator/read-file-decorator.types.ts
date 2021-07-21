@@ -1,6 +1,5 @@
-export interface ReadFileDecoratorProps {
-  rootDirectoryName: string;
+import { FileEntry } from '@types';
 
-  isFile: (fullPath: string) => Promise<boolean>;
-  initializeObjectStore: (type: IDBTransactionMode) => Promise<IDBObjectStore>;
+export interface ReadFileDecoratorProps {
+  fileDetails: <TData = any>(fullPath: string) => Promise<FileEntry<TData>>;
 }

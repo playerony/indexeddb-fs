@@ -36,45 +36,161 @@ await fs.removeDirectory(rootDirectoryName);
 All methods return a Promise. Unfortunately, indexedDB is not a synchronous API :(
 Every function returns an error when an error occurs. The Promise will be rejected with an `Error` object.
 
-### exists(fullPath: string)
+# fs.exists(fullPath)
 
-Check if the content at `fullPath` exist.
+Parameters: [`fullPath`: string]
+Returns: `Promise<boolean>`
+Returns true if the path exists, false otherwise.
 
-### isFile(fullPath: string)
+# fs.isFile(fullPath)
 
-Check if the content at `fullPath` is a file.
+Parameters: [`fullPath`: string]
+Returns: `Promise<boolean>`
+Returns true if the path contains a file, false otherwise.
 
-### isDirectory(fullPath: string)
+Throws an error when the path does not contain anything.
 
-Check if the content at `fullPath` is a directory.
+# fs.isDirectory(fullPath)
 
-### remove(fullPath: string)
+Parameters: [`fullPath`: string]
+Returns: `Promise<boolean>`
+Returns true if the path contains a directory, false otherwise.
 
-Removes the file or directory with the `fullPath` destination from storage and returns a Promise. It does not remove directories recursively!
+Throws an error when the path does not contain anything.
 
-### writeFile(fullPath: string, data: TData)
+# fs.remove(fullPath)
 
-Saves the file `data` within the `fullPath` destination and returns a Promise.
+Parameters: [`fullPath`: string]
+Returns: `Promise<void>`
+Removes files and directories. It does not remove directories recursively!
 
-### readFile(fullPath: string)
+Throws an error when the path does not contain anything.
 
-Retrieves the file content from `fullPath` destination and returns a Promise. The Promise will resolve with the file's content with the same type as it was saved with.
+# fs.details(fullPath)
 
-### removeFile(fullPath: string)
+Parameters: [`fullPath`: string]
+Returns: `Promise<FileEntry<any> | DirectoryEntry>`
+Returns an object with details about the file or directory.
 
-Removes the file with the `fullPath` destination from storage and returns a Promise. The Promise will reject when the fullPath doesn't exist or if the destination is not a file.
+Throws an error when the path does not contain anything.
 
-### createDirectory(fullPath: string)
+Example result for `FileEntry<any>` type:
+
+```object
+{
+    type: 'file',
+    name: 'file.txt',
+    directory: 'root',
+    data: 'test 2 content',
+    createdAt: 1626882161631,
+    fullPath: 'root/file.txt'
+}
+```
+
+Example result for `DirectoryEntry` type:
+
+```object
+{
+    isRoot: false,
+    directory: 'root',
+    type: 'directory',
+    name: 'directory',
+    createdAt: 1626882291087,
+    fullPath: 'root/directory'
+}
+```
+
+# fs.writeFile(fullPath, data)
+
+Parameters: [`fullPath`: string, `data`: TData]
+Returns: `Promise<FileEntry<TData>>`
+Writes `data` to the file, replacing the file if it already exists. `data` can be everything that you want.
+
+Throws an error when the destination directory of the file does not exist.
+Throws an error when the path contains a directory with the same name.
+
+Example result for `FileEntry<TData>` type:
+
+```object
+{
+    type: 'file',
+    name: 'file.txt',
+    directory: 'root',
+    data: 'test 2 content',
+    createdAt: 1626882161631,
+    fullPath: 'root/file.txt'
+}
+```
+
+# fs.readFile(fullPath)
+
+Parameters: [`fullPath`: string]
+Returns: `Promise<TData>`
+Reads the entire contents of a file. The returned data type has the same type with which it was saved.
+
+Throws an error when the destination file does not exist.
+Throws an error when the destination file is not a file.
+
+# fs.removeFile(fullPath)
+
+Parameters: [`fullPath`: string]
+Returns: `Promise<void>`
+
+Throws an error when the path does not contain anything.
+Throws an error when the destination file is not a file.
+
+# fs.createDirectory(fullPath)
+
+Parameters: [`fullPath`: string]
+Returns: `Promise<DirectoryEntry>`
 
 Creates a directory at `fullPath` and returns a Promise.
 
-### readDirectory(fullPath: string)
+Throws an error when the destination directory of the directory does not exist.
+Throws an error when the path contains a file with the same name.
 
-Gets the contents of `fullPath` and returns a Promise.
+Example result for `DirectoryEntry` type:
 
-### removeDirectory(fullPath: string)
+```object
+{
+    isRoot: false,
+    directory: 'root',
+    type: 'directory',
+    name: 'directory',
+    createdAt: 1626882291087,
+    fullPath: 'root/directory'
+}
+```
 
-Removes the directory at `fullPath`, recursively removing any files/subdirectories contained within. Returns a Promise that will resolve when the fullPath is removed.
+# fs.readDirectory(fullPath)
+
+Parameters: [`fullPath`: string]
+Returns: `Promise<ReadDirectoryDecoratorOutput>`
+Reads the entire contents of a directory.
+
+Throws an error when the destination directory does not exist.
+Throws an error when the destination directory is not a directory.
+
+Example result for `ReadDirectoryDecoratorOutput` type:
+
+```object
+{
+    files: [],
+    filesCount: 0,
+    isEmpty: true,
+    directories: [],
+    directoriesCount: 0,
+}
+```
+
+# fs.removeDirectory(fullPath)
+
+Parameters: [`fullPath`: string]
+Returns: `Promise<void>`
+Removes the directory, recursively removing any files/subdirectories contained within.
+
+Throws an error when the destination directory does not exist.
+Throws an error when the destination directory is not a directory.
 
 ## License
 
