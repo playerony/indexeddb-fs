@@ -1,3 +1,4 @@
+import { tryCatchWrapper } from '@utils';
 import { formatAndValidateFullPath } from '@core/utils';
 
 import { RemoveDirectoryDecoratorProps } from './remove-directory-decorator.types';
@@ -32,10 +33,7 @@ export const removeDirectoryDecorator = ({
         await removeNestedDirectory(_directory.fullPath);
       }
 
-      try {
-        await remove(_directory.fullPath);
-        // eslint-disable-next-line no-empty
-      } catch {}
+      await tryCatchWrapper(() => remove(_directory.fullPath));
     }
   }
 
