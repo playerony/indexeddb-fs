@@ -1,5 +1,6 @@
 import path from 'path';
 
+import { putDecorator } from '@database';
 import { tryCatchWrapper } from '@utils';
 import { formatAndValidateFullPath } from '@core/utils';
 
@@ -38,21 +39,16 @@ export const createDirectoryDecorator =
       );
     }
 
-    const objectStore = await initializeObjectStore('readwrite');
+    const entry: DirectoryEntry = {
+      directory,
+      isRoot: false,
+      name: basename,
+      createdAt: Date.now(),
+      type: EntryType.DIRECTORY,
+      fullPath: verifiedFullPath,
+    };
 
-    return new Promise((resolve, reject) => {
-      const entry: DirectoryEntry = {
-        directory,
-        isRoot: false,
-        name: basename,
-        createdAt: Date.now(),
-        type: EntryType.DIRECTORY,
-        fullPath: verifiedFullPath,
-      };
+    const put = putDecorator({ initializeObjectStore });
 
-      const request = objectStore.put(entry);
-
-      request.onerror = reject;
-      request.onsuccess = () => resolve(entry);
-    });
+    return put(entry);
   };
