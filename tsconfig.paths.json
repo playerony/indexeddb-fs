@@ -23,6 +23,12 @@
       "@core": [
         "./lib/core"
       ],
+      "@database/*": [
+        "./lib/database/*"
+      ],
+      "@database": [
+        "./lib/database"
+      ],
     }
   }
 }

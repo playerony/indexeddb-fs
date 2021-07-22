@@ -17,11 +17,8 @@ import {
   updateFileDetailsDecorator,
   createRootDirectoryDecorator,
 } from './parts';
-import {
-  isIndexedDBSupport,
-  validateCreateFSProps,
-  initializeObjectStoreDecorator,
-} from '@core/utils';
+import { validateCreateFSProps } from '@core/utils';
+import { isIndexedDBSupport, initializeObjectStoreDecorator } from '@database';
 
 import { AnyFunction, CreateFsProps, CreateFsOutput } from './create-fs.types';
 

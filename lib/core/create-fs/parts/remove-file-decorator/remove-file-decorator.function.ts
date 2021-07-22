@@ -1,3 +1,4 @@
+import { deleteByKeyDecorator } from '@database';
 import { formatAndValidateFullPath } from '@core/utils';
 
 import { RemoveFileDecoratorProps } from './remove-file-decorator.types';
@@ -12,12 +13,7 @@ export const removeFileDecorator =
       throw new Error(`"${verifiedFullPath}" is not a file.`);
     }
 
-    const objectStore = await initializeObjectStore('readwrite');
+    const deleteByKey = deleteByKeyDecorator({ initializeObjectStore });
 
-    return new Promise((resolve, reject) => {
-      const request = objectStore.delete(verifiedFullPath);
-
-      request.onerror = reject;
-      request.onsuccess = () => resolve();
-    });
+    return deleteByKey(verifiedFullPath);
   };
