@@ -28,5 +28,6 @@ export interface CreateFsOutput {
   fileDetails: <TData = any>(fullPath: string) => Promise<FileEntry<TData>>;
   readDirectory: (fullPath: string) => Promise<ReadDirectoryDecoratorOutput>;
   writeFile: <TData = any>(fullPath: string, data: TData) => Promise<FileEntry<TData>>;
+  renameFile: <TData = any>(fullPath: string, newFilename: string) => Promise<FileEntry<TData>>;
   copyFile: <TData = any>(sourcePath: string, destinationPath: string) => Promise<FileEntry<TData>>;
 }

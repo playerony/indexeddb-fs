@@ -1,7 +1,7 @@
 import { createFs } from '@core';
 import { functionImportTest } from '@utils';
 
-import { initializeObjectStoreDecorator } from '@core/utils';
+import { initializeObjectStoreDecorator } from '@database';
 import { createRootDirectoryDecorator } from './create-root-directory-decorator.function';
 
 const { exists, rootDirectoryName } = createFs({

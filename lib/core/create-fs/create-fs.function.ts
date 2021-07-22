@@ -6,6 +6,7 @@ import {
   copyFileDecorator,
   readFileDecorator,
   writeFileDecorator,
+  renameFileDecorator,
   removeFileDecorator,
   isDirectoryDecorator,
   fileDetailsDecorator,
@@ -13,13 +14,11 @@ import {
   createDirectoryDecorator,
   removeDirectoryDecorator,
   directoryDetailsDecorator,
+  updateFileDetailsDecorator,
   createRootDirectoryDecorator,
 } from './parts';
-import {
-  isIndexedDBSupport,
-  validateCreateFSProps,
-  initializeObjectStoreDecorator,
-} from '@core/utils';
+import { validateCreateFSProps } from '@core/utils';
+import { isIndexedDBSupport, initializeObjectStoreDecorator } from '@database';
 
 import { AnyFunction, CreateFsProps, CreateFsOutput } from './create-fs.types';
 
@@ -146,6 +145,21 @@ export function createFs({
     rootDirectoryName,
   });
 
+  const updateFileDetails = updateFileDetailsDecorator({
+    fileDetails,
+    isDirectory,
+    rootDirectoryName,
+    initializeObjectStore,
+  });
+
+  const renameFile = renameFileDecorator({
+    exists,
+    isFile,
+    removeFile,
+    updateFileDetails,
+    rootDirectoryName,
+  });
+
   const createRootDirectory = createRootDirectoryDecorator({
     rootDirectoryName,
     initializeObjectStore,
@@ -184,6 +198,7 @@ export function createFs({
     copyFile: withRootDirectoryCheck(copyFile),
     readFile: withRootDirectoryCheck(readFile),
     writeFile: withRootDirectoryCheck(writeFile),
+    renameFile: withRootDirectoryCheck(renameFile),
     removeFile: withRootDirectoryCheck(removeFile),
     fileDetails: withRootDirectoryCheck(fileDetails),
     isDirectory: withRootDirectoryCheck(isDirectory),
