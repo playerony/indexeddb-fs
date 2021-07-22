@@ -161,7 +161,6 @@ export function createFs({
     removeFile,
     updateFileDetails,
     rootDirectoryName,
-    initializeObjectStore,
   });
 
   const createRootDirectory = createRootDirectoryDecorator({

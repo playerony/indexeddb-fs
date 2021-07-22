@@ -10,5 +10,4 @@ export interface RenameFileDecoratorProps {
   exists: (fullPath: string) => Promise<boolean>;
   isFile: (fullPath: string) => Promise<boolean>;
   removeFile: (fullPath: string) => Promise<void>;
-  initializeObjectStore: (type: IDBTransactionMode) => Promise<IDBObjectStore>;
 }
