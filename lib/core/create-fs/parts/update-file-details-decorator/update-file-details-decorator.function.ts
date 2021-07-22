@@ -1,5 +1,6 @@
 import path from 'path';
 
+import { putDecorator } from '@database';
 import { tryCatchWrapper } from '@utils';
 import { formatAndValidateFullPath } from '@core/utils';
 
@@ -38,14 +39,9 @@ export const updateFileDetailsDecorator =
     }
 
     const existFileDetails = await fileDetails(verifiedFullPath);
-    const objectStore = await initializeObjectStore('readwrite');
+    const concatedFileDetails = { ...existFileDetails, ...newFileEntry };
 
-    return new Promise((resolve, reject) => {
-      const concatedFileDetails = { ...existFileDetails, ...newFileEntry };
+    const put = putDecorator({ initializeObjectStore });
 
-      const request = objectStore.put(concatedFileDetails);
-
-      request.onerror = reject;
-      request.onsuccess = () => resolve(concatedFileDetails);
-    });
+    return put(concatedFileDetails);
   };
