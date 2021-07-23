@@ -16,7 +16,6 @@
         "*.js"
       ],
       "rules": {
-        "consistent-return": "off",
         "no-await-in-loop": "off",
         "no-confusing-arrow": "off",
         "operator-linebreak": "off",
