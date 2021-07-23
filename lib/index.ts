@@ -1,5 +1,5 @@
 import { FileEntry, DirectoryEntry } from '@types';
-import { createFs, CreateFsProps, CreateFsOutput } from '@core';
+import { createFs, CreateFsProps, CreateFsOutput } from '@framework';
 
 export { createFs, FileEntry, DirectoryEntry, CreateFsProps, CreateFsOutput };
 
