@@ -17,11 +17,11 @@
       "@constants": [
         "./lib/constants"
       ],
-      "@core/*": [
-        "./lib/core/*"
+      "@framework/*": [
+        "./lib/framework/*"
       ],
-      "@core": [
-        "./lib/core"
+      "@framework": [
+        "./lib/framework"
       ],
       "@database/*": [
         "./lib/database/*"
