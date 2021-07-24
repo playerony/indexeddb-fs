@@ -30,4 +30,5 @@ export interface CreateFsOutput {
   writeFile: <TData = any>(fullPath: string, data: TData) => Promise<FileEntry<TData>>;
   renameFile: <TData = any>(fullPath: string, newFilename: string) => Promise<FileEntry<TData>>;
   copyFile: <TData = any>(sourcePath: string, destinationPath: string) => Promise<FileEntry<TData>>;
+  moveFile: <TData = any>(sourcePath: string, destinationPath: string) => Promise<FileEntry<TData>>;
 }

@@ -4,6 +4,7 @@ export * from './details-decorator/details-decorator.function';
 export * from './is-file-decorator/is-file-decorator.function';
 export * from './copy-file-decorator/copy-file-decorator.function';
 export * from './read-file-decorator/read-file-decorator.function';
+export * from './move-file-decorator/move-file-decorator.function';
 export * from './write-file-decorator/write-file-decorator.function';
 export * from './rename-file-decorator/rename-file-decorator.function';
 export * from './remove-file-decorator/remove-file-decorator.function';
