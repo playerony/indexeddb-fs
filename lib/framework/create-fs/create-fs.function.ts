@@ -5,6 +5,7 @@ import {
   detailsDecorator,
   copyFileDecorator,
   readFileDecorator,
+  moveFileDecorator,
   writeFileDecorator,
   renameFileDecorator,
   removeFileDecorator,
@@ -152,6 +153,15 @@ export function createFs({
     rootDirectoryName,
   });
 
+  const moveFile = moveFileDecorator({
+    exists,
+    isFile,
+    removeFile,
+    isDirectory,
+    updateFileDetails,
+    rootDirectoryName,
+  });
+
   const renameFile = renameFileDecorator({
     exists,
     isFile,
@@ -183,8 +193,6 @@ export function createFs({
 
   initialize();
 
-  // TODO moveFile
-  // TODO appendFile
   return {
     databaseName,
     databaseVersion,
@@ -196,6 +204,7 @@ export function createFs({
     details: withRootDirectoryCheck(details),
     copyFile: withRootDirectoryCheck(copyFile),
     readFile: withRootDirectoryCheck(readFile),
+    moveFile: withRootDirectoryCheck(moveFile),
     writeFile: withRootDirectoryCheck(writeFile),
     renameFile: withRootDirectoryCheck(renameFile),
     removeFile: withRootDirectoryCheck(removeFile),
