@@ -1,2 +1,4 @@
-export const openIndexedDBConnection = (databaseName: string, version?: number): IDBOpenDBRequest =>
-  indexedDB.open(databaseName, version);
+export const openIndexedDBConnection = (
+  databaseName: string,
+  databaseVersion?: number,
+): IDBOpenDBRequest => indexedDB.open(databaseName, databaseVersion);

@@ -1,4 +1,4 @@
-import { openIndexedDBConnection } from '..';
+import { openIndexedDBConnection } from '@database';
 
 import { InitializeDatabaseProps } from './initialize-database.types';
 
@@ -28,6 +28,16 @@ export const initializeDatabase = ({
   new Promise((resolve, reject) => {
     const request = openIndexedDBConnection(databaseName, databaseVersion);
 
+    request.onerror = reject;
+
+    request.onsuccess = ({ target }: Event) => {
+      const database = getDatabaseObjectFromTarget(target);
+
+      throwDatabaseOpenError(reject, database);
+
+      resolve(database as IDBDatabase);
+    };
+
     request.onupgradeneeded = ({ target }: IDBVersionChangeEvent) => {
       const database = getDatabaseObjectFromTarget(target) as any;
 
@@ -39,14 +49,4 @@ export const initializeDatabase = ({
 
       objectStore.createIndex(OBJECT_STORE_INDEX_NAME, OBJECT_STORE_INDEX_NAME, { unique: false });
     };
-
-    request.onsuccess = ({ target }: Event) => {
-      const database = getDatabaseObjectFromTarget(target);
-
-      throwDatabaseOpenError(reject, database);
-
-      resolve(getDatabaseObjectFromTarget(target) as IDBDatabase);
-    };
-
-    request.onerror = reject;
   });

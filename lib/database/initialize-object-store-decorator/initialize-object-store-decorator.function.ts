@@ -1,4 +1,4 @@
-import { initializeDatabase } from '..';
+import { initializeDatabase } from '@database';
 
 import { InitializeObjectStoreDecoratorProps } from './initialize-object-store-decorator.types';
 
@@ -12,5 +12,6 @@ export const initializeObjectStoreDecorator =
     });
 
     const transaction = database.transaction(objectStoreName, type);
+
     return transaction.objectStore(objectStoreName);
   };
