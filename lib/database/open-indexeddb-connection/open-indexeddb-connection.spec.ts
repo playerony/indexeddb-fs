@@ -1,5 +1,5 @@
 import { functionImportTest } from '@utils';
-import { openIndexedDBConnection } from './open-indexeddb-connection.function';
+import { openIndexedDBConnection } from '@database';
 
 describe('openIndexedDBConnection Function', () => {
   functionImportTest(openIndexedDBConnection);
