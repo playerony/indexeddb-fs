@@ -3,7 +3,7 @@ import { getDatabaseCrud } from '@database';
 
 const { putRecord, getRecord, deleteRecord } = getDatabaseCrud({
   databaseVersion: 1,
-  databaseName: 'getRecord',
+  databaseName: 'deleteRecord',
   objectStoreName: 'objectStoreName',
 });
 

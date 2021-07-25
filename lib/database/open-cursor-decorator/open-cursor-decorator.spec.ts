@@ -3,15 +3,11 @@ import { getDatabaseCrud } from '@database';
 
 const { putRecord, openCursor } = getDatabaseCrud({
   databaseVersion: 1,
-  databaseName: 'getRecord',
+  databaseName: 'openCursor',
   objectStoreName: 'objectStoreName',
 });
 
-const onResolve = ({ result }: IDBRequest, resolve: (value: any) => void) => {
-  if (result) {
-    resolve(result.value);
-  }
-};
+const onResolve = ({ result }: IDBRequest, resolve: (value: any) => void) => resolve(result.value);
 
 describe('openCursor Function', () => {
   functionImportTest(openCursor);
