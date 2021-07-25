@@ -1,5 +1,7 @@
+import { createFs } from '@framework/create-fs.function';
+
 import { FileEntry, DirectoryEntry } from '@types';
-import { createFs, CreateFsProps, CreateFsOutput } from '@framework';
+import { CreateFsProps, CreateFsOutput } from '@framework/create-fs.types';
 
 export { createFs, FileEntry, DirectoryEntry, CreateFsProps, CreateFsOutput };
 
