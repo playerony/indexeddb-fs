@@ -12,12 +12,15 @@ export const updateFileDetailsDecorator =
     newFileEntry: Partial<FileEntry<TData>>,
   ): Promise<FileEntry<TData>> => {
     const verifiedFullPath = formatAndValidateFullPath(fullPath, rootDirectoryName);
+    if (verifiedFullPath === rootDirectoryName) {
+      throw new Error(`Root directory: "${verifiedFullPath}" cannot be updated.`);
+    }
 
     const directory = path.dirname(verifiedFullPath);
     const doesDirectoryExists = await isDirectory(directory);
 
     if (!doesDirectoryExists) {
-      throw new Error(`"${directory}" directory does not exist.`);
+      throw new Error(`"${directory}" is not a directory.`);
     }
 
     const targetIsTypeOfDirectory = await tryCatchWrapper(
@@ -26,9 +29,7 @@ export const updateFileDetailsDecorator =
     );
 
     if (targetIsTypeOfDirectory) {
-      throw new Error(
-        `"${verifiedFullPath}" you cannot update a file with the same name as the directory.`,
-      );
+      throw new Error(`"${verifiedFullPath}" you cannot update a directory.`);
     }
 
     const existFileDetails = await fileDetails(verifiedFullPath);

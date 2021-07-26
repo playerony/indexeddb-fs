@@ -4,6 +4,18 @@ import { createFs } from './create-fs.function';
 describe('createFs Function', () => {
   functionImportTest(createFs);
 
+  it('should throw an error when the browser does not support indexedDB', () => {
+    const copiedIndexedDB = indexedDB;
+
+    // eslint-disable-next-line no-global-assign
+    indexedDB = null as any;
+
+    expect(() => createFs()).toThrowErrorMatchingSnapshot();
+
+    // eslint-disable-next-line no-global-assign
+    indexedDB = copiedIndexedDB;
+  });
+
   describe('fs object creation', () => {
     it('should throw an error when passed configuration is invalid', () => {
       expect(() =>
