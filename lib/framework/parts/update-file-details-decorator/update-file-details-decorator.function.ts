@@ -1,6 +1,4 @@
-import path from 'path';
-
-import { tryCatchWrapper, formatAndValidateFullPath } from '@utils';
+import { tryCatchWrapper, getDirectoryName, formatAndValidateFullPath } from '@utils';
 
 import { FileEntry } from '@types';
 import { UpdateFileDetailsDecoratorProps } from './update-file-details-decorator.types';
@@ -16,7 +14,7 @@ export const updateFileDetailsDecorator =
       throw new Error(`Root directory: "${verifiedFullPath}" cannot be updated.`);
     }
 
-    const directory = path.dirname(verifiedFullPath);
+    const directory = getDirectoryName(verifiedFullPath, rootDirectoryName);
     const doesDirectoryExists = await isDirectory(directory);
 
     if (!doesDirectoryExists) {

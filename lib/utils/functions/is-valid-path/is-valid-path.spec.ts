@@ -23,7 +23,7 @@ describe('isValidPath Function', () => {
     expect(isValidPath(new Date())).toBeFalsy();
   });
 
-  it('should return false when the provided path is invalid', () => {
+  it('should return false when the provided path is an invalid value', () => {
     expect(isValidPath('')).toBeFalsy();
     expect(isValidPath('dir1')).toBeFalsy();
     expect(isValidPath('dir1/')).toBeFalsy();
@@ -55,7 +55,7 @@ describe('isValidPath Function', () => {
     ).toBeFalsy();
   });
 
-  it('should return true when the provided path is valid', () => {
+  it('should return true when the provided path is a valid value', () => {
     expect(isValidPath('C:/dir1/blah.txt')).toBeTruthy();
     expect(isValidPath('dir1/filename.ext')).toBeTruthy();
     expect(isValidPath('dir1/dir2/filename.ext')).toBeTruthy();

@@ -4,7 +4,7 @@ import { CreateFsProps } from '@framework/create-fs.types';
 
 import { createFsPropsSchema } from './validate-create-fs-props.schema';
 
-export function validateCreateFSProps(props: Required<CreateFsProps>): boolean {
+export function validateCreateFsProps(props: Required<CreateFsProps>): boolean {
   const { valid, errors } = validate(props, createFsPropsSchema);
 
   if (valid) {

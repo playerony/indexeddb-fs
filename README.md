@@ -54,6 +54,63 @@ expect(filesCount).toEqual(0);
 expect(directoriesCount).toEqual(0);
 ```
 
+## A bit more complex with copy, move, remove and rename files
+
+```js
+import {
+  isFile,
+  exists,
+  copyFile,
+  moveFile,
+  readFile,
+  writeFile,
+  removeFile,
+  renameFile,
+  fileDetails,
+  readDirectory,
+  createDirectory,
+  removeDirectory,
+  rootDirectoryName,
+} from 'indexeddb-fs';
+
+await createDirectory('files');
+await createDirectory('copied_files');
+await writeFile('files/file.txt', 'content');
+
+await copyFile('files/file.txt', 'copied_files/copied_file.txt');
+
+await expect(isFile('files/file.txt')).resolves.toBeTruthy();
+await expect(isFile('copied_files/copied_file.txt')).resolves.toBeTruthy();
+
+await removeFile('files/file.txt');
+
+await renameFile('copied_files/copied_file.txt', 'file.txt');
+await expect(exists('copied_files/file.txt')).resolves.toBeTruthy();
+await expect(exists('copied_files/copied_file.txt')).resolves.toBeFalsy();
+
+await moveFile('copied_files/file.txt', 'files/file.txt');
+await expect(isFile('files/file.txt')).resolves.toBeTruthy();
+await expect(exists('copied_files/file.txt')).resolves.toBeFalsy();
+
+await moveFile('files/file.txt', 'file.txt');
+await removeDirectory('files');
+await removeDirectory('copied_files');
+
+const { filesCount, directoriesCount } = await readDirectory(rootDirectoryName);
+expect(filesCount).toEqual(1);
+expect(directoriesCount).toEqual(0);
+
+const details = await fileDetails('file.txt');
+
+expect(details.type).toEqual('file');
+expect(details.data).toEqual('content');
+expect(details.name).toEqual('file.txt');
+expect(details.fullPath).toEqual('root/file.txt');
+expect(details.directory).toEqual(rootDirectoryName);
+
+await expect(readFile('file.txt')).resolves.toEqual('content');
+```
+
 ### Custom fs object
 
 ```js

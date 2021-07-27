@@ -4,7 +4,7 @@ import { hasRootDirectoryPrefix } from './has-root-directory-prefix.function';
 describe('hasRootDirectoryPrefix Function', () => {
   functionImportTest(hasRootDirectoryPrefix);
 
-  it('should return false when rootDirectoryName parameter is not a string value', () => {
+  it('should return false when rootDirectoryName value is not a string', () => {
     // @ts-ignore
     expect(hasRootDirectoryPrefix({})).toBeFalsy();
 
@@ -24,7 +24,7 @@ describe('hasRootDirectoryPrefix Function', () => {
     expect(hasRootDirectoryPrefix(new Date())).toBeFalsy();
   });
 
-  it('should return false when fullPath parameter is not a string value', () => {
+  it('should return false when fullPath value is not a string', () => {
     // @ts-ignore
     expect(hasRootDirectoryPrefix('test', {})).toBeFalsy();
 

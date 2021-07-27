@@ -1,6 +1,6 @@
 import path from 'path';
 
-import { formatAndValidateFullPath } from '@utils';
+import { getDirectoryName, formatAndValidateFullPath } from '@utils';
 
 import { FileEntry } from '@types';
 import { MoveFileDecoratorProps } from './move-file-decorator.types';
@@ -23,7 +23,7 @@ export const moveFileDecorator =
       throw new Error(`"${verifiedSourcePath}" source is not a file.`);
     }
 
-    const destinationDirectory = path.dirname(verifiedDestinationPath);
+    const destinationDirectory = getDirectoryName(verifiedDestinationPath, rootDirectoryName);
     const destinationDirectoryIsOfTypeDirectory = await isDirectory(destinationDirectory);
     if (!destinationDirectoryIsOfTypeDirectory) {
       throw new Error(`"${destinationDirectory}" destination directory does not exist.`);

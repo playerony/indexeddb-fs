@@ -2,23 +2,23 @@ import { toMatchSnapshot, functionImportTest } from '@utils';
 
 import { createFsPropsSchema } from './validate-create-fs-props.schema';
 
-import { validateCreateFSProps } from './validate-create-fs-props.function';
+import { validateCreateFsProps } from './validate-create-fs-props.function';
 
-describe('validateCreateFSProps Function', () => {
-  functionImportTest(validateCreateFSProps);
+describe('validateCreateFsProps Function', () => {
+  functionImportTest(validateCreateFsProps);
   toMatchSnapshot(() => createFsPropsSchema);
 
   it('should throw an error when passed value is not an object', () => {
     // @ts-ignore
-    expect(() => validateCreateFSProps(null)).toThrowErrorMatchingSnapshot();
+    expect(() => validateCreateFsProps(null)).toThrowErrorMatchingSnapshot();
   });
 
   it('should require all object fields', () => {
     // @ts-ignore
-    expect(() => validateCreateFSProps({})).toThrowErrorMatchingSnapshot();
+    expect(() => validateCreateFsProps({})).toThrowErrorMatchingSnapshot();
   });
 
-  it('should contain proper validators', () => {
+  it('should validate passed value', () => {
     const props = {
       databaseName: 'd',
       databaseVersion: 1.1,
@@ -26,6 +26,6 @@ describe('validateCreateFSProps Function', () => {
       objectStoreName: '_contain_string_contain_string_contain_string_contain_string',
     };
 
-    expect(() => validateCreateFSProps(props)).toThrowErrorMatchingSnapshot();
+    expect(() => validateCreateFsProps(props)).toThrowErrorMatchingSnapshot();
   });
 });

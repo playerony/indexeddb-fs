@@ -1,6 +1,6 @@
 import path from 'path';
 
-import { tryCatchWrapper, formatAndValidateFullPath } from '@utils';
+import { tryCatchWrapper, getDirectoryName, formatAndValidateFullPath } from '@utils';
 
 import { EntryType, DirectoryEntry } from '@types';
 import { CreateDirectoryDecoratorProps } from './create-directory-decorator.types';
@@ -14,7 +14,7 @@ export const createDirectoryDecorator =
     }
 
     const basename = path.basename(verifiedFullPath);
-    const directory = path.dirname(verifiedFullPath);
+    const directory = getDirectoryName(verifiedFullPath, rootDirectoryName);
 
     const doesDirectoryExists = await isDirectory(directory);
     if (!doesDirectoryExists) {

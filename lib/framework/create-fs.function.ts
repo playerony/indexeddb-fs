@@ -18,7 +18,7 @@ import {
   updateFileDetailsDecorator,
   createRootDirectoryDecorator,
 } from './parts';
-import { validateCreateFSProps } from '@utils';
+import { validateCreateFsProps } from '@utils';
 import { isIndexedDBSupport, getDatabaseCrud } from '@database';
 
 import { AnyFunction, CreateFsProps, CreateFsOutput } from './create-fs.types';
@@ -43,7 +43,7 @@ export function createFs({
   }
 
   function validateProps() {
-    validateCreateFSProps({
+    validateCreateFsProps({
       databaseName,
       objectStoreName,
       databaseVersion,
