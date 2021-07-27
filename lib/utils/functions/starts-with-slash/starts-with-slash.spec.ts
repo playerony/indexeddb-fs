@@ -23,16 +23,16 @@ describe('startsWithSlash Function', () => {
     expect(startsWithSlash(new Date())).toBeFalsy();
   });
 
-  it('should return false when passed parameter is an empty string', () => {
+  it('should return false when passed value is an empty string', () => {
     expect(startsWithSlash('')).toBeFalsy();
   });
 
-  it('should return false when passed parameter does not start with slash', () => {
+  it('should return false when passed value does not start with slash', () => {
     expect(startsWithSlash('123')).toBeFalsy();
     expect(startsWithSlash('test')).toBeFalsy();
   });
 
-  it('should return true when passed parameter starts with slash', () => {
+  it('should return true when passed value starts with slash', () => {
     expect(startsWithSlash('/')).toBeTruthy();
     expect(startsWithSlash('/test')).toBeTruthy();
   });

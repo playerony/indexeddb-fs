@@ -1,6 +1,4 @@
-import path from 'path';
-
-import { formatAndValidateFullPath } from '@utils';
+import { getDirectoryName, formatAndValidateFullPath } from '@utils';
 
 import { FileEntry } from '@types';
 import { RenameFileDecoratorProps } from './rename-file-decorator.types';
@@ -21,7 +19,7 @@ export const renameFileDecorator =
       throw new Error(`"${verifiedFullPath}" is not a file.`);
     }
 
-    const pathDirectory = path.dirname(verifiedFullPath);
+    const pathDirectory = getDirectoryName(verifiedFullPath, rootDirectoryName);
     const newFullPath = `${pathDirectory}/${newFilename}`;
 
     const newFullPathIsAlreadyTaken = await exists(newFullPath);

@@ -1,6 +1,6 @@
 import path from 'path';
 
-import { tryCatchWrapper, formatAndValidateFullPath } from '@utils';
+import { tryCatchWrapper, getDirectoryName, formatAndValidateFullPath } from '@utils';
 
 import { FileEntry, EntryType } from '@types';
 import { WriteFileDecoratorProps } from './write-file-decorator.types';
@@ -14,7 +14,7 @@ export const writeFileDecorator =
     }
 
     const basename = path.basename(verifiedFullPath);
-    const directory = path.dirname(verifiedFullPath);
+    const directory = getDirectoryName(verifiedFullPath, rootDirectoryName);
 
     const doesDirectoryExists = await isDirectory(directory);
     if (!doesDirectoryExists) {

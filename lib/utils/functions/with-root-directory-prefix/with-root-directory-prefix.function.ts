@@ -11,9 +11,9 @@ export function withRootDirectoryPrefix(
   const isRootPrefix = hasRootDirectoryPrefix(fullPath, rootDirectoryName);
 
   if (!isRootPrefix) {
-    const hasFirstSlash = startsWithSlash(fullPath);
+    const withFirstSlash = startsWithSlash(fullPath);
 
-    return `${rootDirectoryName}${hasFirstSlash ? '' : '/'}${fullPath}`;
+    return `${rootDirectoryName}${withFirstSlash ? '' : '/'}${fullPath}`;
   }
 
   return fullPath;

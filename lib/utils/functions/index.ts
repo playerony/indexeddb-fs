@@ -3,6 +3,7 @@ export * from './is-function/is-function.function';
 export * from './is-valid-path/is-valid-path.function';
 export * from './try-catch-wrapper/try-catch-wrapper.function';
 export * from './starts-with-slash/starts-with-slash.function';
+export * from './get-directory-name/get-directory-name.function';
 export * from './validate-create-fs-props/validate-create-fs-props.function';
 export * from './has-root-directory-prefix/has-root-directory-prefix.function';
 export * from './with-root-directory-prefix/with-root-directory-prefix.function';

@@ -17,7 +17,7 @@ describe('tryCatchWrapper Function', () => {
     expect(onError).toHaveBeenCalled();
   });
 
-  it('should resolve promise', async () => {
+  it('should resolve promise when an error does not occur', async () => {
     const func = () =>
       new Promise((resolve) => {
         resolve(5);
