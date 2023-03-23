@@ -7,7 +7,7 @@ describe('createFs Function', () => {
   it('should throw an error when the browser does not support indexedDB', () => {
     const copiedIndexedDB = indexedDB;
 
-    // eslint-disable-next-line no-global-assign
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     indexedDB = null as any;
 
     expect(() => createFs()).toThrowErrorMatchingSnapshot();
@@ -46,7 +46,7 @@ describe('createFs Function', () => {
     });
 
     it('user should be able to remove root directory', async () => {
-      const { exists, writeFile, createDirectory, removeDirectory, rootDirectoryName } = createFs();
+      const { createDirectory, exists, removeDirectory, rootDirectoryName, writeFile } = createFs();
 
       await createDirectory('files');
       await createDirectory('directories');
@@ -62,13 +62,13 @@ describe('createFs Function', () => {
     });
 
     it('user should be able to read root directory', async () => {
-      const { writeFile, readDirectory, createDirectory, rootDirectoryName } = createFs();
+      const { createDirectory, readDirectory, rootDirectoryName, writeFile } = createFs();
 
       await writeFile('/file.txt', 'content');
       await writeFile('root/file1.txt', 'content');
       await createDirectory('example_directory');
 
-      const { isEmpty, filesCount, directoriesCount } = await readDirectory(rootDirectoryName);
+      const { directoriesCount, filesCount, isEmpty } = await readDirectory(rootDirectoryName);
 
       expect(isEmpty).toBeFalsy();
       expect(filesCount).toEqual(2);
@@ -78,14 +78,14 @@ describe('createFs Function', () => {
 
   it('user should be able to create and remove directory with given name', async () => {
     const {
-      isFile,
-      exists,
-      writeFile,
-      isDirectory,
-      readDirectory,
       createDirectory,
+      exists,
+      isDirectory,
+      isFile,
+      readDirectory,
       removeDirectory,
       rootDirectoryName,
+      writeFile,
     } = createFs();
 
     await createDirectory('files');
@@ -103,7 +103,7 @@ describe('createFs Function', () => {
     await expect(exists('files/public/file.txt')).resolves.toBeTruthy();
 
     await removeDirectory(rootDirectoryName);
-    const { filesCount, directoriesCount } = await readDirectory(rootDirectoryName);
+    const { directoriesCount, filesCount } = await readDirectory(rootDirectoryName);
 
     expect(filesCount).toEqual(0);
     expect(directoriesCount).toEqual(0);
@@ -111,19 +111,19 @@ describe('createFs Function', () => {
 
   it('user should be able to move, copy and rename files', async () => {
     const {
-      isFile,
-      exists,
       copyFile,
+      createDirectory,
+      exists,
+      fileDetails,
+      isFile,
       moveFile,
+      readDirectory,
       readFile,
-      writeFile,
+      removeDirectory,
       removeFile,
       renameFile,
-      fileDetails,
-      readDirectory,
-      createDirectory,
-      removeDirectory,
       rootDirectoryName,
+      writeFile,
     } = createFs();
 
     await createDirectory('files');
@@ -149,7 +149,8 @@ describe('createFs Function', () => {
     await removeDirectory('files');
     await removeDirectory('copied_files');
 
-    const { filesCount, directoriesCount } = await readDirectory(rootDirectoryName);
+    const { directoriesCount, filesCount } = await readDirectory(rootDirectoryName);
+
     expect(filesCount).toEqual(1);
     expect(directoriesCount).toEqual(0);
 

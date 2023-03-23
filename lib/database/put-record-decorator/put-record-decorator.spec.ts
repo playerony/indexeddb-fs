@@ -1,7 +1,7 @@
 import { functionImportTest } from '@utils';
 import { getDatabaseCrud } from '@database';
 
-const { putRecord, getRecord } = getDatabaseCrud({
+const { getRecord, putRecord } = getDatabaseCrud({
   databaseVersion: 1,
   databaseName: 'putRecord',
   objectStoreName: 'objectStoreName',
@@ -11,9 +11,7 @@ describe('putRecord Function', () => {
   functionImportTest(putRecord);
 
   it('should throw an error when the operation does not meet requirements', async () => {
-    await expect(putRecord('xD')).rejects.toThrow(
-      'Data provided to an operation does not meet requirements.',
-    );
+    await expect(putRecord('xD')).rejects.toThrow('Data provided to an operation does not meet requirements.');
   });
 
   it('should return added record into the database', async () => {

@@ -1,7 +1,7 @@
 import { functionImportTest } from '@utils';
 import { createFs } from '@framework/create-fs.function';
 
-const { exists, writeFile, readDirectory, removeDirectory, createDirectory } = createFs({
+const { createDirectory, exists, readDirectory, removeDirectory, writeFile } = createFs({
   databaseVersion: 1,
   rootDirectoryName: 'root',
   databaseName: 'removeDirectory',
@@ -22,9 +22,7 @@ describe('removeDirectory Function', () => {
   it('should throw an error when passed path is not a directory', async () => {
     await writeFile('file_as_directory', 'content');
 
-    await expect(removeDirectory('file_as_directory')).rejects.toThrow(
-      '"file_as_directory" is not a directory.',
-    );
+    await expect(removeDirectory('file_as_directory')).rejects.toThrow('"file_as_directory" is not a directory.');
   });
 
   it('should remove files and directories of passed fullPath', async () => {
@@ -42,7 +40,8 @@ describe('removeDirectory Function', () => {
     await removeDirectory('test_directory/folder/foo/foo2');
     await expect(exists('test_directory/folder/foo/foo2')).resolves.toBeFalsy();
 
-    const { files, directories } = await readDirectory('test_directory');
+    const { directories, files } = await readDirectory('test_directory');
+
     expect([...files, ...directories]).toHaveLength(3);
 
     await removeDirectory('test_directory');

@@ -1,7 +1,7 @@
 import { functionImportTest } from '@utils';
 import { createFs } from '@framework/create-fs.function';
 
-const { exists, writeFile, readDirectory, createDirectory } = createFs({
+const { createDirectory, exists, readDirectory, writeFile } = createFs({
   databaseVersion: 1,
   rootDirectoryName: 'root',
   databaseName: 'readDirectory',
@@ -35,9 +35,7 @@ describe('readDirectory Function', () => {
     await writeFile('test_file.txt', 'content');
     await expect(exists('test_file.txt')).resolves.toBeTruthy();
 
-    await expect(readDirectory('test_file.txt')).rejects.toThrow(
-      '"root/test_file.txt" is not a directory.',
-    );
+    await expect(readDirectory('test_file.txt')).rejects.toThrow('"root/test_file.txt" is not a directory.');
   });
 
   it('should return array of found objects', async () => {
@@ -45,9 +43,7 @@ describe('readDirectory Function', () => {
     await writeFile('test_directory/file.txt', 'content');
     await createDirectory('test_directory/folder');
 
-    const { files, directories, filesCount, directoriesCount } = await readDirectory(
-      'test_directory',
-    );
+    const { directories, directoriesCount, files, filesCount } = await readDirectory('test_directory');
 
     expect(filesCount).toEqual(1);
     expect(directoriesCount).toEqual(1);

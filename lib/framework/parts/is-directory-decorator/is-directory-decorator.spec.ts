@@ -1,7 +1,7 @@
 import { functionImportTest } from '@utils';
 import { createFs } from '@framework/create-fs.function';
 
-const { writeFile, isDirectory, createDirectory } = createFs({
+const { createDirectory, isDirectory, writeFile } = createFs({
   databaseVersion: 1,
   rootDirectoryName: 'root',
   databaseName: 'isDirectory',
@@ -16,9 +16,7 @@ describe('isDirectory Function', () => {
   });
 
   it('should throw an error when the user wants to check a directory that does not exist', async () => {
-    await expect(isDirectory('directory')).rejects.toThrow(
-      '"root/directory" directory does not exist.',
-    );
+    await expect(isDirectory('directory')).rejects.toThrow('"root/directory" directory does not exist.');
   });
 
   it('should pass those scenarios', async () => {

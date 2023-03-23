@@ -1,6 +1,6 @@
-import { CreateFsProps } from './create-fs.types';
+import { ICreateFsProps } from './create-fs.types';
 
-export const defaultProps: Required<CreateFsProps> = {
+export const defaultProps: Required<ICreateFsProps> = {
   databaseVersion: 1,
   objectStoreName: 'files',
   rootDirectoryName: 'root',

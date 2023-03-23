@@ -21,27 +21,22 @@ import {
 import { validateCreateFsProps } from '@utils';
 import { isIndexedDBSupport, getDatabaseCrud } from '@database';
 
-import { AnyFunction, CreateFsProps, CreateFsOutput } from './create-fs.types';
+import { AnyFunction, ICreateFsProps, ICreateFsOutput } from './create-fs.types';
 
 import { defaultProps } from './create-fs.defaults';
+
+function checkIndexedDBSupport() {
+  if (!isIndexedDBSupport()) {
+    throw new Error('Your browser does not support indexedDB.');
+  }
+}
 
 export function createFs({
   databaseName = defaultProps.databaseName,
   databaseVersion = defaultProps.databaseVersion,
   objectStoreName = defaultProps.objectStoreName,
   rootDirectoryName = defaultProps.rootDirectoryName,
-}: CreateFsProps = defaultProps): CreateFsOutput {
-  function initialize() {
-    checkIndexedDBSupport();
-    validateProps();
-  }
-
-  function checkIndexedDBSupport() {
-    if (!isIndexedDBSupport()) {
-      throw new Error('Your browser does not support indexedDB.');
-    }
-  }
-
+}: ICreateFsProps = defaultProps): ICreateFsOutput {
   function validateProps() {
     validateCreateFsProps({
       databaseName,
@@ -51,7 +46,12 @@ export function createFs({
     });
   }
 
-  const { getRecord, putRecord, openCursor, deleteRecord } = getDatabaseCrud({
+  function initialize() {
+    checkIndexedDBSupport();
+    validateProps();
+  }
+
+  const { deleteRecord, getRecord, openCursor, putRecord } = getDatabaseCrud({
     databaseName,
     databaseVersion,
     objectStoreName,
@@ -184,11 +184,11 @@ export function createFs({
   }
 
   const withRootDirectoryCheck =
-    <TFunction extends AnyFunction>(func: TFunction) =>
+    <TFunction extends AnyFunction>(callback: TFunction) =>
     async (...args: Parameters<TFunction>) => {
       await createRootDirectoryIfDoesNotExist();
 
-      return func(...args);
+      return callback(...args);
     };
 
   initialize();

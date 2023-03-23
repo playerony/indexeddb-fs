@@ -1,7 +1,7 @@
 import { functionImportTest } from '@utils';
 import { createFs } from '@framework/create-fs.function';
 
-const { isFile, writeFile, createDirectory } = createFs({
+const { createDirectory, isFile, writeFile } = createFs({
   databaseVersion: 1,
   databaseName: 'isFile',
   rootDirectoryName: 'root',

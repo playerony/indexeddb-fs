@@ -1,7 +1,7 @@
 import { functionImportTest } from '@utils';
 import { createFs } from '@framework/create-fs.function';
 
-const { exists, writeFile, renameFile, removeFile } = createFs({
+const { exists, removeFile, renameFile, writeFile } = createFs({
   databaseVersion: 1,
   rootDirectoryName: 'root',
   databaseName: 'renameFile',
@@ -12,15 +12,11 @@ describe('renameFile Function', () => {
   functionImportTest(renameFile);
 
   it('should throw an error when fullPath parameter is invalid', async () => {
-    await expect(renameFile('//invalid path', 'new_file.txt')).rejects.toThrow(
-      '"//invalid path" path is invalid.',
-    );
+    await expect(renameFile('//invalid path', 'new_file.txt')).rejects.toThrow('"//invalid path" path is invalid.');
   });
 
   it('should throw an error when the user tries to rename the file that does not exist', async () => {
-    await expect(renameFile('file.txt', 'root')).rejects.toThrow(
-      '"root/file.txt" file does not exist.',
-    );
+    await expect(renameFile('file.txt', 'root')).rejects.toThrow('"root/file.txt" file does not exist.');
   });
 
   it('should throw an error when target is not a file', async () => {
@@ -30,9 +26,7 @@ describe('renameFile Function', () => {
   it('should throw an error when new filename is already taken', async () => {
     await writeFile('file.txt', 'content');
 
-    await expect(renameFile('file.txt', 'file.txt')).rejects.toThrow(
-      '"root/file.txt" is already taken.',
-    );
+    await expect(renameFile('file.txt', 'file.txt')).rejects.toThrow('"root/file.txt" is already taken.');
 
     await removeFile('file.txt');
   });

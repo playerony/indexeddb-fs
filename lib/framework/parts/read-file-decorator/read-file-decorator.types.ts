@@ -1,5 +1,5 @@
-import { FileEntry } from '@types';
+import { IFileEntry } from '@types';
 
-export interface ReadFileDecoratorProps {
-  fileDetails: <TData = any>(fullPath: string) => Promise<FileEntry<TData>>;
+export interface IReadFileDecoratorProps {
+  fileDetails: <TData = unknown>(fullPath: string) => Promise<IFileEntry<TData>>;
 }

@@ -13,11 +13,6 @@ describe('getDatabaseCrud Function', () => {
 
     expect(databaseCrud).toBeDefined();
 
-    expect(Object.keys(databaseCrud)).toEqual([
-      'getRecord',
-      'putRecord',
-      'openCursor',
-      'deleteRecord',
-    ]);
+    expect(Object.keys(databaseCrud)).toEqual(['getRecord', 'putRecord', 'openCursor', 'deleteRecord']);
   });
 });

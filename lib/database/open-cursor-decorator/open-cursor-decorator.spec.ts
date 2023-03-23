@@ -1,13 +1,13 @@
 import { functionImportTest } from '@utils';
 import { getDatabaseCrud } from '@database';
 
-const { putRecord, openCursor } = getDatabaseCrud({
+const { openCursor, putRecord } = getDatabaseCrud({
   databaseVersion: 1,
   databaseName: 'openCursor',
   objectStoreName: 'objectStoreName',
 });
 
-const onResolve = ({ result }: IDBRequest, resolve: (value: any) => void) => resolve(result.value);
+const onResolve = ({ result }: IDBRequest, resolve: (value: unknown) => void) => resolve(result.value);
 
 describe('openCursor Function', () => {
   functionImportTest(openCursor);

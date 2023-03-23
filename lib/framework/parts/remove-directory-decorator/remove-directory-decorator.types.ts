@@ -1,9 +1,9 @@
-import { ReadDirectoryDecoratorOutput } from '..';
+import { IReadDirectoryDecoratorOutput } from '..';
 
-export interface RemoveDirectoryDecoratorProps {
-  rootDirectoryName: string;
-
-  remove: (fullPath: string) => Promise<void>;
+export interface IRemoveDirectoryDecoratorProps {
   isDirectory: (fullPath: string) => Promise<boolean>;
-  readDirectory: (fullPath: string) => Promise<ReadDirectoryDecoratorOutput>;
+
+  readDirectory: (fullPath: string) => Promise<IReadDirectoryDecoratorOutput>;
+  remove: (fullPath: string) => Promise<void>;
+  rootDirectoryName: string;
 }

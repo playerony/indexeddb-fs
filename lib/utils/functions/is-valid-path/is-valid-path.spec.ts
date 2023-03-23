@@ -44,9 +44,7 @@ describe('isValidPath Function', () => {
     expect(isValidPath('bucket.name//dir//filename.ext')).toBeFalsy();
     expect(isValidPath('/bucket.name//dir//filename.ext')).toBeFalsy();
 
-    expect(
-      isValidPath('bucket.name/dir/filename with spaces!.and_multiple_full_stops.ext'),
-    ).toBeFalsy();
+    expect(isValidPath('bucket.name/dir/filename with spaces!.and_multiple_full_stops.ext')).toBeFalsy();
 
     expect(
       isValidPath(

@@ -1,9 +1,8 @@
-import { FileEntry } from '@types';
+import { IFileEntry } from '@types';
 
-export interface UpdateFileDetailsDecoratorProps {
-  rootDirectoryName: string;
-
+export interface IUpdateFileDetailsDecoratorProps {
+  fileDetails: <TData = unknown>(fullPath: string) => Promise<IFileEntry<TData>>;
   isDirectory: (fullPath: string) => Promise<boolean>;
-  fileDetails: <TData = any>(fullPath: string) => Promise<FileEntry<TData>>;
-  putRecord: <TValue = any>(value: TValue, key?: IDBValidKey) => Promise<TValue>;
+  putRecord: <TValue = unknown>(value: TValue, key?: IDBValidKey) => Promise<TValue>;
+  rootDirectoryName: string;
 }

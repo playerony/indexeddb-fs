@@ -1,23 +1,23 @@
-import babel from '@rollup/plugin-babel';
-import { terser } from 'rollup-plugin-terser';
-import commonjs from '@rollup/plugin-commonjs';
-import typescript from 'rollup-plugin-typescript2';
-import nodePolyfills from 'rollup-plugin-node-polyfills';
-import { nodeResolve } from '@rollup/plugin-node-resolve';
+const babel = require('@rollup/plugin-babel');
+const { terser } = require('rollup-plugin-terser');
+const commonjs = require('@rollup/plugin-commonjs');
+const typescript = require('rollup-plugin-typescript2');
+const polyfills = require('rollup-plugin-polyfill-node');
+const { nodeResolve } = require('@rollup/plugin-node-resolve');
 
 const input = 'lib/index.ts';
 
-export default [
+module.exports = [
   // ES Modules
   {
     input,
     output: {
       format: 'es',
-      exports: 'named',
       file: 'dist/index.es.js',
+      exports: 'named',
     },
     plugins: [
-      nodePolyfills(),
+      polyfills(),
       typescript({
         tsconfig: 'tsconfig.build.json',
         typescript: require('ttypescript'),
@@ -30,24 +30,26 @@ export default [
           },
         },
       }),
-      babel({ extensions: ['.ts'] }),
+      babel({
+        extensions: ['.ts'],
+        babelHelpers: 'bundled',
+      }),
       nodeResolve({ preferBuiltins: false }),
       commonjs(),
     ],
   },
-
   // UMD
   {
     input,
     output: {
       format: 'umd',
-      indent: false,
-      exports: 'named',
-      name: 'indexeddb-fs',
       file: 'dist/index.umd.min.js',
+      name: 'indexeddb-fs',
+      exports: 'named',
+      indent: false,
     },
     plugins: [
-      nodePolyfills(),
+      polyfills(),
       typescript({
         tsconfig: 'tsconfig.build.json',
         typescript: require('ttypescript'),
@@ -60,7 +62,11 @@ export default [
           },
         },
       }),
-      babel({ extensions: ['.ts'], exclude: 'node_modules/**' }),
+      babel({
+        extensions: ['.ts'],
+        babelHelpers: 'bundled',
+        exclude: 'node_modules/**',
+      }),
       terser(),
       nodeResolve({ preferBuiltins: false }),
       commonjs(),

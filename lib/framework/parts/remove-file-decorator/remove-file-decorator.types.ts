@@ -1,6 +1,6 @@
-export interface RemoveFileDecoratorProps {
-  rootDirectoryName: string;
+export interface IRemoveFileDecoratorProps {
+  deleteRecord: (key: IDBValidKey | IDBKeyRange) => Promise<void>;
 
   isFile: (fullPath: string) => Promise<boolean>;
-  deleteRecord: (key: IDBValidKey | IDBKeyRange) => Promise<void>;
+  rootDirectoryName: string;
 }

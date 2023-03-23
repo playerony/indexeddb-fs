@@ -1,7 +1,7 @@
 import { functionImportTest } from '@utils';
 import { getDatabaseCrud } from '@database';
 
-const { putRecord, getRecord, deleteRecord } = getDatabaseCrud({
+const { deleteRecord, getRecord, putRecord } = getDatabaseCrud({
   databaseVersion: 1,
   databaseName: 'deleteRecord',
   objectStoreName: 'objectStoreName',
@@ -20,8 +20,6 @@ describe('deleteRecord Function', () => {
 
     await deleteRecord('fullPath');
 
-    await expect(
-      getRecord('fullPath', ({ result }: IDBRequest) => result),
-    ).resolves.toBeUndefined();
+    await expect(getRecord('fullPath', ({ result }: IDBRequest) => result)).resolves.toBeUndefined();
   });
 });

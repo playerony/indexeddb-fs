@@ -1,9 +1,9 @@
-import { ReadFileDecoratorProps } from './read-file-decorator.types';
+import { IReadFileDecoratorProps } from './read-file-decorator.types';
 
 export const readFileDecorator =
-  ({ fileDetails }: ReadFileDecoratorProps) =>
-  async <TData = any>(fullPath: string): Promise<TData> => {
+  ({ fileDetails }: IReadFileDecoratorProps) =>
+  async <TData = unknown>(fullPath: string): Promise<TData> => {
     const result = await fileDetails(fullPath);
 
-    return result.data;
+    return result.data as TData;
   };

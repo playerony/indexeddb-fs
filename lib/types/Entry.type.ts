@@ -1,20 +1,20 @@
-export enum EntryType {
-  FILE = 'file',
+export enum EEntryType {
   DIRECTORY = 'directory',
+  FILE = 'file',
 }
 
-interface Entry<TType extends EntryType> {
-  type: TType;
-  name: string;
-  fullPath: string;
-  directory: string;
+interface IEntry<TType extends EEntryType> {
   createdAt: number;
+  directory: string;
+  fullPath: string;
+  name: string;
+  type: TType;
 }
 
-export interface FileEntry<TData = any> extends Entry<EntryType.FILE> {
+export interface IFileEntry<TData = unknown> extends IEntry<EEntryType.FILE> {
   data: TData;
 }
 
-export interface DirectoryEntry extends Entry<EntryType.DIRECTORY> {
+export interface IDirectoryEntry extends IEntry<EEntryType.DIRECTORY> {
   isRoot: boolean;
 }

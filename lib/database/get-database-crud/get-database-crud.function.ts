@@ -6,13 +6,13 @@ import {
   initializeObjectStoreDecorator,
 } from '@database';
 
-import { GetDatabaseCrudProps, GetDatabaseCrudOutput } from './get-database-crud.types';
+import { IGetDatabaseCrudProps, IGetDatabaseCrudOutput } from './get-database-crud.types';
 
 export const getDatabaseCrud = ({
   databaseName,
   databaseVersion,
   objectStoreName,
-}: GetDatabaseCrudProps): GetDatabaseCrudOutput => {
+}: IGetDatabaseCrudProps): IGetDatabaseCrudOutput => {
   const initializeObjectStore = initializeObjectStoreDecorator({
     databaseName,
     databaseVersion,

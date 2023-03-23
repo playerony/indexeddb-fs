@@ -1,15 +1,13 @@
 import { tryCatchWrapper, getDirectoryName, formatAndValidateFullPath } from '@utils';
 
-import { FileEntry } from '@types';
-import { UpdateFileDetailsDecoratorProps } from './update-file-details-decorator.types';
+import { IFileEntry } from '@types';
+import { IUpdateFileDetailsDecoratorProps } from './update-file-details-decorator.types';
 
 export const updateFileDetailsDecorator =
-  ({ putRecord, isDirectory, fileDetails, rootDirectoryName }: UpdateFileDetailsDecoratorProps) =>
-  async <TData = any>(
-    fullPath: string,
-    newFileEntry: Partial<FileEntry<TData>>,
-  ): Promise<FileEntry<TData>> => {
+  ({ fileDetails, isDirectory, putRecord, rootDirectoryName }: IUpdateFileDetailsDecoratorProps) =>
+  async <TData = unknown>(fullPath: string, newFileEntry: Partial<IFileEntry<TData>>): Promise<IFileEntry<TData>> => {
     const verifiedFullPath = formatAndValidateFullPath(fullPath, rootDirectoryName);
+
     if (verifiedFullPath === rootDirectoryName) {
       throw new Error(`Root directory: "${verifiedFullPath}" cannot be updated.`);
     }
@@ -33,5 +31,6 @@ export const updateFileDetailsDecorator =
     const existFileDetails = await fileDetails(verifiedFullPath);
     const concatedFileDetails = { ...existFileDetails, ...newFileEntry };
 
+    // @ts-expect-error
     return putRecord(concatedFileDetails);
   };

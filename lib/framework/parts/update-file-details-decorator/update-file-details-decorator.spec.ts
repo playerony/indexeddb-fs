@@ -11,8 +11,7 @@ const { putRecord } = getDatabaseCrud({
   databaseName: 'indexeddb-fs',
 });
 
-const { isDirectory, fileDetails, writeFile, removeFile, createDirectory, removeDirectory } =
-  createFs();
+const { createDirectory, fileDetails, isDirectory, removeDirectory, removeFile, writeFile } = createFs();
 
 const updateFileDetails = updateFileDetailsDecorator({
   putRecord,
@@ -53,9 +52,11 @@ describe('updateFileDetails Function', () => {
   it('should update details about existing file', async () => {
     await createDirectory('files');
     const createdFile = await writeFile('files/file.txt', 'file content');
+
     expect(createdFile.data).toEqual('file content');
 
     const updatedFile = await updateFileDetails('files/file.txt', { data: 'update' });
+
     expect(updatedFile.data).toEqual('update');
 
     expect(createdFile.type).toEqual(updatedFile.type);
