@@ -22,36 +22,38 @@ npm install indexeddb-fs
 ## Super quick start
 
 ```js
-import {
-  isFile,
-  exists,
-  writeFile,
-  isDirectory,
-  readDirectory,
-  createDirectory,
-  removeDirectory,
-  rootDirectoryName,
-} from 'indexeddb-fs';
+import { isFile, writeFile, readDirectory, createDirectory, removeDirectory, rootDirectoryName } from 'indexeddb-fs';
 
-await createDirectory('files');
-await createDirectory('/files/private');
-await createDirectory(`${rootDirectoryName}/files/public`);
+async function createDirectoriesAndFile() {
+  await createDirectory('files');
+  await createDirectory('files/private');
+  await createDirectory(`${rootDirectoryName}/files/public`);
 
-await expect(isDirectory('files')).resolves.toBeTruthy();
-await expect(isDirectory('/files/private')).resolves.toBeTruthy();
-await expect(isDirectory(rootDirectoryName)).resolves.toBeTruthy();
-await expect(isDirectory('root/files/private')).resolves.toBeTruthy();
-await expect(isDirectory(`${rootDirectoryName}/files/private`)).resolves.toBeTruthy();
+  await writeFile('files/public/file.txt', 'content');
+  await isFile('files/public/file.txt');
+}
 
-await writeFile('files/public/file.txt', 'content');
-await expect(isFile('files/public/file.txt')).resolves.toBeTruthy();
-await expect(exists('files/public/file.txt')).resolves.toBeTruthy();
+async function deleteDirectories() {
+  await removeDirectory(rootDirectoryName);
+}
 
-await removeDirectory(rootDirectoryName);
-const { filesCount, directoriesCount } = await readDirectory(rootDirectoryName);
+async function listFilesAndDirectories() {
+  const { files, directories } = await readDirectory(rootDirectoryName);
+  console.log('Files:', files);
+  console.log('Directories:', directories);
+}
 
-expect(filesCount).toEqual(0);
-expect(directoriesCount).toEqual(0);
+async function run() {
+  try {
+    await createDirectoriesAndFile();
+    await listFilesAndDirectories();
+    await deleteDirectories();
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+run();
 ```
 
 ## A bit more complex with copy, move, remove and rename files
@@ -73,42 +75,51 @@ import {
   rootDirectoryName,
 } from 'indexeddb-fs';
 
-await createDirectory('files');
-await createDirectory('copied_files');
-await writeFile('files/file.txt', 'content');
+async function createFile() {
+  await createDirectory('files');
+  await writeFile('files/myfile.txt', 'Hello, world!');
+}
 
-await copyFile('files/file.txt', 'copied_files/copied_file.txt');
+async function readFileContent() {
+  const content = await readFile('files/myfile.txt');
+  console.log(content);
+}
 
-await expect(isFile('files/file.txt')).resolves.toBeTruthy();
-await expect(isFile('copied_files/copied_file.txt')).resolves.toBeTruthy();
+async function copyAndMoveFile() {
+  await createDirectory('copied_files');
+  await copyFile('files/myfile.txt', 'copied_files/copied_file.txt');
+  await moveFile('copied_files/copied_file.txt', 'files/copied_file.txt');
+}
 
-await removeFile('files/file.txt');
+async function deleteFile() {
+  await removeFile('files/myfile.txt');
+}
 
-await renameFile('copied_files/copied_file.txt', 'file.txt');
-await expect(exists('copied_files/file.txt')).resolves.toBeTruthy();
-await expect(exists('copied_files/copied_file.txt')).resolves.toBeFalsy();
+async function listFilesAndDirectories() {
+  const { files, directories } = await readDirectory(rootDirectoryName);
+  console.log('Files:', files);
+  console.log('Directories:', directories);
+}
 
-await moveFile('copied_files/file.txt', 'files/file.txt');
-await expect(isFile('files/file.txt')).resolves.toBeTruthy();
-await expect(exists('copied_files/file.txt')).resolves.toBeFalsy();
+async function getFileDetails() {
+  const details = await fileDetails('files/copied_file.txt');
+  console.log('File Details:', details);
+}
 
-await moveFile('files/file.txt', 'file.txt');
-await removeDirectory('files');
-await removeDirectory('copied_files');
+async function run() {
+  try {
+    await createFile();
+    await readFileContent();
+    await copyAndMoveFile();
+    await deleteFile();
+    await listFilesAndDirectories();
+    await getFileDetails();
+  } catch (error) {
+    console.error(error);
+  }
+}
 
-const { filesCount, directoriesCount } = await readDirectory(rootDirectoryName);
-expect(filesCount).toEqual(1);
-expect(directoriesCount).toEqual(0);
-
-const details = await fileDetails('file.txt');
-
-expect(details.type).toEqual('file');
-expect(details.data).toEqual('content');
-expect(details.name).toEqual('file.txt');
-expect(details.fullPath).toEqual('root/file.txt');
-expect(details.directory).toEqual(rootDirectoryName);
-
-await expect(readFile('file.txt')).resolves.toEqual('content');
+run();
 ```
 
 ### Custom fs object
@@ -144,55 +155,84 @@ import { databaseName, databaseVersion, objectStoreName, rootDirectoryName } fro
 
 - Parameters: [`fullPath`: string]
 - Returns: `Promise<boolean>`
-- Description: Returns true if the path exists, false otherwise.
+- Description: Returns a promise that resolves to `true` if the file or directory at the given `fullPath` exists, and `false` otherwise.
 
 Example of usage:
 
 ```js
-await expect(exists('file.txt')).resolves.toBeFalsy();
+// Check if a file exists
+const fileExists = await exists('path/to/file.txt');
+if (fileExists) {
+  console.log('The file exists!');
+} else {
+  console.log('The file does not exist.');
+}
 
-await writeFile('file.txt', 'test');
-await expect(exists('file.tx')).resolves.toBeFalsy();
-await expect(exists('file.txt')).resolves.toBeTruthy();
-await expect(exists('test/file.tx')).resolves.toBeFalsy();
-
-await remove('file.txt');
-await expect(exists('file.txt')).resolves.toBeFalsy();
+// Check if a directory exists
+const dirExists = await exists('path/to/directory');
+if (dirExists) {
+  console.log('The directory exists!');
+} else {
+  console.log('The directory does not exist.');
+}
 ```
 
 ## fs.remove(fullPath)
 
 - Parameters: [`fullPath`: string]
 - Returns: `Promise<void>`
-- Description: Removes files and directories. It does not remove directories recursively!
-- Throws an error when the path does not contain anything.
+- Description: Removes the file or directory at the given `fullPath`. The method does not remove directories recursively, so it will throw an error if the path is not empty.
 
 Example of usage:
 
 ```js
+// Remove a file
 await writeFile('file1.txt', 'test content');
-
 await remove('file1.txt');
-await expect(exists('file1.txt')).resolves.toBeFalsy();
+await exists('file1.txt').then((result) => {
+  console.log(!result);
+});
+
+// Remove an empty directory
+await createDirectory('directory1');
+await remove('directory1');
+await exists('directory1').then((result) => {
+  console.log(!result);
+});
+
+// Attempt to remove a non-empty directory
+await createDirectory('directory2');
+await writeFile('directory2/file2.txt', 'test content');
+await remove('directory2').catch((error) => {
+  console.error(error.message);
+});
+await exists('directory2').then((result) => {
+  console.log(result);
+});
 ```
 
 ## fs.details(fullPath)
 
 - Parameters: [`fullPath`: string]
 - Returns: `Promise<FileEntry<any> | DirectoryEntry>`
-- Description: Returns an object with details about the file or directory.
+- Description: Returns an object containing details about the file or directory at the given `fullPath`. The object contains the following properties:
+  - `type`: The type of the entry (file or directory).
+  - `name`: The name of the entry.
+  - `directory`: The name of the directory that contains the entry.
+  - `fullPath`: The full path of the entry, including the directory.
 - Throws an error when the path does not contain anything.
 
 Example of usage:
 
 ```js
+// Get details of a newly created directory
 const createdDirectory = await createDirectory('directory');
 const createdDirectoryDetails = await details(createdDirectory.fullPath);
 
-expect(createdDirectoryDetails.type).toEqual('directory');
-expect(createdDirectoryDetails.name).toEqual('directory');
-expect(createdDirectoryDetails.directory).toEqual('root');
-expect(createdDirectoryDetails.fullPath).toEqual('root/directory');
+console.log('Type:', createdDirectoryDetails.type); // directory
+console.log('Name:', createdDirectoryDetails.name); // directory
+console.log('Directory:', createdDirectoryDetails.directory); // root
+console.log('Full Path:', createdDirectoryDetails.fullPath); // root/directory
 ```
 
 Example result for `FileEntry<any>` type:
