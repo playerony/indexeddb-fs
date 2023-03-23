@@ -1,13 +1,13 @@
-import { FileEntry } from '@types';
+import { IFileEntry } from '@types';
 
-export interface RenameFileDecoratorProps {
-  rootDirectoryName: string;
-
-  updateFileDetails: <TData = any>(
-    fullPath: string,
-    newFileEntry: Partial<FileEntry<TData>>,
-  ) => Promise<FileEntry<TData>>;
+export interface IRenameFileDecoratorProps {
   exists: (fullPath: string) => Promise<boolean>;
+
   isFile: (fullPath: string) => Promise<boolean>;
   removeFile: (fullPath: string) => Promise<void>;
+  rootDirectoryName: string;
+  updateFileDetails: <TData = unknown>(
+    fullPath: string,
+    newFileEntry: Partial<IFileEntry<TData>>,
+  ) => Promise<IFileEntry<TData>>;
 }

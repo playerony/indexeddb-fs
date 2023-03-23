@@ -1,2 +1,7 @@
-export const isFunction = (value: any): value is Function =>
-  !!(value && value.constructor && value.call && value.apply);
+export const isFunction = (functionToCheck: unknown): functionToCheck is Function =>
+  !!(
+    typeof functionToCheck === 'function' &&
+    !!functionToCheck.constructor &&
+    !!functionToCheck.call &&
+    !!functionToCheck.apply
+  );

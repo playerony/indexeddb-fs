@@ -1,7 +1,7 @@
 import { functionImportTest } from '@utils';
 import { createFs } from '@framework/create-fs.function';
 
-const { remove, exists, writeFile } = createFs({
+const { exists, remove, writeFile } = createFs({
   databaseVersion: 1,
   databaseName: 'remove',
   rootDirectoryName: 'root',
@@ -16,9 +16,7 @@ describe('remove Function', () => {
   });
 
   it('should throw an error when the user wants to delete a file that does not exist', async () => {
-    await expect(remove('file.txt')).rejects.toThrow(
-      '"root/file.txt" file or directory does not exist.',
-    );
+    await expect(remove('file.txt')).rejects.toThrow('"root/file.txt" file or directory does not exist.');
   });
 
   it('should remove created file in root directory', async () => {

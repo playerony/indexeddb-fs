@@ -1,9 +1,6 @@
 import { startsWithSlash, hasRootDirectoryPrefix } from '@utils';
 
-export function withRootDirectoryPrefix(
-  fullPath: string,
-  rootDirectoryName: string,
-): string | null {
+export function withRootDirectoryPrefix(fullPath: string, rootDirectoryName: string): string | null {
   if (fullPath === '') {
     return rootDirectoryName;
   }

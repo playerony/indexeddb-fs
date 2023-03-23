@@ -1,5 +1,5 @@
-export interface CreateRootDirectoryDecoratorProps {
-  rootDirectoryName: string;
+export interface ICreateRootDirectoryDecoratorProps {
+  putRecord: <TValue = unknown>(value: TValue, key?: IDBValidKey) => Promise<TValue>;
 
-  putRecord: <TValue = any>(value: TValue, key?: IDBValidKey) => Promise<TValue>;
+  rootDirectoryName: string;
 }

@@ -1,3 +1,3 @@
-export interface DeleteRecordDecoratorProps {
+export interface IDeleteRecordDecoratorProps {
   initializeObjectStore: (type: IDBTransactionMode) => Promise<IDBObjectStore>;
 }

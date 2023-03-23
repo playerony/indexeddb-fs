@@ -1,19 +1,18 @@
-import { FileEntry, DirectoryEntry } from '@types';
+import { IFileEntry, IDirectoryEntry } from '@types';
 
-export interface ReadDirectoryDecoratorProps {
-  rootDirectoryName: string;
-
+export interface IReadDirectoryDecoratorProps {
+  isDirectory: (fullPath: string) => Promise<boolean>;
   openCursor: <TValue>(
-    value: any,
+    value: unknown,
     onResolve: (target: IDBRequest, resolve: (value: TValue) => void) => TValue,
   ) => Promise<TValue>;
-  isDirectory: (fullPath: string) => Promise<boolean>;
+  rootDirectoryName: string;
 }
 
-export interface ReadDirectoryDecoratorOutput {
-  isEmpty: boolean;
-  filesCount: number;
+export interface IReadDirectoryDecoratorOutput {
+  directories: IDirectoryEntry[];
   directoriesCount: number;
-  directories: DirectoryEntry[];
-  files: Omit<FileEntry, 'data'>[];
+  files: Omit<IFileEntry, 'data'>[];
+  filesCount: number;
+  isEmpty: boolean;
 }

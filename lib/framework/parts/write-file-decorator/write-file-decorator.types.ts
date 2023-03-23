@@ -1,6 +1,6 @@
-export interface WriteFileDecoratorProps {
-  rootDirectoryName: string;
-
+export interface IWriteFileDecoratorProps {
   isDirectory: (fullPath: string) => Promise<boolean>;
-  putRecord: <TValue = any>(value: TValue, key?: IDBValidKey) => Promise<TValue>;
+
+  putRecord: <TValue = unknown>(value: TValue, key?: IDBValidKey) => Promise<TValue>;
+  rootDirectoryName: string;
 }

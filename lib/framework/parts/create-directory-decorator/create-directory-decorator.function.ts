@@ -2,13 +2,14 @@ import path from 'path';
 
 import { tryCatchWrapper, getDirectoryName, formatAndValidateFullPath } from '@utils';
 
-import { EntryType, DirectoryEntry } from '@types';
-import { CreateDirectoryDecoratorProps } from './create-directory-decorator.types';
+import { EEntryType, IDirectoryEntry } from '@types';
+import { ICreateDirectoryDecoratorProps } from './create-directory-decorator.types';
 
 export const createDirectoryDecorator =
-  ({ isFile, putRecord, isDirectory, rootDirectoryName }: CreateDirectoryDecoratorProps) =>
-  async (fullPath: string): Promise<DirectoryEntry> => {
+  ({ isDirectory, isFile, putRecord, rootDirectoryName }: ICreateDirectoryDecoratorProps) =>
+  async (fullPath: string): Promise<IDirectoryEntry> => {
     const verifiedFullPath = formatAndValidateFullPath(fullPath, rootDirectoryName);
+
     if (verifiedFullPath === rootDirectoryName) {
       throw new Error(`Root directory: "${verifiedFullPath}" already exist.`);
     }
@@ -17,6 +18,7 @@ export const createDirectoryDecorator =
     const directory = getDirectoryName(verifiedFullPath, rootDirectoryName);
 
     const doesDirectoryExists = await isDirectory(directory);
+
     if (!doesDirectoryExists) {
       throw new Error(`"${directory}" is not a directory.`);
     }
@@ -27,17 +29,15 @@ export const createDirectoryDecorator =
     );
 
     if (targetIsTypeOfFile) {
-      throw new Error(
-        `"${verifiedFullPath}" you cannot create a directory with the same name as the file.`,
-      );
+      throw new Error(`"${verifiedFullPath}" you cannot create a directory with the same name as the file.`);
     }
 
-    const entry: DirectoryEntry = {
+    const entry: IDirectoryEntry = {
       directory,
       isRoot: false,
       name: basename,
       createdAt: Date.now(),
-      type: EntryType.DIRECTORY,
+      type: EEntryType.DIRECTORY,
       fullPath: verifiedFullPath,
     };
 

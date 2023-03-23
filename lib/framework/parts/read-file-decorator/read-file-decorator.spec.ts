@@ -1,7 +1,7 @@
 import { functionImportTest } from '@utils';
 import { createFs } from '@framework/create-fs.function';
 
-const { exists, readFile, writeFile, createDirectory } = createFs({
+const { createDirectory, exists, readFile, writeFile } = createFs({
   databaseVersion: 1,
   databaseName: 'readFile',
   rootDirectoryName: 'root',
@@ -17,18 +17,14 @@ describe('readFile Function', () => {
 
   it('should throw an error when the file does not exist', async () => {
     await expect(readFile('file.txt')).rejects.toThrow('"root/file.txt" file does not exist.');
-    await expect(readFile('test/file.txt')).rejects.toThrow(
-      '"root/test/file.txt" file does not exist.',
-    );
+    await expect(readFile('test/file.txt')).rejects.toThrow('"root/test/file.txt" file does not exist.');
   });
 
   it('should throw type error when selected target is not a file', async () => {
     await createDirectory('directory_as_a_file');
     await expect(exists('directory_as_a_file')).resolves.toBeTruthy();
 
-    await expect(readFile('directory_as_a_file')).rejects.toThrow(
-      '"root/directory_as_a_file" is not a file.',
-    );
+    await expect(readFile('directory_as_a_file')).rejects.toThrow('"root/directory_as_a_file" is not a file.');
   });
 
   it('should return content of found file', async () => {

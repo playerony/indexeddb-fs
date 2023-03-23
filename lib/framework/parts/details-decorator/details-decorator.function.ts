@@ -1,21 +1,15 @@
 import { formatAndValidateFullPath } from '@utils';
 
-import { FileEntry, DirectoryEntry } from '@types';
-import { DetailsDecoratorProps } from './details-decorator.types';
+import { IFileEntry, IDirectoryEntry } from '@types';
+import { IDetailsDecoratorProps } from './details-decorator.types';
 
 export const detailsDecorator =
-  ({
-    exists,
-    isFile,
-    isDirectory,
-    fileDetails,
-    directoryDetails,
-    rootDirectoryName,
-  }: DetailsDecoratorProps) =>
-  async (fullPath: string): Promise<FileEntry<any> | DirectoryEntry> => {
+  ({ directoryDetails, exists, fileDetails, isDirectory, isFile, rootDirectoryName }: IDetailsDecoratorProps) =>
+  async (fullPath: string): Promise<IFileEntry<unknown> | IDirectoryEntry> => {
     const verifiedFullPath = formatAndValidateFullPath(fullPath, rootDirectoryName);
 
     const doesTargetExist = await exists(verifiedFullPath);
+
     if (!doesTargetExist) {
       throw new Error(`"${verifiedFullPath}" file or directory does not exist.`);
     }

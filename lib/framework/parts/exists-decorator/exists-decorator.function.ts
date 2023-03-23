@@ -1,11 +1,11 @@
 import { formatAndValidateFullPath } from '@utils';
 
-import { ExistsDecoratorProps } from './exists-decorator.types';
+import { IExistsDecoratorProps } from './exists-decorator.types';
 
 const onResolve = ({ result }: IDBRequest) => Boolean(result?.createdAt);
 
 export const existsDecorator =
-  ({ getRecord, rootDirectoryName }: ExistsDecoratorProps) =>
+  ({ getRecord, rootDirectoryName }: IExistsDecoratorProps) =>
   async (fullPath: string): Promise<boolean> => {
     const verifiedFullPath = formatAndValidateFullPath(fullPath, rootDirectoryName);
 

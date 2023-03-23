@@ -1,11 +1,10 @@
-import { FileEntry, DirectoryEntry } from '@types';
+import { IFileEntry, IDirectoryEntry } from '@types';
 
-export interface DetailsDecoratorProps {
-  rootDirectoryName: string;
-
+export interface IDetailsDecoratorProps {
+  directoryDetails: (fullPath: string) => Promise<IDirectoryEntry>;
   exists: (fullPath: string) => Promise<boolean>;
-  isFile: (fullPath: string) => Promise<boolean>;
+  fileDetails: (fullPath: string) => Promise<IFileEntry<unknown>>;
   isDirectory: (fullPath: string) => Promise<boolean>;
-  fileDetails: (fullPath: string) => Promise<FileEntry<any>>;
-  directoryDetails: (fullPath: string) => Promise<DirectoryEntry>;
+  isFile: (fullPath: string) => Promise<boolean>;
+  rootDirectoryName: string;
 }

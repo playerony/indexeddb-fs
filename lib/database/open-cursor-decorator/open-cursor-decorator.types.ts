@@ -1,3 +1,3 @@
-export interface OpenCursorDecoratorProps {
+export interface IOpenCursorDecoratorProps {
   initializeObjectStore: (type: IDBTransactionMode) => Promise<IDBObjectStore>;
 }

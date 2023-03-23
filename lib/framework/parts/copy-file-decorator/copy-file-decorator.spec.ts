@@ -1,7 +1,7 @@
 import { functionImportTest } from '@utils';
 import { createFs } from '@framework/create-fs.function';
 
-const { copyFile, readFile, writeFile, removeFile, createDirectory, removeDirectory } = createFs({
+const { copyFile, createDirectory, readFile, removeDirectory, removeFile, writeFile } = createFs({
   databaseVersion: 1,
   databaseName: 'copyFile',
   rootDirectoryName: 'root',
@@ -13,23 +13,17 @@ describe('copyFile Function', () => {
 
   describe('paths validation', () => {
     it('should throw an error when sourcePath parameter is invalid', async () => {
-      await expect(copyFile('source path', 'legit')).rejects.toThrow(
-        '"source path" path is invalid.',
-      );
+      await expect(copyFile('source path', 'legit')).rejects.toThrow('"source path" path is invalid.');
     });
 
     it('should throw an error when destinationPath parameter is invalid', async () => {
-      await expect(copyFile('source_path', 'destination path')).rejects.toThrow(
-        '"destination path" path is invalid.',
-      );
+      await expect(copyFile('source_path', 'destination path')).rejects.toThrow('"destination path" path is invalid.');
     });
   });
 
   describe('sourcePath access validation', () => {
     it('should throw an error when does not exist', async () => {
-      await expect(copyFile('file.txt', 'test.txt')).rejects.toThrow(
-        '"root/file.txt" file does not exist.',
-      );
+      await expect(copyFile('file.txt', 'test.txt')).rejects.toThrow('"root/file.txt" file does not exist.');
     });
 
     it('should throw an error when it is not a file', async () => {
@@ -47,9 +41,7 @@ describe('copyFile Function', () => {
     it('should throw an error when the destination directory does not exist', async () => {
       await writeFile('file.txt', 'file content');
 
-      await expect(copyFile('file.txt', 'test/test.txt')).rejects.toThrow(
-        '"root/test" directory does not exist.',
-      );
+      await expect(copyFile('file.txt', 'test/test.txt')).rejects.toThrow('"root/test" directory does not exist.');
 
       await removeFile('file.txt');
     });
@@ -57,9 +49,7 @@ describe('copyFile Function', () => {
     it('should throw an error when the destination point is already taken', async () => {
       await writeFile('file.txt', 'content');
 
-      await expect(copyFile('file.txt', 'file.txt')).rejects.toThrow(
-        '"root/file.txt" is already taken.',
-      );
+      await expect(copyFile('file.txt', 'file.txt')).rejects.toThrow('"root/file.txt" is already taken.');
 
       await removeFile('file.txt');
     });

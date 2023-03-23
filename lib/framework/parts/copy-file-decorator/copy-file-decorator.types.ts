@@ -1,11 +1,10 @@
-import { FileEntry } from '@types';
+import { IFileEntry } from '@types';
 
-export interface CopyFileDecoratorProps {
-  rootDirectoryName: string;
-
+export interface ICopyFileDecoratorProps {
   exists: (fullPath: string) => Promise<boolean>;
-  isFile: (fullPath: string) => Promise<boolean>;
+  fileDetails: <TData = unknown>(fullPath: string) => Promise<IFileEntry<TData>>;
   isDirectory: (fullPath: string) => Promise<boolean>;
-  fileDetails: <TData = any>(fullPath: string) => Promise<FileEntry<TData>>;
-  writeFile: <TData = any>(fullPath: string, data: TData) => Promise<FileEntry<TData>>;
+  isFile: (fullPath: string) => Promise<boolean>;
+  rootDirectoryName: string;
+  writeFile: <TData = unknown>(fullPath: string, data: TData) => Promise<IFileEntry<TData>>;
 }

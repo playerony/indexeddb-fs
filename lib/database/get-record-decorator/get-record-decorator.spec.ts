@@ -1,7 +1,7 @@
 import { functionImportTest } from '@utils';
 import { getDatabaseCrud } from '@database';
 
-const { putRecord, getRecord } = getDatabaseCrud({
+const { getRecord, putRecord } = getDatabaseCrud({
   databaseVersion: 1,
   databaseName: 'getRecord',
   objectStoreName: 'objectStoreName',

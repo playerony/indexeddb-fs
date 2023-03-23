@@ -1,3 +1,3 @@
-export interface GetRecordDecoratorProps {
+export interface IGetRecordDecoratorProps {
   initializeObjectStore: (type: IDBTransactionMode) => Promise<IDBObjectStore>;
 }

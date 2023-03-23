@@ -1,11 +1,11 @@
-import { OpenCursorDecoratorProps } from './open-cursor-decorator.types';
+import { IOpenCursorDecoratorProps } from './open-cursor-decorator.types';
 
 import { OBJECT_STORE_INDEX_NAME } from '@constants';
 
 export const openCursorDecorator =
-  ({ initializeObjectStore }: OpenCursorDecoratorProps) =>
+  ({ initializeObjectStore }: IOpenCursorDecoratorProps) =>
   async <TValue>(
-    value: any,
+    value: unknown,
     onResolve: (target: IDBRequest, resolve: (value: TValue) => void) => TValue,
   ): Promise<TValue> => {
     const objectStore = await initializeObjectStore('readonly');

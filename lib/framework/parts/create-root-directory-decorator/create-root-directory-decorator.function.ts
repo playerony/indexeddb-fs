@@ -1,14 +1,14 @@
-import { EntryType, DirectoryEntry } from '@types';
-import { CreateRootDirectoryDecoratorProps } from './create-root-directory-decorator.types';
+import { EEntryType, IDirectoryEntry } from '@types';
+import { ICreateRootDirectoryDecoratorProps } from './create-root-directory-decorator.types';
 
 export const createRootDirectoryDecorator =
-  ({ putRecord, rootDirectoryName }: CreateRootDirectoryDecoratorProps) =>
-  async (): Promise<DirectoryEntry | null> => {
-    const entry: DirectoryEntry = {
+  ({ putRecord, rootDirectoryName }: ICreateRootDirectoryDecoratorProps) =>
+  async (): Promise<IDirectoryEntry | null> => {
+    const entry: IDirectoryEntry = {
       isRoot: true,
       createdAt: Date.now(),
       name: rootDirectoryName,
-      type: EntryType.DIRECTORY,
+      type: EEntryType.DIRECTORY,
       fullPath: rootDirectoryName,
       directory: rootDirectoryName,
     };

@@ -1,11 +1,8 @@
-import { GetRecordDecoratorProps } from './get-record-decorator.types';
+import { IGetRecordDecoratorProps } from './get-record-decorator.types';
 
 export const getRecordDecorator =
-  ({ initializeObjectStore }: GetRecordDecoratorProps) =>
-  async <TValue>(
-    query: IDBValidKey | IDBKeyRange,
-    onResolve: (target: IDBRequest) => TValue,
-  ): Promise<TValue> => {
+  ({ initializeObjectStore }: IGetRecordDecoratorProps) =>
+  async <TValue>(query: IDBValidKey | IDBKeyRange, onResolve: (target: IDBRequest) => TValue): Promise<TValue> => {
     const objectStore = await initializeObjectStore('readonly');
 
     return new Promise((resolve, reject) => {

@@ -1,7 +1,7 @@
 import { functionImportTest } from '@utils';
 import { createFs } from '@framework/create-fs.function';
 
-const { writeFile, removeFile, removeDirectory, createDirectory } = createFs({
+const { createDirectory, removeDirectory, removeFile, writeFile } = createFs({
   databaseVersion: 1,
   databaseName: 'writeFile',
   rootDirectoryName: 'root',
@@ -12,15 +12,11 @@ describe('writeFile Function', () => {
   functionImportTest(writeFile);
 
   it('should throw an error when fullPath parameter is invalid', async () => {
-    await expect(writeFile('test//test2 ', 'content')).rejects.toThrow(
-      '"test//test2 " path is invalid.',
-    );
+    await expect(writeFile('test//test2 ', 'content')).rejects.toThrow('"test//test2 " path is invalid.');
   });
 
   it('should throw an error when the user tries to create a root directory as a file', async () => {
-    await expect(writeFile('root', 'root')).rejects.toThrow(
-      'Root directory: "root" cannot be a file.',
-    );
+    await expect(writeFile('root', 'root')).rejects.toThrow('Root directory: "root" cannot be a file.');
   });
 
   it('should throw an error when user wants to create a file in a folder that does not exist', async () => {

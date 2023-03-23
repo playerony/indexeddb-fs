@@ -1,7 +1,7 @@
-import { DeleteRecordDecoratorProps } from './delete-record-decorator.types';
+import { IDeleteRecordDecoratorProps } from './delete-record-decorator.types';
 
 export const deleteRecordDecorator =
-  ({ initializeObjectStore }: DeleteRecordDecoratorProps) =>
+  ({ initializeObjectStore }: IDeleteRecordDecoratorProps) =>
   async (key: IDBValidKey | IDBKeyRange): Promise<void> => {
     const objectStore = await initializeObjectStore('readwrite');
 

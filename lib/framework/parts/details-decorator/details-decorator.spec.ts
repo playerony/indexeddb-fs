@@ -1,7 +1,7 @@
 import { functionImportTest } from '@utils';
 import { createFs } from '@framework/create-fs.function';
 
-const { details, writeFile, createDirectory } = createFs({
+const { createDirectory, details, writeFile } = createFs({
   databaseVersion: 1,
   databaseName: 'details',
   rootDirectoryName: 'root',
@@ -16,13 +16,9 @@ describe('details Function', () => {
   });
 
   it('should throw an error when the file or directory does not exist', async () => {
-    await expect(details('file.txt')).rejects.toThrow(
-      '"root/file.txt" file or directory does not exist.',
-    );
+    await expect(details('file.txt')).rejects.toThrow('"root/file.txt" file or directory does not exist.');
 
-    await expect(details('test/file.txt')).rejects.toThrow(
-      '"root/test/file.txt" file or directory does not exist.',
-    );
+    await expect(details('test/file.txt')).rejects.toThrow('"root/test/file.txt" file or directory does not exist.');
   });
 
   it('should return details about file', async () => {

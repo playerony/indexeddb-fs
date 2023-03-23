@@ -1,19 +1,17 @@
 import { tryCatchWrapper, formatAndValidateFullPath } from '@utils';
 
-import { RemoveDirectoryDecoratorProps } from './remove-directory-decorator.types';
+import { IRemoveDirectoryDecoratorProps } from './remove-directory-decorator.types';
 
 export const removeDirectoryDecorator = ({
-  remove,
   isDirectory,
   readDirectory,
+  remove,
   rootDirectoryName,
-}: RemoveDirectoryDecoratorProps) => {
+}: IRemoveDirectoryDecoratorProps) => {
   async function removeNestedDirectory(fullPath: string): Promise<void> {
     const verifiedFullPath = formatAndValidateFullPath(fullPath, rootDirectoryName);
 
-    const { files, filesCount, directories, directoriesCount } = await readDirectory(
-      verifiedFullPath,
-    );
+    const { directories, directoriesCount, files, filesCount } = await readDirectory(verifiedFullPath);
 
     if (filesCount > 0) {
       for (const _file of files) {
@@ -38,6 +36,7 @@ export const removeDirectoryDecorator = ({
 
   return async function removeDirectory(fullPath: string): Promise<void> {
     const targetIsOfTypeDirectory = await isDirectory(fullPath);
+
     if (!targetIsOfTypeDirectory) {
       throw new Error(`"${fullPath}" is not a directory.`);
     }

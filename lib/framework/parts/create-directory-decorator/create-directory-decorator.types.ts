@@ -1,7 +1,6 @@
-export interface CreateDirectoryDecoratorProps {
-  rootDirectoryName: string;
-
-  isFile: (fullPath: string) => Promise<boolean>;
+export interface ICreateDirectoryDecoratorProps {
   isDirectory: (fullPath: string) => Promise<boolean>;
-  putRecord: <TValue = any>(value: TValue, key?: IDBValidKey) => Promise<TValue>;
+  isFile: (fullPath: string) => Promise<boolean>;
+  putRecord: <TValue = unknown>(value: TValue, key?: IDBValidKey) => Promise<TValue>;
+  rootDirectoryName: string;
 }

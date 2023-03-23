@@ -1,7 +1,7 @@
 import { functionImportTest } from '@utils';
 import { createFs } from '@framework/create-fs.function';
 
-const { exists, writeFile, removeFile, createDirectory } = createFs({
+const { createDirectory, exists, removeFile, writeFile } = createFs({
   databaseVersion: 1,
   rootDirectoryName: 'root',
   databaseName: 'removeFile',
@@ -27,9 +27,7 @@ describe('removeFile Function', () => {
     await createDirectory('directory_as_a_file');
     await expect(exists('directory_as_a_file')).resolves.toBeTruthy();
 
-    await expect(removeFile('directory_as_a_file')).rejects.toThrow(
-      '"root/directory_as_a_file" is not a file.',
-    );
+    await expect(removeFile('directory_as_a_file')).rejects.toThrow('"root/directory_as_a_file" is not a file.');
   });
 
   it('should remove created file in root directory', async () => {

@@ -1,33 +1,31 @@
 import { formatAndValidateFullPath } from '@utils';
 
-import {
-  ReadDirectoryDecoratorProps,
-  ReadDirectoryDecoratorOutput,
-} from './read-directory-decorator.types';
-import { FileEntry, EntryType, DirectoryEntry } from '@types';
+import { IReadDirectoryDecoratorProps, IReadDirectoryDecoratorOutput } from './read-directory-decorator.types';
+import { IFileEntry, EEntryType, IDirectoryEntry } from '@types';
 
 export const readDirectoryDecorator =
-  ({ openCursor, isDirectory, rootDirectoryName }: ReadDirectoryDecoratorProps) =>
-  async (fullPath: string): Promise<ReadDirectoryDecoratorOutput> => {
+  ({ isDirectory, openCursor, rootDirectoryName }: IReadDirectoryDecoratorProps) =>
+  async (fullPath: string): Promise<IReadDirectoryDecoratorOutput> => {
     const verifiedFullPath = formatAndValidateFullPath(fullPath, rootDirectoryName);
 
     const targetIsOfTypeDirectory = await isDirectory(fullPath);
+
     if (!targetIsOfTypeDirectory) {
       throw new Error(`"${verifiedFullPath}" is not a directory.`);
     }
 
-    const foundFiles: FileEntry[] = [];
-    const foundDirectories: DirectoryEntry[] = [];
+    const foundFiles: IFileEntry[] = [];
+    const foundDirectories: IDirectoryEntry[] = [];
 
-    const onResolve = ({ result }: IDBRequest, resolve: (value: any) => void) => {
+    const onResolve = ({ result }: IDBRequest, resolve: (value: unknown) => void) => {
       if (result) {
         const { value } = result;
 
-        if (value.type === EntryType.FILE) {
+        if (value.type === EEntryType.FILE) {
           const { data, ...restProps } = value;
 
           foundFiles.push(restProps);
-        } else if (value.type === EntryType.DIRECTORY && !value.isRoot) {
+        } else if (value.type === EEntryType.DIRECTORY && !value.isRoot) {
           foundDirectories.push(value);
         }
 
@@ -47,5 +45,6 @@ export const readDirectoryDecorator =
       }
     };
 
+    // @ts-expect-error
     return openCursor(verifiedFullPath, onResolve);
   };

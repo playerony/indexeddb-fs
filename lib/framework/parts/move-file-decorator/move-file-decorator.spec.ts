@@ -1,7 +1,7 @@
 import { functionImportTest } from '@utils';
 import { createFs } from '@framework/create-fs.function';
 
-const { exists, moveFile, readFile, writeFile, createDirectory } = createFs({
+const { createDirectory, exists, moveFile, readFile, writeFile } = createFs({
   databaseVersion: 1,
   databaseName: 'moveFile',
   rootDirectoryName: 'root',
@@ -13,23 +13,17 @@ describe('moveFile Function', () => {
 
   describe('paths validation', () => {
     it('should throw an error when sourcePath parameter is invalid', async () => {
-      await expect(moveFile('source path', 'legit')).rejects.toThrow(
-        '"source path" path is invalid.',
-      );
+      await expect(moveFile('source path', 'legit')).rejects.toThrow('"source path" path is invalid.');
     });
 
     it('should throw an error when destinationPath parameter is invalid', async () => {
-      await expect(moveFile('source_path', 'destination path')).rejects.toThrow(
-        '"destination path" path is invalid.',
-      );
+      await expect(moveFile('source_path', 'destination path')).rejects.toThrow('"destination path" path is invalid.');
     });
   });
 
   describe('sourcePath access validation', () => {
     it('should throw an error when does not exist', async () => {
-      await expect(moveFile('file.txt', 'test.txt')).rejects.toThrow(
-        '"root/file.txt" file does not exist.',
-      );
+      await expect(moveFile('file.txt', 'test.txt')).rejects.toThrow('"root/file.txt" file does not exist.');
     });
 
     it('should throw an error when it is not a file', async () => {
@@ -45,9 +39,7 @@ describe('moveFile Function', () => {
     it('should throw an error when the destination directory does not exist', async () => {
       await writeFile('file.txt', 'file content');
 
-      await expect(moveFile('file.txt', 'test/test.txt')).rejects.toThrow(
-        '"root/test" directory does not exist.',
-      );
+      await expect(moveFile('file.txt', 'test/test.txt')).rejects.toThrow('"root/test" directory does not exist.');
     });
 
     it('should throw an error when the destination point is already taken', async () => {

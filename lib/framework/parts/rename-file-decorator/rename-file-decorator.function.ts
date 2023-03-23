@@ -1,20 +1,15 @@
 import { getDirectoryName, formatAndValidateFullPath } from '@utils';
 
-import { FileEntry } from '@types';
-import { RenameFileDecoratorProps } from './rename-file-decorator.types';
+import { IFileEntry } from '@types';
+import { IRenameFileDecoratorProps } from './rename-file-decorator.types';
 
 export const renameFileDecorator =
-  ({
-    isFile,
-    exists,
-    removeFile,
-    updateFileDetails,
-    rootDirectoryName,
-  }: RenameFileDecoratorProps) =>
-  async <TData = any>(fullPath: string, newFilename: string): Promise<FileEntry<TData>> => {
+  ({ exists, isFile, removeFile, rootDirectoryName, updateFileDetails }: IRenameFileDecoratorProps) =>
+  async <TData = unknown>(fullPath: string, newFilename: string): Promise<IFileEntry<TData>> => {
     const verifiedFullPath = formatAndValidateFullPath(fullPath, rootDirectoryName);
 
     const sourceIsOfTypeFile = await isFile(verifiedFullPath);
+
     if (!sourceIsOfTypeFile) {
       throw new Error(`"${verifiedFullPath}" is not a file.`);
     }
@@ -23,11 +18,12 @@ export const renameFileDecorator =
     const newFullPath = `${pathDirectory}/${newFilename}`;
 
     const newFullPathIsAlreadyTaken = await exists(newFullPath);
+
     if (newFullPathIsAlreadyTaken) {
       throw new Error(`"${newFullPath}" is already taken.`);
     }
 
-    const updatedFileDetails = await updateFileDetails(verifiedFullPath, {
+    const updatedFileDetails = await updateFileDetails<TData>(verifiedFullPath, {
       name: newFilename,
       fullPath: newFullPath,
     });

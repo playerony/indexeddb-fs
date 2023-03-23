@@ -1,9 +1,9 @@
 import { initializeDatabase } from '@database';
 
-import { InitializeObjectStoreDecoratorProps } from './initialize-object-store-decorator.types';
+import { IInitializeObjectStoreDecoratorProps } from './initialize-object-store-decorator.types';
 
 export const initializeObjectStoreDecorator =
-  ({ databaseName, databaseVersion, objectStoreName }: InitializeObjectStoreDecoratorProps) =>
+  ({ databaseName, databaseVersion, objectStoreName }: IInitializeObjectStoreDecoratorProps) =>
   async (type: IDBTransactionMode): Promise<IDBObjectStore> => {
     const database = await initializeDatabase({
       databaseName,
