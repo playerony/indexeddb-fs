@@ -18,10 +18,10 @@
     "/dist"
   ],
   "scripts": {
-    "build": "npm run build:clean && npm run build:dist",
+    "build": "yarn build:clean && yarn build:dist",
     "build:clean": "rimraf dist",
     "build:dist": "rollup -c",
-    "check": "npm run lint && npm run typecheck && npm run test",
+    "check": "yarn lint && yarn typecheck && yarn test",
     "commitlint": "commitlint -- --from=main",
     "format": "prettier --write \"lib/**/*\"",
     "lint": "eslint \"./lib/**/*\"",
