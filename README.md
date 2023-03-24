@@ -1,6 +1,6 @@
 # indexeddb-fs
 
-An **fs** kind of library dedicated to the browser. **indexeddb-fs** is a module that allows you to store data in the browser using an API similar to that of Node's [fs module](http://nodejs.org/api/fs.html). It works based on a browser database called [IndexedDB](http://www.w3.org/TR/IndexedDB/).
+An **fs** library for the browser that lets you store data using an API similar to Node's [fs module](http://nodejs.org/api/fs.html). It's powered by [IndexedDB](http://www.w3.org/TR/IndexedDB/), a browser database.
 
 [![npm](https://img.shields.io/npm/v/indexeddb-fs.svg)](https://www.npmjs.com/package/indexeddb-fs)
 ![types](https://img.shields.io/badge/types-typescript%20%7C%20flow-blueviolet)
@@ -11,7 +11,7 @@ An **fs** kind of library dedicated to the browser. **indexeddb-fs** is a module
 
 ## Motivation
 
-Any other solutions I've found didn't work correctly. Problems I've found was about not enough validation and also directories were not being created.
+Other solutions I found didn't work well. They lacked validation and didn't create directories properly.
 
 ## Installation
 
@@ -19,107 +19,93 @@ Any other solutions I've found didn't work correctly. Problems I've found was ab
 npm install indexeddb-fs
 ```
 
-## Super quick start
+## A simple example of how you can use indexeddb-fs
 
 ```js
-import { isFile, writeFile, readDirectory, createDirectory, removeDirectory, rootDirectoryName } from 'indexeddb-fs';
+import { isDirectory, createDirectory, writeFile, readFile, removeDirectory } from 'indexeddb-fs';
 
-async function createDirectoriesAndFile() {
-  await createDirectory('files');
-  await createDirectory('files/private');
-  await createDirectory(`${rootDirectoryName}/files/public`);
+async function main() {
+  // Check if a directory exists
+  const directoryExists = await isDirectory('my_directory');
 
-  await writeFile('files/public/file.txt', 'content');
-  await isFile('files/public/file.txt');
-}
-
-async function deleteDirectories() {
-  await removeDirectory(rootDirectoryName);
-}
-
-async function listFilesAndDirectories() {
-  const { files, directories } = await readDirectory(rootDirectoryName);
-  console.log('Files:', files);
-  console.log('Directories:', directories);
-}
-
-async function run() {
-  try {
-    await createDirectoriesAndFile();
-    await listFilesAndDirectories();
-    await deleteDirectories();
-  } catch (error) {
-    console.error(error);
+  // Create a new directory if it doesn't exist
+  if (!directoryExists) {
+    await createDirectory('my_directory');
   }
+
+  // Write data to a file
+  const content = 'Hello, world!';
+  await writeFile('my_directory/my_file.txt', content);
+
+  // Read data from the file
+  const readContent = await readFile('my_directory/my_file.txt');
+  console.log(readContent); // "Hello, world!"
+
+  // Remove the directory and all files within it
+  await removeDirectory('my_directory');
 }
 
-run();
+main();
 ```
 
-## A bit more complex with copy, move, remove and rename files
+## A more complex example that demonstrates the use of all the functions
 
 ```js
 import {
   isFile,
+  isDirectory,
   exists,
+  writeFile,
   copyFile,
   moveFile,
   readFile,
-  writeFile,
-  removeFile,
   renameFile,
-  fileDetails,
+  removeFile,
   readDirectory,
   createDirectory,
   removeDirectory,
-  rootDirectoryName,
 } from 'indexeddb-fs';
 
-async function createFile() {
-  await createDirectory('files');
-  await writeFile('files/myfile.txt', 'Hello, world!');
+async function main() {
+  // Create a new directory and subdirectories
+  await createDirectory('my_directory');
+  await createDirectory('my_directory/subdirectory');
+  await createDirectory('my_directory/another_subdirectory');
+
+  // Write some content to a file
+  const content = 'Hello, world!';
+  await writeFile('my_directory/my_file.txt', content);
+
+  // Check if a file exists and if it's a file
+  const fileExists = await exists('my_directory/my_file.txt');
+  const isAFile = await isFile('my_directory/my_file.txt');
+
+  console.log('File exists:', fileExists); // true
+  console.log('Is a file:', isAFile); // true
+
+  // Copy the file to a new location
+  await copyFile('my_directory/my_file.txt', 'my_directory/another_subdirectory/my_file_copy.txt');
+
+  // Rename and move the original file to a new location
+  await renameFile('my_directory/my_file.txt', 'my_directory/new_file_name.txt');
+  await moveFile('my_directory/new_file_name.txt', 'my_directory/subdirectory/new_location.txt');
+
+  // Read the contents of a directory and count the number of files and subdirectories
+  const { filesCount, directoriesCount } = await readDirectory('my_directory');
+
+  console.log('Number of files:', filesCount); // 0
+  console.log('Number of subdirectories:', directoriesCount); // 2
+
+  // Remove the directory and all files within it
+  await removeDirectory('my_directory');
+
+  // Read the contents of the copied file
+  const copiedFileContent = await readFile('my_directory/another_subdirectory/my_file_copy.txt');
+
+  console.log('Copied file content:', copiedFileContent); // "Hello, world!"
 }
 
-async function readFileContent() {
-  const content = await readFile('files/myfile.txt');
-  console.log(content);
-}
-
-async function copyAndMoveFile() {
-  await createDirectory('copied_files');
-  await copyFile('files/myfile.txt', 'copied_files/copied_file.txt');
-  await moveFile('copied_files/copied_file.txt', 'files/copied_file.txt');
-}
-
-async function deleteFile() {
-  await removeFile('files/myfile.txt');
-}
-
-async function listFilesAndDirectories() {
-  const { files, directories } = await readDirectory(rootDirectoryName);
-  console.log('Files:', files);
-  console.log('Directories:', directories);
-}
-
-async function getFileDetails() {
-  const details = await fileDetails('files/copied_file.txt');
-  console.log('File Details:', details);
-}
-
-async function run() {
-  try {
-    await createFile();
-    await readFileContent();
-    await copyAndMoveFile();
-    await deleteFile();
-    await listFilesAndDirectories();
-    await getFileDetails();
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-run();
+main();
 ```
 
 ### Custom fs object
@@ -135,21 +121,24 @@ const fs = createFs({
 });
 ```
 
-# API
+# Api
 
-- All methods return a Promise. Unfortunately, indexedDB is not a synchronous API :(
-- Every function returns an error when an error occurs.
-- The Promise will be rejected with an `Error` object.
+- All methods in indexeddb-fs return a Promise since IndexedDB is an asynchronous API.
+- Each method can reject the returned Promise with an `Error` object when an error occurs.
+- It's important to handle errors appropriately in your code to ensure your application is robust and doesn't break unexpectedly.
 
-# FIELDS
+# Fields
 
-The created object contains all configuration fields you have passed as a configuration. It is also the way you can get access to default values.
+The indexeddb-fs library contains several configuration fields that can be accessed after importing the library. These fields include:
 
-```js
-import { databaseName, databaseVersion, objectStoreName, rootDirectoryName } from 'indexeddb-fs';
-```
+- `databaseName`: the name of the IndexedDB database used by the library.
+- `databaseVersion`: the version number of the IndexedDB database used by the library.
+- `objectStoreName`: the name of the object store used by the library to store data.
+- `rootDirectoryName`: the name of the root directory used by the library.
 
-# COMMON
+To access these fields, import them from the `indexeddb-fs` module as shown in the example code above. These fields contain configuration information for the library and can also be used to access default values.
+
+# Common functions
 
 ## fs.exists(fullPath)
 
@@ -261,7 +250,7 @@ Example result for `DirectoryEntry` type:
 }
 ```
 
-# FILES
+# File functions
 
 ## fs.isFile(fullPath)
 
@@ -501,7 +490,7 @@ Example result for `FileEntry<TData>` type:
 }
 ```
 
-# DIRECTORY
+# Directory functions
 
 ## fs.isDirectory(fullPath)
 
