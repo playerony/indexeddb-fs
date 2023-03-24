@@ -267,23 +267,36 @@ Example result for `DirectoryEntry` type:
 
 - Parameters: [`fullPath`: string]
 - Returns: `Promise<boolean>`
-- Description: Returns true if the path contains a file, false otherwise.
-- Throws an error when the path does not contain anything.
+- Description: Returns a promise that resolves to `true` if a file exists at the given `fullPath`, and `false` otherwise. If the path does not contain anything, an error is thrown.
 
 Example of usage:
 
 ```js
+import { createDirectory, isFile, writeFile } from 'indexeddb-fs';
+
+// Create directories for testing
 await createDirectory('files');
 await createDirectory('directories');
 
-await expect(isFile('files')).resolves.toBeFalsy();
-await expect(isFile('directories')).resolves.toBeFalsy();
+// Check if directories are files
+await isFile('files').then((result) => {
+  console.log(result);
+});
+await isFile('directories').then((result) => {
+  console.log(result);
+});
 
+// Create a file and check if it is a file
 await writeFile('file', 'content');
-await expect(isFile('file')).resolves.toBeTruthy();
+await isFile('file').then((result) => {
+  console.log(result);
+});
 
+// Create a file in the 'files' directory and check if it is a file
 await writeFile('files/file', 'content');
-await expect(isFile('files/file')).resolves.toBeTruthy();
+await isFile('files/file').then((result) => {
+  console.log(result);
+});
 ```
 
 Example result for `FileEntry<TData>` type:
@@ -303,21 +316,22 @@ Example result for `FileEntry<TData>` type:
 
 - Parameters: [`fullPath`: string, `data`: TData]
 - Returns: `Promise<FileEntry<TData>>`
-- Description: Writes `data` to the file, replacing the file if it already exists. `data` can be everything that you want.
-- Throws an error when the destination directory of the file does not exist.
-- Throws an error when the path contains a directory with the same name.
+- Description: Writes `data` to the file specified by `fullPath`, replacing the file if it already exists. The `data` parameter can be any data you want to write to the file, and is usually a string or an object that can be serialized to JSON. The method returns a promise that resolves to a `FileEntry` object representing the file that was written.
+- Throws an error when the destination directory of the file does not exist. This can happen if the path to the file contains one or more directories that do not exist yet. You can use the `createDirectory` method to create the missing directories.
+- Throws an error when the path contains a directory with the same name as the file. For example, if a directory named "file.txt" exists, you cannot create a file with the same name in the same directory.
 
 Example of usage:
 
 ```js
-await createDirectory('test2');
-const result = await writeFile('file3.txt', { test: 'object' });
+import { createDirectory, writeFile } from 'indexeddb-fs';
 
-expect(result.type).toEqual('file');
-expect(result.name).toEqual('file3.txt');
-expect(result.directory).toEqual('root');
-expect(result.data).toEqual({ test: 'object' });
-expect(result.fullPath).toEqual('root/file3.txt');
+// Create a directory to write the file to
+await createDirectory('my_directory');
+
+// Write some data to a file
+const fileEntry = await writeFile('my_directory/my_file.txt', 'Hello, world!');
+
+console.log(fileEntry); // FileEntry object representing the file that was written
 ```
 
 Example result for `FileEntry<TData>` type:
@@ -337,78 +351,75 @@ Example result for `FileEntry<TData>` type:
 
 - Parameters: [`fullPath`: string]
 - Returns: `Promise<FileEntry<TData>>`
-- Description: Returns an object with details about the file.
-- Throws an error when the path does not contain anything.
-- Throws an error when the destination file is not a file.
+- Description: Returns a promise that resolves to a `FileEntry` object containing details about the file specified by `fullPath`. The `FileEntry` object includes information such as the file's name, size, modification date, and type. If the file does not exist, or if the path contains directories that do not exist, the method will throw an error.
+- Throws an error when the path does not contain anything. This can happen if the `fullPath` parameter is an empty string or `null`.
+- Throws an error when the destination file is not a file. For example, if the path points to a directory, the method will throw an error.
 
 Example of usage:
 
 ```js
-const createdFile = await writeFile('file.txt', 'test 2 content');
-const createdFileDetails = await fileDetails(createdFile.fullPath);
+import { fileDetails } from 'indexeddb-fs';
 
-expect(createdFileDetails.type).toEqual('file');
-expect(createdFileDetails.name).toEqual('file.txt');
-expect(createdFileDetails.directory).toEqual('root');
-expect(createdFileDetails.data).toEqual('test 2 content');
-expect(createdFileDetails.fullPath).toEqual('root/file.txt');
+// Get details about a file
+const fileEntry = await fileDetails('my_directory/my_file.txt');
+
+console.log(fileEntry); // FileEntry object representing the file
 ```
 
 ## fs.readFile(fullPath)
 
 - Parameters: [`fullPath`: string]
 - Returns: `Promise<TData>`
-- Description: Reads the entire contents of a file. The returned data type has the same type with which it was saved.
-- Throws an error when the destination file does not exist.
-- Throws an error when the destination file is not a file.
+- Description: Returns a promise that resolves to the contents of the file specified by `fullPath`. The returned data type is the same type with which it was saved. For example, if the file was saved as a string using the `writeFile` method, the returned data type will also be a string. If the file was saved as an object using the `writeFile` method, the returned data type will also be an object.
+- Throws an error when the destination file does not exist. This can happen if the file was deleted or if the `fullPath` parameter points to a file that does not exist yet.
+- Throws an error when the destination file is not a file. For example, if the path points to a directory, the method will throw an error.
 
 Example of usage:
 
 ```js
-const file = await writeFile('file.txt', 'test 2 content');
+import { readFile } from 'indexeddb-fs';
 
-await expect(readFile(file.fullPath)).resolves.toEqual('test 2 content');
+// Read the contents of a file
+const fileContents = await readFile('my_directory/my_file.txt');
+
+console.log(fileContents); // Contents of the file
 ```
 
 ## fs.removeFile(fullPath)
 
 - Parameters: [`fullPath`: string]
 - Returns: `Promise<void>`
-- Description: Removes a file.
-- Throws an error when the path does not contain anything.
-- Throws an error when the destination file is not a file.
+- Description: Removes the file specified by `fullPath`. The method returns a promise that resolves once the file has been successfully removed.
+- Throws an error when the path does not contain anything. This can happen if the `fullPath` parameter is an empty string or `null`.
+- Throws an error when the destination file is not a file. For example, if the path points to a directory, the method will throw an error.
 
 Example of usage:
 
 ```js
-await writeFile('file1.txt', 'test content');
+import { removeFile } from 'indexeddb-fs';
 
-await removeFile('file1.txt');
-await expect(exists('file1.txt')).resolves.toBeFalsy();
+// Remove a file
+await removeFile('my_directory/my_file.txt');
 ```
 
 ## fs.renameFile(fullPath, newFilename)
 
 - Parameters: [`fullPath`: string, `newFilename`: string]
 - Returns: `Promise<FileEntry<TData>>`
-- Description: Rename file at `fullPath` to the new filename provided as `newFilename`.
-- Throws an error when the path does not contain anything.
-- Throws an error when the `fullPath` is not a file.
-- Throws an error when the `fullPath` with a `newFilename` is already taken.
+- Description: Renames the file specified by `fullPath` to the new filename provided as `newFilename`. The method returns a promise that resolves to a `FileEntry` object representing the renamed file.
+- Throws an error when the path does not contain anything. This can happen if the `fullPath` parameter is an empty string or `null`.
+- Throws an error when the `fullPath` is not a file. For example, if the path points to a directory, the method will throw an error.
+- Throws an error when the `fullPath` with a `newFilename` is already taken. For example, if a file named `newFilename` already exists in the same directory as the original file, the method will throw an error.
 
 Example of usage:
 
 ```js
-const writtenFile = await writeFile('test_file.txt', 'content');
-const renamedFile = await renameFile('test_file.txt', 'renamed_file.txt');
+import { renameFile } from 'indexeddb-fs';
 
-await expect(exists('test_file.txt')).resolves.toBeFalsy();
-await expect(exists('renamed_file.txt')).resolves.toBeTruthy();
+// Rename a file
+const renamedFile = await renameFile('my_directory/my_file.txt', 'new_file.txt');
 
-expect(writtenFile.data).toEqual(renamedFile.data);
-expect(writtenFile.type).toEqual(renamedFile.type);
-expect(writtenFile.createdAt).toEqual(renamedFile.createdAt);
-expect(writtenFile.directory).toEqual(renamedFile.directory);
+console.log(renamedFile); // FileEntry object representing the renamed file
 ```
 
 Example result for `FileEntry<TData>` type:
@@ -428,21 +439,20 @@ Example result for `FileEntry<TData>` type:
 
 - Parameters: [`fullPath`: string, `destinationPath`: string]
 - Returns: `Promise<FileEntry<TData>>`
-- Description: Copy file at `fullPath` to `destinationPath` and return `destinationPath` record.
-- Throws an error when the path does not contain anything.
-- Throws an error when the `fullPath` is not a file.
-- Throws an error when the `destinationPath` is already taken.
+- Description: Copies the file specified by `fullPath` to the destination path specified by `destinationPath`. The method returns a promise that resolves to a `FileEntry` object representing the copied file at the new `destinationPath`.
+- Throws an error when the path does not contain anything. This can happen if the `fullPath` or `destinationPath` parameters are empty strings or `null`.
+- Throws an error when the `fullPath` is not a file. For example, if the path points to a directory, the method will throw an error.
+- Throws an error when the `destinationPath` is already taken. For example, if a file or directory already exists at the `destinationPath`, the method will throw an error.
 
 Example of usage:
 
 ```js
-await createDirectory('copied_files');
-await writeFile('root_file.txt', 'root file content');
+import { copyFile } from 'indexeddb-fs';
 
-await copyFile('root_file.txt', 'copied_files/file.txt');
+// Copy a file
+const copiedFile = await copyFile('my_directory/my_file.txt', 'my_directory/copied_file.txt');
 
-await expect(readFile('root_file.txt')).resolves.toEqual('root file content');
-await expect(readFile('copied_files/file.txt')).resolves.toEqual('root file content');
+console.log(copiedFile); // FileEntry object representing the copied file
 ```
 
 Example result for `FileEntry<TData>` type:
@@ -462,21 +472,20 @@ Example result for `FileEntry<TData>` type:
 
 - Parameters: [`fullPath`: string, `destinationPath`: string]
 - Returns: `Promise<FileEntry<TData>>`
-- Description: Move file at `fullPath` to `destinationPath` and return `destinationPath` record.
-- Throws an error when the path does not contain anything.
-- Throws an error when the `fullPath` is not a file.
-- Throws an error when the `destinationPath` is already taken.
+- Description: Moves the file specified by `fullPath` to the destination path specified by `destinationPath`. The method returns a promise that resolves to a `FileEntry` object representing the moved file at the new `destinationPath`.
+- Throws an error when the path does not contain anything. This can happen if the `fullPath` or `destinationPath` parameters are empty strings or `null`.
+- Throws an error when the `fullPath` is not a file. For example, if the path points to a directory, the method will throw an error.
+- Throws an error when the `destinationPath` is already taken. For example, if a file or directory already exists at the `destinationPath`, the method will throw an error.
 
 Example of usage:
 
 ```js
-await createDirectory('moved_files');
-await writeFile('root_file.txt', 'root file content');
+import { moveFile } from 'indexeddb-fs';
 
-await moveFile('root_file.txt', 'moved_files/file.txt');
+// Move a file
+const movedFile = await moveFile('my_directory/my_file.txt', 'my_directory/moved_file.txt');
 
-await expect(exists('root_file.txt')).resolves.toBeFalsy();
-await expect(readFile('moved_files/file.txt')).resolves.toEqual('root file content');
+console.log(movedFile); // FileEntry object representing the moved file
 ```
 
 Example result for `FileEntry<TData>` type:
