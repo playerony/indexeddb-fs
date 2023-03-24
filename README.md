@@ -507,50 +507,37 @@ Example result for `FileEntry<TData>` type:
 
 - Parameters: [`fullPath`: string]
 - Returns: `Promise<boolean>`
-- Description: Returns true if the path contains a directory, false otherwise.
-- Throws an error when the path does not contain anything.
+- Description: Returns `true` if the path specified by `fullPath` contains a directory, `false` otherwise.
+- Throws an error when the path does not contain anything. This can happen if the `fullPath` parameter is an empty string or `null`.
 
 Example of usage:
 
 ```js
-await createDirectory('files');
-await createDirectory('directories');
+import { isDirectory } from 'indexeddb-fs';
 
-await expect(isDirectory('files')).resolves.toBeTruthy();
-await expect(isDirectory('directories')).resolves.toBeTruthy();
+// Check if a path is a directory
+const isDirectory = await isDirectory('my_directory');
 
-await writeFile('file', 'content');
-await expect(isDirectory('file')).resolves.toBeFalsy();
-
-await writeFile('files/file', 'content');
-await expect(isDirectory('files/file')).resolves.toBeFalsy();
-await expect(isDirectory('files')).resolves.toBeTruthy();
+console.log(isDirectory); // true if 'my_directory' is a directory, false otherwise
 ```
 
 ## fs.createDirectory(fullPath)
 
 - Parameters: [`fullPath`: string]
 - Returns: `Promise<DirectoryEntry>`
-- Description: Creates a directory at `fullPath` and returns a Promise.
-- Throws an error when the destination directory of the directory does not exist.
-- Throws an error when the path contains a file with the same name.
+- Description: Creates a new directory at the path specified by `fullPath` and returns a Promise that resolves to a `DirectoryEntry` object representing the new directory.
+- Throws an error when the destination directory of the directory does not exist. For example, if the `fullPath` parameter specifies a nested directory structure, the method will throw an error if any of the parent directories do not already exist.
+- Throws an error when the path contains a file with the same name. For example, if a file called `'my_directory'` already exists in the specified path, the method will throw an error.
 
 Example of usage:
 
 ```js
-const resultForTest1 = await createDirectory('test2');
-expect(resultForTest1.isRoot).toBeFalsy();
-expect(resultForTest1.name).toEqual('test2');
-expect(resultForTest1.type).toEqual('directory');
-expect(resultForTest1.directory).toEqual('root');
-expect(resultForTest1.fullPath).toEqual('root/test2');
+import { createDirectory } from 'indexeddb-fs';
 
-const resultForTest2 = await createDirectory('test2/test3');
-expect(resultForTest2.isRoot).toBeFalsy();
-expect(resultForTest2.name).toEqual('test3');
-expect(resultForTest2.type).toEqual('directory');
-expect(resultForTest2.directory).toEqual('root/test2');
-expect(resultForTest2.fullPath).toEqual('root/test2/test3');
+// Create a new directory
+const newDirectory = await createDirectory('my_directory');
+
+console.log(newDirectory); // DirectoryEntry object representing the new directory
 ```
 
 Example result for `DirectoryEntry` type:
@@ -570,31 +557,20 @@ Example result for `DirectoryEntry` type:
 
 - Parameters: [`fullPath`: string]
 - Returns: `Promise<ReadDirectoryDecoratorOutput>`
-- Description: Reads the entire contents of a directory.
-- Throws an error when the destination directory does not exist.
-- Throws an error when the destination directory is not a directory.
+- Description: Reads the entire contents of the directory specified by `fullPath` and returns a Promise that resolves to an object containing an array of `DirectoryEntry` and `FileEntry` objects representing the contents of the directory, as well as a count of the number of directories and files in the directory.
+- Throws an error when the destination directory does not exist. For example, if the `fullPath` parameter specifies a nested directory structure, the method will throw an error if any of the parent directories do not exist.
+- Throws an error when the destination directory is not a directory. For example, if the `fullPath` parameter specifies a file rather than a directory, the method will throw an error.
 
 Example of usage:
 
 ```js
-await createDirectory('test_directory');
-await writeFile('test_directory/file.txt', 'content');
-await createDirectory('test_directory/folder');
+import { readDirectory } from 'indexeddb-fs';
 
-const { files, directories, filesCount, directoriesCount } = await readDirectory('test_directory');
+// Read the contents of a directory
+const directoryContents = await readDirectory('my_directory');
 
-expect(filesCount).toEqual(1);
-expect(directoriesCount).toEqual(1);
-
-expect(files[0].type).toEqual('file');
-expect(files[0].name).toEqual('file.txt');
-expect(files[0].directory).toEqual('root/test_directory');
-expect(files[0].fullPath).toEqual('root/test_directory/file.txt');
-
-expect(directories[0].name).toEqual('folder');
-expect(directories[0].type).toEqual('directory');
-expect(directories[0].directory).toEqual('root/test_directory');
-expect(directories[0].fullPath).toEqual('root/test_directory/folder');
+console.log(directoryContents);
+// { files: [...], directories: [...], filesCount: 2, directoriesCount: 1 }
 ```
 
 Example result for `ReadDirectoryDecoratorOutput` type:
@@ -613,21 +589,20 @@ Example result for `ReadDirectoryDecoratorOutput` type:
 
 - Parameters: [`fullPath`: string]
 - Returns: `Promise<DirectoryEntry>`
-- Description: Returns an object with details about the directory.
-- Throws an error when the path does not contain anything.
-- Throws an error when the destination directory is not a directory.
+- Description: Returns an object with details about the directory specified by `fullPath`. The method returns a Promise that resolves to a `DirectoryEntry` object representing the directory.
+- Throws an error when the path does not contain anything. For example, if the `fullPath` parameter is an empty string or undefined, the method will throw an error.
+- Throws an error when the destination directory is not a directory. For example, if the `fullPath` parameter specifies a file rather than a directory, the method will throw an error.
 
 Example of usage:
 
 ```js
-const createdDirectory = await createDirectory('directory');
-const createdDirectoryDetails = await directoryDetails(createdDirectory.fullPath);
+import { directoryDetails } from 'indexeddb-fs';
 
-expect(createdDirectoryDetails.isRoot).toBeFalsy();
-expect(createdDirectoryDetails.directory).toEqual('root');
-expect(createdDirectoryDetails.type).toEqual('directory');
-expect(createdDirectoryDetails.name).toEqual('directory');
-expect(createdDirectoryDetails.fullPath).toEqual('root/directory');
+// Get details about a directory
+const directory = await directoryDetails('my_directory');
+
+console.log(directory);
+// DirectoryEntry object representing the directory
 ```
 
 Example result for `DirectoryEntry` type:
@@ -647,34 +622,19 @@ Example result for `DirectoryEntry` type:
 
 - Parameters: [`fullPath`: string]
 - Returns: `Promise<void>`
-- Description: Removes the directory, recursively removing any files/subdirectories contained within.
-- Throws an error when the destination directory does not exist.
-- Throws an error when the destination directory is not a directory.
+- Description: Removes the directory specified by `fullPath`, recursively removing any files/subdirectories contained within. The method returns a Promise that resolves once the directory has been removed.
+- Throws an error when the destination directory does not exist. For example, if the `fullPath` parameter specifies a nested directory structure, the method will throw an error if any of the parent directories do not exist.
+- Throws an error when the destination directory is not a directory. For example, if the `fullPath` parameter specifies a file rather than a directory, the method will throw an error.
 
 Example of usage:
 
 ```js
-await createDirectory('test_directory');
-await writeFile('test_directory/file.txt', 'content');
-await createDirectory('test_directory/foo');
-await createDirectory('test_directory/folder');
-await createDirectory('test_directory/folder/foo');
-await createDirectory('test_directory/folder/foo/foo2');
-await createDirectory('test_directory/folder/foo/foo2/foo5');
-await createDirectory('test_directory/folder/foo/foo2/foo3');
-await createDirectory('test_directory/folder/foo/foo2/file.txt');
-await createDirectory('test_directory/folder/foo/foo2/foo3/foo4');
+import { removeDirectory } from 'indexeddb-fs';
 
-await removeDirectory('test_directory/folder/foo/foo2');
-await expect(exists('test_directory/folder/foo/foo2')).resolves.toBeFalsy();
-
-const { files, directories } = await readDirectory('test_directory');
-expect([...files, ...directories]).toHaveLength(3);
-
-await removeDirectory('test_directory');
-await expect(exists('test_directory')).resolves.toBeFalsy();
+// Remove a directory
+await removeDirectory('my_directory');
 ```
 
 # License
 
-MIT
+This project is licensed under the MIT License - see the LICENSE file for details.
