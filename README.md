@@ -22,27 +22,27 @@ npm install indexeddb-fs
 ## A simple example of how you can use indexeddb-fs
 
 ```js
-import { isDirectory, createDirectory, writeFile, readFile, removeDirectory } from 'indexeddb-fs';
+import fs from 'indexeddb-fs';
 
 async function main() {
   // Check if a directory exists
-  const directoryExists = await isDirectory('my_directory');
+  const directoryExists = await fs.isDirectory('my_directory');
 
   // Create a new directory if it doesn't exist
   if (!directoryExists) {
-    await createDirectory('my_directory');
+    await fs.createDirectory('my_directory');
   }
 
   // Write data to a file
   const content = 'Hello, world!';
-  await writeFile('my_directory/my_file.txt', content);
+  await fs.writeFile('my_directory/my_file.txt', content);
 
   // Read data from the file
-  const readContent = await readFile('my_directory/my_file.txt');
+  const readContent = await fs.readFile('my_directory/my_file.txt');
   console.log(readContent); // "Hello, world!"
 
   // Remove the directory and all files within it
-  await removeDirectory('my_directory');
+  await fs.removeDirectory('my_directory');
 }
 
 main();
@@ -51,56 +51,43 @@ main();
 ## A more complex example that demonstrates the use of all the functions
 
 ```js
-import {
-  isFile,
-  isDirectory,
-  exists,
-  writeFile,
-  copyFile,
-  moveFile,
-  readFile,
-  renameFile,
-  removeFile,
-  readDirectory,
-  createDirectory,
-  removeDirectory,
-} from 'indexeddb-fs';
+import fs from 'indexeddb-fs';
 
 async function main() {
   // Create a new directory and subdirectories
-  await createDirectory('my_directory');
-  await createDirectory('my_directory/subdirectory');
-  await createDirectory('my_directory/another_subdirectory');
+  await fs.createDirectory('my_directory');
+  await fs.createDirectory('my_directory/subdirectory');
+  await fs.createDirectory('my_directory/another_subdirectory');
 
   // Write some content to a file
   const content = 'Hello, world!';
-  await writeFile('my_directory/my_file.txt', content);
+  await fs.writeFile('my_directory/my_file.txt', content);
 
   // Check if a file exists and if it's a file
-  const fileExists = await exists('my_directory/my_file.txt');
-  const isAFile = await isFile('my_directory/my_file.txt');
+  const fileExists = await fs.exists('my_directory/my_file.txt');
+  const isAFile = await fs.isFile('my_directory/my_file.txt');
 
   console.log('File exists:', fileExists); // true
   console.log('Is a file:', isAFile); // true
 
   // Copy the file to a new location
-  await copyFile('my_directory/my_file.txt', 'my_directory/another_subdirectory/my_file_copy.txt');
+  await fs.copyFile('my_directory/my_file.txt', 'my_directory/another_subdirectory/my_file_copy.txt');
 
   // Rename and move the original file to a new location
-  await renameFile('my_directory/my_file.txt', 'my_directory/new_file_name.txt');
-  await moveFile('my_directory/new_file_name.txt', 'my_directory/subdirectory/new_location.txt');
+  await fs.renameFile('my_directory/my_file.txt', 'my_directory/new_file_name.txt');
+  await fs.moveFile('my_directory/new_file_name.txt', 'my_directory/subdirectory/new_location.txt');
 
   // Read the contents of a directory and count the number of files and subdirectories
-  const { filesCount, directoriesCount } = await readDirectory('my_directory');
+  const { filesCount, directoriesCount } = await fs.readDirectory('my_directory');
 
   console.log('Number of files:', filesCount); // 0
   console.log('Number of subdirectories:', directoriesCount); // 2
 
   // Remove the directory and all files within it
-  await removeDirectory('my_directory');
+  await fs.removeDirectory('my_directory');
 
   // Read the contents of the copied file
-  const copiedFileContent = await readFile('my_directory/another_subdirectory/my_file_copy.txt');
+  const copiedFileContent = await fs.readFile('my_directory/another_subdirectory/my_file_copy.txt');
 
   console.log('Copied file content:', copiedFileContent); // "Hello, world!"
 }
@@ -150,7 +137,7 @@ Example of usage:
 
 ```js
 // Check if a file exists
-const fileExists = await exists('path/to/file.txt');
+const fileExists = await fs.exists('path/to/file.txt');
 if (fileExists) {
   console.log('The file exists!');
 } else {
@@ -158,7 +145,7 @@ if (fileExists) {
 }
 
 // Check if a directory exists
-const dirExists = await exists('path/to/directory');
+const dirExists = await fs.exists('path/to/directory');
 if (dirExists) {
   console.log('The directory exists!');
 } else {
@@ -176,26 +163,26 @@ Example of usage:
 
 ```js
 // Remove a file
-await writeFile('file1.txt', 'test content');
-await remove('file1.txt');
-await exists('file1.txt').then((result) => {
+await fs.writeFile('file1.txt', 'test content');
+await fs.remove('file1.txt');
+await fs.exists('file1.txt').then((result) => {
   console.log(!result);
 });
 
 // Remove an empty directory
-await createDirectory('directory1');
-await remove('directory1');
-await exists('directory1').then((result) => {
+await fs.createDirectory('directory1');
+await fs.remove('directory1');
+await fs.exists('directory1').then((result) => {
   console.log(!result);
 });
 
 // Attempt to remove a non-empty directory
-await createDirectory('directory2');
-await writeFile('directory2/file2.txt', 'test content');
-await remove('directory2').catch((error) => {
+await fs.createDirectory('directory2');
+await fs.writeFile('directory2/file2.txt', 'test content');
+await fs.remove('directory2').catch((error) => {
   console.error(error.message);
 });
-await exists('directory2').then((result) => {
+await fs.exists('directory2').then((result) => {
   console.log(result);
 });
 ```
@@ -215,8 +202,8 @@ Example of usage:
 
 ```js
 // Get details of a newly created directory
-const createdDirectory = await createDirectory('directory');
-const createdDirectoryDetails = await details(createdDirectory.fullPath);
+const createdDirectory = await fs.createDirectory('directory');
+const createdDirectoryDetails = await fs.details(createdDirectory.fullPath);
 
 console.log('Type:', createdDirectoryDetails.type); // directory
 console.log('Name:', createdDirectoryDetails.name); // directory
@@ -261,29 +248,29 @@ Example result for `DirectoryEntry` type:
 Example of usage:
 
 ```js
-import { createDirectory, isFile, writeFile } from 'indexeddb-fs';
+import fs from 'indexeddb-fs';
 
 // Create directories for testing
-await createDirectory('files');
-await createDirectory('directories');
+await fs.createDirectory('files');
+await fs.createDirectory('directories');
 
 // Check if directories are files
-await isFile('files').then((result) => {
+await fs.isFile('files').then((result) => {
   console.log(result);
 });
-await isFile('directories').then((result) => {
+await fs.isFile('directories').then((result) => {
   console.log(result);
 });
 
 // Create a file and check if it is a file
-await writeFile('file', 'content');
-await isFile('file').then((result) => {
+await fs.writeFile('file', 'content');
+await fs.isFile('file').then((result) => {
   console.log(result);
 });
 
 // Create a file in the 'files' directory and check if it is a file
-await writeFile('files/file', 'content');
-await isFile('files/file').then((result) => {
+await fs.writeFile('files/file', 'content');
+await fs.isFile('files/file').then((result) => {
   console.log(result);
 });
 ```
@@ -312,13 +299,13 @@ Example result for `FileEntry<TData>` type:
 Example of usage:
 
 ```js
-import { createDirectory, writeFile } from 'indexeddb-fs';
+import fs from 'indexeddb-fs';
 
 // Create a directory to write the file to
-await createDirectory('my_directory');
+await fs.createDirectory('my_directory');
 
 // Write some data to a file
-const fileEntry = await writeFile('my_directory/my_file.txt', 'Hello, world!');
+const fileEntry = await fs.writeFile('my_directory/my_file.txt', 'Hello, world!');
 
 console.log(fileEntry); // FileEntry object representing the file that was written
 ```
@@ -347,10 +334,10 @@ Example result for `FileEntry<TData>` type:
 Example of usage:
 
 ```js
-import { fileDetails } from 'indexeddb-fs';
+import fs from 'indexeddb-fs';
 
 // Get details about a file
-const fileEntry = await fileDetails('my_directory/my_file.txt');
+const fileEntry = await fs.fileDetails('my_directory/my_file.txt');
 
 console.log(fileEntry); // FileEntry object representing the file
 ```
@@ -366,10 +353,10 @@ console.log(fileEntry); // FileEntry object representing the file
 Example of usage:
 
 ```js
-import { readFile } from 'indexeddb-fs';
+import fs from 'indexeddb-fs';
 
 // Read the contents of a file
-const fileContents = await readFile('my_directory/my_file.txt');
+const fileContents = await fs.readFile('my_directory/my_file.txt');
 
 console.log(fileContents); // Contents of the file
 ```
@@ -385,10 +372,10 @@ console.log(fileContents); // Contents of the file
 Example of usage:
 
 ```js
-import { removeFile } from 'indexeddb-fs';
+import fs from 'indexeddb-fs';
 
 // Remove a file
-await removeFile('my_directory/my_file.txt');
+await fs.removeFile('my_directory/my_file.txt');
 ```
 
 ## fs.renameFile(fullPath, newFilename)
@@ -403,10 +390,10 @@ await removeFile('my_directory/my_file.txt');
 Example of usage:
 
 ```js
-import { renameFile } from 'indexeddb-fs';
+import fs from 'indexeddb-fs';
 
 // Rename a file
-const renamedFile = await renameFile('my_directory/my_file.txt', 'new_file.txt');
+const renamedFile = await fs.renameFile('my_directory/my_file.txt', 'new_file.txt');
 
 console.log(renamedFile); // FileEntry object representing the renamed file
 ```
@@ -436,10 +423,10 @@ Example result for `FileEntry<TData>` type:
 Example of usage:
 
 ```js
-import { copyFile } from 'indexeddb-fs';
+import fs from 'indexeddb-fs';
 
 // Copy a file
-const copiedFile = await copyFile('my_directory/my_file.txt', 'my_directory/copied_file.txt');
+const copiedFile = await fs.copyFile('my_directory/my_file.txt', 'my_directory/copied_file.txt');
 
 console.log(copiedFile); // FileEntry object representing the copied file
 ```
@@ -469,10 +456,10 @@ Example result for `FileEntry<TData>` type:
 Example of usage:
 
 ```js
-import { moveFile } from 'indexeddb-fs';
+import fs from 'indexeddb-fs';
 
 // Move a file
-const movedFile = await moveFile('my_directory/my_file.txt', 'my_directory/moved_file.txt');
+const movedFile = await fs.moveFile('my_directory/my_file.txt', 'my_directory/moved_file.txt');
 
 console.log(movedFile); // FileEntry object representing the moved file
 ```
@@ -502,10 +489,10 @@ Example result for `FileEntry<TData>` type:
 Example of usage:
 
 ```js
-import { isDirectory } from 'indexeddb-fs';
+import fs from 'indexeddb-fs';
 
 // Check if a path is a directory
-const isDirectory = await isDirectory('my_directory');
+const isDirectory = await fs.isDirectory('my_directory');
 
 console.log(isDirectory); // true if 'my_directory' is a directory, false otherwise
 ```
@@ -521,10 +508,10 @@ console.log(isDirectory); // true if 'my_directory' is a directory, false otherw
 Example of usage:
 
 ```js
-import { createDirectory } from 'indexeddb-fs';
+import fs from 'indexeddb-fs';
 
 // Create a new directory
-const newDirectory = await createDirectory('my_directory');
+const newDirectory = await fs.createDirectory('my_directory');
 
 console.log(newDirectory); // DirectoryEntry object representing the new directory
 ```
@@ -553,10 +540,10 @@ Example result for `DirectoryEntry` type:
 Example of usage:
 
 ```js
-import { readDirectory } from 'indexeddb-fs';
+import fs from 'indexeddb-fs';
 
 // Read the contents of a directory
-const directoryContents = await readDirectory('my_directory');
+const directoryContents = await fs.readDirectory('my_directory');
 
 console.log(directoryContents);
 // { files: [...], directories: [...], filesCount: 2, directoriesCount: 1 }
@@ -585,10 +572,10 @@ Example result for `ReadDirectoryDecoratorOutput` type:
 Example of usage:
 
 ```js
-import { directoryDetails } from 'indexeddb-fs';
+import fs from 'indexeddb-fs';
 
 // Get details about a directory
-const directory = await directoryDetails('my_directory');
+const directory = await fs.directoryDetails('my_directory');
 
 console.log(directory);
 // DirectoryEntry object representing the directory
@@ -618,10 +605,10 @@ Example result for `DirectoryEntry` type:
 Example of usage:
 
 ```js
-import { removeDirectory } from 'indexeddb-fs';
+import fs from 'indexeddb-fs';
 
 // Remove a directory
-await removeDirectory('my_directory');
+await fs.removeDirectory('my_directory');
 ```
 
 # License
