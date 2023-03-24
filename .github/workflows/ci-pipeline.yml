@@ -1,91 +1,45 @@
 name: CI
 
-on: [push]
+on: [pull_request]
 
 jobs:
-  lint:
-    name: lint
-    runs-on: ubuntu-latest
+  pull-request:
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node-version: [14.x]
+        os:
+          - ubuntu-latest
+        node-version: [18.x]
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v3.0.2
         with:
-          node-version: ${{ matrix.node-version }}
-      - uses: actions/cache@v2
-        with:
-          path: "**/node_modules"
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-      - name: Install npm
-        if: steps.npm-cache.outputs.cache-hit != 'true'
-        run: npm install
-      - name: Run lint
-        run: npm run lint
+          fetch-depth: 0
 
-  typecheck:
-    needs: lint
-    name: typecheck
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [14.x]
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - name: Setup node
+        uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
-      - uses: actions/cache@v2
-        with:
-          path: "**/node_modules"
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-      - name: Install npm
-        if: steps.npm-cache.outputs.cache-hit != 'true'
-        run: npm install
-      - name: Run typecheck
-        run: npm run typecheck
+          node-version: "${{ matrix.node-version }}"
+          cache: "yarn"
 
-  build:
-    name: build
-    needs: typecheck
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [14.x]
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3.3.1
         with:
           path: "**/node_modules"
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-      - name: Install npm
-        if: steps.npm-cache.outputs.cache-hit != 'true'
-        run: npm install
-      - name: Run build
-        run: npm run build
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
 
-  test:
-    name: test
-    needs: build
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [14.x]
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-      - uses: actions/cache@v2
-        with:
-          path: "**/node_modules"
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-      - name: Install npm
-        if: steps.npm-cache.outputs.cache-hit != 'true'
-        run: npm install
-      - name: Run test
-        run: npm run test:ci
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Typecheck
+        run: yarn typecheck
+
+      - name: Prettier
+        run: yarn format:check
+
+      - name: Lint
+        run: yarn lint
+
+      - name: Test
+        run: yarn test:ci
+
+      - name: Build
+        run: yarn build
