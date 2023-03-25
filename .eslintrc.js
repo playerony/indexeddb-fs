@@ -55,12 +55,12 @@ module.exports = {
         'unicorn/no-array-callback-reference': 'off',
         'unicorn/no-object-as-default-parameter': 'off',
         'unicorn/filename-case': 'off',
-        // 'unicorn/filename-case': [
-        //   'error',
-        //   {
-        //     case: 'kebabCase',
-        //   },
-        // ],
+        'unicorn/filename-case': [
+          'error',
+          {
+            case: 'kebabCase',
+          },
+        ],
         '@typescript-eslint/indent': 'off',
         '@typescript-eslint/no-shadow': 'off',
         '@typescript-eslint/comma-dangle': 'off',
