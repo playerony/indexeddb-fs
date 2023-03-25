@@ -1,13 +1,8 @@
 {
   "extends": "./tsconfig.paths.json",
   "compileOnSave": true,
-  "include": [
-    "./lib"
-  ],
-  "exclude": [
-    "dist",
-    "node_modules"
-  ],
+  "include": ["./lib"],
+  "exclude": ["dist", "node_modules"],
   "compilerOptions": {
     "target": "es5",
     "module": "ESNext",
