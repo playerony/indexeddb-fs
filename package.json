@@ -22,6 +22,7 @@
     "build:clean": "rimraf dist",
     "build:dist": "rollup -c",
     "check": "yarn lint && yarn typecheck && yarn test",
+    "check:all": "concurrently \"yarn lint\" \"yarn typecheck\" \"yarn format:check\" \"yarn test\" \"yarn build\"",
     "commitlint": "commitlint -- --from=main",
     "format": "yarn prettier --write",
     "format:check": "yarn prettier --check",
@@ -57,6 +58,7 @@
     "@types/jest": "29.5.0",
     "@typescript-eslint/eslint-plugin": "5.56.0",
     "@typescript-eslint/parser": "5.56.0",
+    "concurrently": "^7.6.0",
     "eslint": "8.36.0",
     "eslint-config-airbnb-typescript": "^17.0.0",
     "eslint-plugin-folders": "^1.0.4",
@@ -86,6 +88,9 @@
     "typescript-transform-paths": "3.4.6"
   },
   "keywords": [
+    "Paweł",
+    "Wojtasiński",
+    "browser",
     "browser-fs",
     "commands",
     "file",
@@ -96,6 +101,7 @@
     "indexeddb",
     "javascript",
     "manager",
+    "playerony",
     "terminal",
     "typescript",
     "web-fs"
