@@ -34,7 +34,7 @@
     "lint:fix": "yarn lint -- --fix",
     "open:coverage": "open ./coverage/lcov-report/index.html",
     "prepare": "husky install",
-    "prettier": "prettier \"lib/**/*\"",
+    "prettier": "prettier \"**/*.+(js|ts|json)\"",
     "reinstall-node-modules": "bash ./scripts/reinstall-node-modules.sh",
     "rlb": "bash ./scripts/remove-local-branches.sh",
     "test": "jest --detectOpenHandles --verbose",
