@@ -1,6 +1,7 @@
 import { formatAndValidateFullPath } from '@utils';
 
 import { IDirectoryEntry } from '@types';
+
 import { IDirectoryDetailsInstanceProps } from './directory-details-instance.types';
 
 const onResolve = ({ result }: IDBRequest) => result;

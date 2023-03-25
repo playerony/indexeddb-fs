@@ -1,6 +1,6 @@
-import { IOpenCursorInstanceProps } from './open-cursor-instance.types';
-
 import { OBJECT_STORE_INDEX_NAME } from '@constants';
+
+import { IOpenCursorInstanceProps } from './open-cursor-instance.types';
 
 export const openCursorInstance =
   ({ initializeObjectStore }: IOpenCursorInstanceProps) =>

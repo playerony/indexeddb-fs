@@ -1,5 +1,6 @@
-import { functionImportTest } from '@utils';
 import { isIndexedDBSupport } from '@database';
+
+import { functionImportTest } from '@utils';
 
 describe('isIndexedDBSupport Function', () => {
   functionImportTest(isIndexedDBSupport);

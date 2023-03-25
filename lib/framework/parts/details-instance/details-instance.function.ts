@@ -1,6 +1,7 @@
 import { formatAndValidateFullPath } from '@utils';
 
-import { IFileEntry, IDirectoryEntry } from '@types';
+import { IDirectoryEntry, IFileEntry } from '@types';
+
 import { IDetailsInstanceProps } from './details-instance.types';
 
 export const detailsInstance =

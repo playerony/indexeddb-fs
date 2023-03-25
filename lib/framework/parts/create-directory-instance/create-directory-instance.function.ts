@@ -1,8 +1,9 @@
 import path from 'path';
 
-import { tryCatchWrapper, getDirectoryName, formatAndValidateFullPath } from '@utils';
+import { formatAndValidateFullPath, getDirectoryName, tryCatchWrapper } from '@utils';
 
 import { EEntryType, IDirectoryEntry } from '@types';
+
 import { ICreateDirectoryInstanceProps } from './create-directory-instance.types';
 
 export const createDirectoryInstance =

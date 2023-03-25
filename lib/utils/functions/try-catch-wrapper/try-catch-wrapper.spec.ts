@@ -1,4 +1,4 @@
-import { tryCatchWrapper, functionImportTest } from '@utils';
+import { functionImportTest, tryCatchWrapper } from '@utils';
 
 const promiseResolveCallback = () =>
   new Promise((resolve) => {

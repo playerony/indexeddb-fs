@@ -1,4 +1,4 @@
-import { IFileEntry, IDirectoryEntry } from '@types';
+import { IDirectoryEntry, IFileEntry } from '@types';
 
 export interface IDetailsInstanceProps {
   directoryDetails: (fullPath: string) => Promise<IDirectoryEntry>;

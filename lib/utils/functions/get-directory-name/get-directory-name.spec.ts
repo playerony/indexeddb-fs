@@ -1,4 +1,4 @@
-import { getDirectoryName, functionImportTest } from '@utils';
+import { functionImportTest, getDirectoryName } from '@utils';
 
 describe('getDirectoryName Function', () => {
   functionImportTest(getDirectoryName);

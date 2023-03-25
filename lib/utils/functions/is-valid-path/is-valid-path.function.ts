@@ -1,4 +1,5 @@
 import { isString } from '@utils';
+
 import { IS_VALID_PATH_REG_EXP_STRING } from '@constants';
 
 const pathRegExp = new RegExp(IS_VALID_PATH_REG_EXP_STRING);

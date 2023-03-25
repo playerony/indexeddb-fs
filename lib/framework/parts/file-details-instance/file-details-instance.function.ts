@@ -1,6 +1,7 @@
 import { formatAndValidateFullPath } from '@utils';
 
 import { IFileEntry } from '@types';
+
 import { IFileDetailsInstanceProps } from './file-details-instance.types';
 
 const onResolve = ({ result }: IDBRequest) => result;

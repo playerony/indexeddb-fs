@@ -1,6 +1,7 @@
-import { tryCatchWrapper, getDirectoryName, formatAndValidateFullPath } from '@utils';
+import { formatAndValidateFullPath, getDirectoryName, tryCatchWrapper } from '@utils';
 
 import { IFileEntry } from '@types';
+
 import { IUpdateFileDetailsInstanceProps } from './update-file-details-instance.types';
 
 export const updateFileDetailsInstance =

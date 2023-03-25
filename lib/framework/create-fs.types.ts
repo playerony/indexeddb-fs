@@ -1,4 +1,5 @@
-import { IFileEntry, IDirectoryEntry } from '@types';
+import { IDirectoryEntry, IFileEntry } from '@types';
+
 import { IReadDirectoryInstanceOutput } from './parts';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

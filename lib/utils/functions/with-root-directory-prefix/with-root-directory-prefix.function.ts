@@ -1,4 +1,4 @@
-import { startsWithSlash, hasRootDirectoryPrefix } from '@utils';
+import { hasRootDirectoryPrefix, startsWithSlash } from '@utils';
 
 export function withRootDirectoryPrefix(fullPath: string, rootDirectoryName: string): string | null {
   if (fullPath === '') {

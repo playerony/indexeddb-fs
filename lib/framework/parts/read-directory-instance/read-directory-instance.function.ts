@@ -1,7 +1,8 @@
 import { formatAndValidateFullPath } from '@utils';
 
-import { IReadDirectoryInstanceProps, IReadDirectoryInstanceOutput } from './read-directory-instance.types';
-import { IFileEntry, EEntryType, IDirectoryEntry } from '@types';
+import { EEntryType, IDirectoryEntry, IFileEntry } from '@types';
+
+import { IReadDirectoryInstanceOutput, IReadDirectoryInstanceProps } from './read-directory-instance.types';
 
 export const readDirectoryInstance =
   ({ isDirectory, openCursor, rootDirectoryName }: IReadDirectoryInstanceProps) =>

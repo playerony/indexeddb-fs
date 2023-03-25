@@ -1,29 +1,29 @@
-import {
-  existsInstance,
-  isFileInstance,
-  removeInstance,
-  detailsInstance,
-  copyFileInstance,
-  readFileInstance,
-  moveFileInstance,
-  writeFileInstance,
-  renameFileInstance,
-  removeFileInstance,
-  isDirectoryInstance,
-  fileDetailsInstance,
-  readDirectoryInstance,
-  createDirectoryInstance,
-  removeDirectoryInstance,
-  directoryDetailsInstance,
-  updateFileDetailsInstance,
-  createRootDirectoryInstance,
-} from './parts';
-import { validateCreateFsProps } from '@utils';
-import { isIndexedDBSupport, getDatabaseCrud } from '@database';
+import { getDatabaseCrud, isIndexedDBSupport } from '@database';
 
-import { AnyFunction, ICreateFsProps, ICreateFsOutput } from './create-fs.types';
+import { validateCreateFsProps } from '@utils';
 
 import { defaultProps } from './create-fs.defaults';
+import { AnyFunction, ICreateFsOutput, ICreateFsProps } from './create-fs.types';
+import {
+  copyFileInstance,
+  createDirectoryInstance,
+  createRootDirectoryInstance,
+  detailsInstance,
+  directoryDetailsInstance,
+  existsInstance,
+  fileDetailsInstance,
+  isDirectoryInstance,
+  isFileInstance,
+  moveFileInstance,
+  readDirectoryInstance,
+  readFileInstance,
+  removeDirectoryInstance,
+  removeFileInstance,
+  removeInstance,
+  renameFileInstance,
+  updateFileDetailsInstance,
+  writeFileInstance,
+} from './parts';
 
 const checkIndexedDBSupport = () => {
   if (!isIndexedDBSupport()) {
