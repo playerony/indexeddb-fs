@@ -1,9 +1,9 @@
 import {
-  getRecordDecorator,
-  putRecordDecorator,
-  openCursorDecorator,
-  deleteRecordDecorator,
-  initializeObjectStoreDecorator,
+  getRecordInstance,
+  putRecordInstance,
+  openCursorInstance,
+  deleteRecordInstance,
+  initializeObjectStoreInstance,
 } from '@database';
 
 import { IGetDatabaseCrudProps, IGetDatabaseCrudOutput } from './get-database-crud.types';
@@ -13,16 +13,16 @@ export const getDatabaseCrud = ({
   databaseVersion,
   objectStoreName,
 }: IGetDatabaseCrudProps): IGetDatabaseCrudOutput => {
-  const initializeObjectStore = initializeObjectStoreDecorator({
+  const initializeObjectStore = initializeObjectStoreInstance({
     databaseName,
     databaseVersion,
     objectStoreName,
   });
 
-  const getRecord = getRecordDecorator({ initializeObjectStore });
-  const putRecord = putRecordDecorator({ initializeObjectStore });
-  const openCursor = openCursorDecorator({ initializeObjectStore });
-  const deleteRecord = deleteRecordDecorator({ initializeObjectStore });
+  const getRecord = getRecordInstance({ initializeObjectStore });
+  const putRecord = putRecordInstance({ initializeObjectStore });
+  const openCursor = openCursorInstance({ initializeObjectStore });
+  const deleteRecord = deleteRecordInstance({ initializeObjectStore });
 
   return { getRecord, putRecord, openCursor, deleteRecord };
 };
