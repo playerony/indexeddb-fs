@@ -9,12 +9,12 @@ describe('validateCreateFsProps Function', () => {
   toMatchSnapshot(() => createFsPropsSchema);
 
   it('should throw an error when passed value is not an object', () => {
-    // @ts-ignore
+    // @ts-expect-error
     expect(() => validateCreateFsProps(null)).toThrowErrorMatchingSnapshot();
   });
 
   it('should require all object fields', () => {
-    // @ts-ignore
+    // @ts-expect-error
     expect(() => validateCreateFsProps({})).toThrowErrorMatchingSnapshot();
   });
 

@@ -1,3 +1,4 @@
+import { IS_VALID_PATH_REG_EXP_STRING } from '@constants';
 import { isString } from '@utils';
 import { isValidPath, withRootDirectoryPrefix } from '..';
 
@@ -17,7 +18,9 @@ export function formatAndValidateFullPath(fullPath: string, rootDirectoryName?: 
   const fullPathWithPrefix = withRootDirectoryPrefix(fullPath, rootDirectoryName);
 
   if (!fullPathWithPrefix || !isValidPath(fullPathWithPrefix)) {
-    throw new Error(`"${fullPath}" path is invalid.`);
+    throw new Error(
+      `"${fullPath}" path is invalid. Path must match the following pattern: /${IS_VALID_PATH_REG_EXP_STRING}/`,
+    );
   }
 
   return fullPathWithPrefix;

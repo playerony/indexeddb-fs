@@ -4,22 +4,22 @@ describe('startsWithSlash Function', () => {
   functionImportTest(startsWithSlash);
 
   it('should return false when fullPath parameter is not a string value', () => {
-    // @ts-ignore
+    // @ts-expect-error
     expect(startsWithSlash({})).toBeFalsy();
 
-    // @ts-ignore
+    // @ts-expect-error
     expect(startsWithSlash(null)).toBeFalsy();
 
-    // @ts-ignore
+    // @ts-expect-error
     expect(startsWithSlash(-500)).toBeFalsy();
 
-    // @ts-ignore
+    // @ts-expect-error
     expect(startsWithSlash(undefined)).toBeFalsy();
 
-    // @ts-ignore
+    // @ts-expect-error
     expect(startsWithSlash([1, 2, 3])).toBeFalsy();
 
-    // @ts-ignore
+    // @ts-expect-error
     expect(startsWithSlash(new Date())).toBeFalsy();
   });
 

@@ -6,7 +6,7 @@ describe('formatAndValidateFullPath Function', () => {
 
   describe('rootDirectoryName parameter', () => {
     it('should throw an error when it is a falsy value', () => {
-      // @ts-ignore
+      // @ts-expect-error
       expect(() => formatAndValidateFullPath('fullPath', null)).toThrow('rootDirectoryName parameter was not provided');
     });
 
@@ -16,7 +16,7 @@ describe('formatAndValidateFullPath Function', () => {
   });
 
   it('should throw an error when fullPath parameter is not a string value', () => {
-    // @ts-ignore
+    // @ts-expect-error
     expect(() => formatAndValidateFullPath(null, 'root')).toThrow('fullPath parameter was not provided');
   });
 
@@ -29,6 +29,8 @@ describe('formatAndValidateFullPath Function', () => {
   it('should throw an error when passed fullPath is invalid', () => {
     expect(() => formatAndValidateFullPath('', 'root')).toThrow('"" path is invalid.');
 
-    expect(() => formatAndValidateFullPath('//double_slash', 'root')).toThrow('"//double_slash" path is invalid.');
+    expect(() => formatAndValidateFullPath('//double_slash', 'root')).toThrow(
+      '"//double_slash" path is invalid. Path must match the following pattern: /^([A-Za-z]:|[A-Za-z0-9_-]+(.[A-Za-z0-9_-]+)*)((/[A-Za-z0-9_.-]+)+)$/',
+    );
   });
 });

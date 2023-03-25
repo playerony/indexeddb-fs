@@ -5,42 +5,42 @@ describe('hasRootDirectoryPrefix Function', () => {
   functionImportTest(hasRootDirectoryPrefix);
 
   it('should return false when rootDirectoryName value is not a string', () => {
-    // @ts-ignore
+    // @ts-expect-error
     expect(hasRootDirectoryPrefix({})).toBeFalsy();
 
-    // @ts-ignore
+    // @ts-expect-error
     expect(hasRootDirectoryPrefix(null)).toBeFalsy();
 
-    // @ts-ignore
+    // @ts-expect-error
     expect(hasRootDirectoryPrefix(-500)).toBeFalsy();
 
-    // @ts-ignore
+    // @ts-expect-error
     expect(hasRootDirectoryPrefix(undefined)).toBeFalsy();
 
-    // @ts-ignore
+    // @ts-expect-error
     expect(hasRootDirectoryPrefix([1, 2, 3])).toBeFalsy();
 
-    // @ts-ignore
+    // @ts-expect-error
     expect(hasRootDirectoryPrefix(new Date())).toBeFalsy();
   });
 
   it('should return false when fullPath value is not a string', () => {
-    // @ts-ignore
+    // @ts-expect-error
     expect(hasRootDirectoryPrefix('test', {})).toBeFalsy();
 
-    // @ts-ignore
+    // @ts-expect-error
     expect(hasRootDirectoryPrefix('test', null)).toBeFalsy();
 
-    // @ts-ignore
+    // @ts-expect-error
     expect(hasRootDirectoryPrefix('test', -500)).toBeFalsy();
 
-    // @ts-ignore
+    // @ts-expect-error
     expect(hasRootDirectoryPrefix('test', undefined)).toBeFalsy();
 
-    // @ts-ignore
+    // @ts-expect-error
     expect(hasRootDirectoryPrefix('test', [1, 2, 3])).toBeFalsy();
 
-    // @ts-ignore
+    // @ts-expect-error
     expect(hasRootDirectoryPrefix('test', new Date())).toBeFalsy();
   });
 

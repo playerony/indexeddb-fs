@@ -4,22 +4,22 @@ describe('isValidPath Function', () => {
   functionImportTest(isValidPath);
 
   it('should return false when passed parameter is not a string value', () => {
-    // @ts-ignore
+    // @ts-expect-error
     expect(isValidPath({})).toBeFalsy();
 
-    // @ts-ignore
+    // @ts-expect-error
     expect(isValidPath(null)).toBeFalsy();
 
-    // @ts-ignore
+    // @ts-expect-error
     expect(isValidPath(-500)).toBeFalsy();
 
-    // @ts-ignore
+    // @ts-expect-error
     expect(isValidPath(undefined)).toBeFalsy();
 
-    // @ts-ignore
+    // @ts-expect-error
     expect(isValidPath([1, 2, 3])).toBeFalsy();
 
-    // @ts-ignore
+    // @ts-expect-error
     expect(isValidPath(new Date())).toBeFalsy();
   });
 

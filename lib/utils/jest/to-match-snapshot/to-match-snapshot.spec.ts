@@ -4,7 +4,7 @@ describe('toMatchSnapshot Function', () => {
   toMatchSnapshot(jest.fn());
 
   it('should throw an error when passed parameter is not a function', () => {
-    // @ts-ignore
+    // @ts-expect-error
     expect(() => toMatchSnapshot(null)).toThrow('parameter is not a function');
   });
 });
