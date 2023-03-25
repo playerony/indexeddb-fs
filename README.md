@@ -532,7 +532,7 @@ Example result for `DirectoryEntry` type:
 ## fs.readDirectory(fullPath)
 
 - Parameters: [`fullPath`: string]
-- Returns: `Promise<ReadDirectoryDecoratorOutput>`
+- Returns: `Promise<ReadDirectoryInstanceOutput>`
 - Description: Reads the entire contents of the directory specified by `fullPath` and returns a Promise that resolves to an object containing an array of `DirectoryEntry` and `FileEntry` objects representing the contents of the directory, as well as a count of the number of directories and files in the directory.
 - Throws an error when the destination directory does not exist. For example, if the `fullPath` parameter specifies a nested directory structure, the method will throw an error if any of the parent directories do not exist.
 - Throws an error when the destination directory is not a directory. For example, if the `fullPath` parameter specifies a file rather than a directory, the method will throw an error.
@@ -549,7 +549,7 @@ console.log(directoryContents);
 // { files: [...], directories: [...], filesCount: 2, directoriesCount: 1 }
 ```
 
-Example result for `ReadDirectoryDecoratorOutput` type:
+Example result for `ReadDirectoryInstanceOutput` type:
 
 ```object
 {
