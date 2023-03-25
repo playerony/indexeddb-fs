@@ -1,6 +1,7 @@
 import { formatAndValidateFullPath } from '@utils';
 
 import { EEntryType } from '@types';
+
 import { IIsFileInstanceProps } from './is-file-instance.types';
 
 const onResolve = ({ result }: IDBRequest) => Boolean(result?.type === EEntryType.FILE);

@@ -1,4 +1,5 @@
 import { functionImportTest } from '@utils';
+
 import { formatAndValidateFullPath } from './format-and-validate-full-path.function';
 
 describe('formatAndValidateFullPath Function', () => {

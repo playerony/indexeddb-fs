@@ -1,6 +1,7 @@
 import { formatAndValidateFullPath } from '@utils';
 
 import { EEntryType } from '@types';
+
 import { IIsDirectoryInstanceProps } from './is-directory-instance.types';
 
 const onResolve = ({ result }: IDBRequest) => Boolean(result?.type === EEntryType.DIRECTORY);

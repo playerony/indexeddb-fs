@@ -1,4 +1,4 @@
-import { startsWithSlash, functionImportTest } from '@utils';
+import { functionImportTest, startsWithSlash } from '@utils';
 
 describe('startsWithSlash Function', () => {
   functionImportTest(startsWithSlash);

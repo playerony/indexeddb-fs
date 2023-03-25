@@ -1,4 +1,5 @@
 import { EEntryType, IDirectoryEntry } from '@types';
+
 import { ICreateRootDirectoryInstanceProps } from './create-root-directory-instance.types';
 
 export const createRootDirectoryInstance =

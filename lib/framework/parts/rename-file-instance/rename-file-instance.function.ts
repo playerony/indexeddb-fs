@@ -1,6 +1,7 @@
-import { getDirectoryName, formatAndValidateFullPath } from '@utils';
+import { formatAndValidateFullPath, getDirectoryName } from '@utils';
 
 import { IFileEntry } from '@types';
+
 import { IRenameFileInstanceProps } from './rename-file-instance.types';
 
 export const renameFileInstance =

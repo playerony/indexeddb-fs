@@ -1,4 +1,4 @@
-import { IFileEntry, IDirectoryEntry } from '@types';
+import { IDirectoryEntry, IFileEntry } from '@types';
 
 export interface IReadDirectoryInstanceProps {
   isDirectory: (fullPath: string) => Promise<boolean>;

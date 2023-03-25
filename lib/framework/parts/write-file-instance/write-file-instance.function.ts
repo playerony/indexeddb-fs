@@ -1,8 +1,9 @@
 import path from 'path';
 
-import { tryCatchWrapper, getDirectoryName, formatAndValidateFullPath } from '@utils';
+import { formatAndValidateFullPath, getDirectoryName, tryCatchWrapper } from '@utils';
 
-import { IFileEntry, EEntryType } from '@types';
+import { EEntryType, IFileEntry } from '@types';
+
 import { IWriteFileInstanceProps } from './write-file-instance.types';
 
 export const writeFileInstance =

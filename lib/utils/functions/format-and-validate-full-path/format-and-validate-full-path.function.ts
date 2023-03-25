@@ -1,5 +1,7 @@
-import { IS_VALID_PATH_REG_EXP_STRING } from '@constants';
 import { isString } from '@utils';
+
+import { IS_VALID_PATH_REG_EXP_STRING } from '@constants';
+
 import { isValidPath, withRootDirectoryPrefix } from '..';
 
 export function formatAndValidateFullPath(fullPath: string, rootDirectoryName?: string): string {

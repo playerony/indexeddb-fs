@@ -1,4 +1,5 @@
 import { functionImportTest } from '@utils';
+
 import { initializeObjectStoreInstance } from './initialize-object-store-instance.function';
 
 describe('initializeObjectStoreInstance Function', () => {

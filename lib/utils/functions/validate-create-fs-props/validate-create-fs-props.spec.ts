@@ -1,8 +1,7 @@
-import { toMatchSnapshot, functionImportTest } from '@utils';
-
-import { createFsPropsSchema } from './validate-create-fs-props.schema';
+import { functionImportTest, toMatchSnapshot } from '@utils';
 
 import { validateCreateFsProps } from './validate-create-fs-props.function';
+import { createFsPropsSchema } from './validate-create-fs-props.schema';
 
 describe('validateCreateFsProps Function', () => {
   functionImportTest(validateCreateFsProps);

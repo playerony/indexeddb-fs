@@ -1,6 +1,9 @@
-import { getDatabaseCrud } from '@database';
-import { functionImportTest } from '@utils';
 import { createFs } from '@framework/create-fs.function';
+
+import { getDatabaseCrud } from '@database';
+
+import { functionImportTest } from '@utils';
+
 import { updateFileDetailsInstance } from './update-file-details-instance.function';
 
 const rootDirectoryName = 'root';

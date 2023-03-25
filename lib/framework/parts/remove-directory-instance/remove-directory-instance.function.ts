@@ -1,4 +1,4 @@
-import { tryCatchWrapper, formatAndValidateFullPath } from '@utils';
+import { formatAndValidateFullPath, tryCatchWrapper } from '@utils';
 
 import { IRemoveDirectoryInstanceProps } from './remove-directory-instance.types';
 

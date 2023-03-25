@@ -1,5 +1,6 @@
-import { functionImportTest } from '@utils';
 import { getDatabaseCrud } from '@database';
+
+import { functionImportTest } from '@utils';
 
 const { deleteRecord, getRecord, putRecord } = getDatabaseCrud({
   databaseVersion: 1,

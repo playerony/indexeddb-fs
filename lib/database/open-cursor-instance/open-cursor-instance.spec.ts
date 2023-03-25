@@ -1,5 +1,6 @@
-import { functionImportTest } from '@utils';
 import { getDatabaseCrud } from '@database';
+
+import { functionImportTest } from '@utils';
 
 const { openCursor, putRecord } = getDatabaseCrud({
   databaseVersion: 1,

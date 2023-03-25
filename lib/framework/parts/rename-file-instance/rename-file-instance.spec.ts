@@ -1,5 +1,6 @@
-import { functionImportTest } from '@utils';
 import { createFs } from '@framework/create-fs.function';
+
+import { functionImportTest } from '@utils';
 
 const { exists, removeFile, renameFile, writeFile } = createFs({
   databaseVersion: 1,

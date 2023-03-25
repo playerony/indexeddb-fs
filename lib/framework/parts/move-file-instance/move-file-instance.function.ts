@@ -1,8 +1,9 @@
 import path from 'path';
 
-import { getDirectoryName, formatAndValidateFullPath } from '@utils';
+import { formatAndValidateFullPath, getDirectoryName } from '@utils';
 
 import { IFileEntry } from '@types';
+
 import { IMoveFileInstanceProps } from './move-file-instance.types';
 
 export const moveFileInstance =

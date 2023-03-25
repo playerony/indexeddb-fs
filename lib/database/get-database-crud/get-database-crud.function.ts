@@ -1,12 +1,12 @@
 import {
-  getRecordInstance,
-  putRecordInstance,
-  openCursorInstance,
   deleteRecordInstance,
+  getRecordInstance,
   initializeObjectStoreInstance,
+  openCursorInstance,
+  putRecordInstance,
 } from '@database';
 
-import { IGetDatabaseCrudProps, IGetDatabaseCrudOutput } from './get-database-crud.types';
+import { IGetDatabaseCrudOutput, IGetDatabaseCrudProps } from './get-database-crud.types';
 
 export const getDatabaseCrud = ({
   databaseName,
