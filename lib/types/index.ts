@@ -1,1 +1,1 @@
-export * from './entry1.type';
+export * from './entry.type';
