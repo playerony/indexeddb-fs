@@ -1,22 +1,22 @@
 import {
-  existsDecorator,
-  isFileDecorator,
-  removeDecorator,
-  detailsDecorator,
-  copyFileDecorator,
-  readFileDecorator,
-  moveFileDecorator,
-  writeFileDecorator,
-  renameFileDecorator,
-  removeFileDecorator,
-  isDirectoryDecorator,
-  fileDetailsDecorator,
-  readDirectoryDecorator,
-  createDirectoryDecorator,
-  removeDirectoryDecorator,
-  directoryDetailsDecorator,
-  updateFileDetailsDecorator,
-  createRootDirectoryDecorator,
+  existsInstance,
+  isFileInstance,
+  removeInstance,
+  detailsInstance,
+  copyFileInstance,
+  readFileInstance,
+  moveFileInstance,
+  writeFileInstance,
+  renameFileInstance,
+  removeFileInstance,
+  isDirectoryInstance,
+  fileDetailsInstance,
+  readDirectoryInstance,
+  createDirectoryInstance,
+  removeDirectoryInstance,
+  directoryDetailsInstance,
+  updateFileDetailsInstance,
+  createRootDirectoryInstance,
 } from './parts';
 import { validateCreateFsProps } from '@utils';
 import { isIndexedDBSupport, getDatabaseCrud } from '@database';
@@ -25,31 +25,30 @@ import { AnyFunction, ICreateFsProps, ICreateFsOutput } from './create-fs.types'
 
 import { defaultProps } from './create-fs.defaults';
 
-function checkIndexedDBSupport() {
+const checkIndexedDBSupport = () => {
   if (!isIndexedDBSupport()) {
     throw new Error('Your browser does not support indexedDB.');
   }
-}
+};
 
-export function createFs({
+export const createFs = ({
   databaseName = defaultProps.databaseName,
   databaseVersion = defaultProps.databaseVersion,
   objectStoreName = defaultProps.objectStoreName,
   rootDirectoryName = defaultProps.rootDirectoryName,
-}: ICreateFsProps = defaultProps): ICreateFsOutput {
-  function validateProps() {
+}: ICreateFsProps = defaultProps): ICreateFsOutput => {
+  const validateProps = () =>
     validateCreateFsProps({
       databaseName,
       objectStoreName,
       databaseVersion,
       rootDirectoryName,
     });
-  }
 
-  function initialize() {
+  const initialize = () => {
     checkIndexedDBSupport();
     validateProps();
-  }
+  };
 
   const { deleteRecord, getRecord, openCursor, putRecord } = getDatabaseCrud({
     databaseName,
@@ -57,52 +56,52 @@ export function createFs({
     objectStoreName,
   });
 
-  const exists: (fullPath: string) => Promise<boolean> = existsDecorator({
+  const exists: (fullPath: string) => Promise<boolean> = existsInstance({
     getRecord,
     rootDirectoryName,
   });
 
-  const isFile = isFileDecorator({
+  const isFile = isFileInstance({
     exists,
     getRecord,
     rootDirectoryName,
   });
 
-  const remove = removeDecorator({
+  const remove = removeInstance({
     exists,
     deleteRecord,
     rootDirectoryName,
   });
 
-  const fileDetails = fileDetailsDecorator({
+  const fileDetails = fileDetailsInstance({
     isFile,
     getRecord,
     rootDirectoryName,
   });
 
-  const readFile = readFileDecorator({
+  const readFile = readFileInstance({
     fileDetails,
   });
 
-  const removeFile = removeFileDecorator({
+  const removeFile = removeFileInstance({
     isFile,
     deleteRecord,
     rootDirectoryName,
   });
 
-  const isDirectory = isDirectoryDecorator({
+  const isDirectory = isDirectoryInstance({
     exists,
     getRecord,
     rootDirectoryName,
   });
 
-  const writeFile = writeFileDecorator({
+  const writeFile = writeFileInstance({
     putRecord,
     isDirectory,
     rootDirectoryName,
   });
 
-  const copyFile = copyFileDecorator({
+  const copyFile = copyFileInstance({
     exists,
     isFile,
     writeFile,
@@ -111,33 +110,33 @@ export function createFs({
     rootDirectoryName,
   });
 
-  const readDirectory = readDirectoryDecorator({
+  const readDirectory = readDirectoryInstance({
     openCursor,
     isDirectory,
     rootDirectoryName,
   });
 
-  const createDirectory = createDirectoryDecorator({
+  const createDirectory = createDirectoryInstance({
     isFile,
     putRecord,
     isDirectory,
     rootDirectoryName,
   });
 
-  const removeDirectory = removeDirectoryDecorator({
+  const removeDirectory = removeDirectoryInstance({
     remove,
     isDirectory,
     readDirectory,
     rootDirectoryName,
   });
 
-  const directoryDetails = directoryDetailsDecorator({
+  const directoryDetails = directoryDetailsInstance({
     getRecord,
     isDirectory,
     rootDirectoryName,
   });
 
-  const details = detailsDecorator({
+  const details = detailsInstance({
     isFile,
     exists,
     isDirectory,
@@ -146,14 +145,14 @@ export function createFs({
     rootDirectoryName,
   });
 
-  const updateFileDetails = updateFileDetailsDecorator({
+  const updateFileDetails = updateFileDetailsInstance({
     putRecord,
     fileDetails,
     isDirectory,
     rootDirectoryName,
   });
 
-  const moveFile = moveFileDecorator({
+  const moveFile = moveFileInstance({
     exists,
     isFile,
     removeFile,
@@ -162,7 +161,7 @@ export function createFs({
     rootDirectoryName,
   });
 
-  const renameFile = renameFileDecorator({
+  const renameFile = renameFileInstance({
     exists,
     isFile,
     removeFile,
@@ -170,18 +169,18 @@ export function createFs({
     rootDirectoryName,
   });
 
-  const createRootDirectory = createRootDirectoryDecorator({
+  const createRootDirectory = createRootDirectoryInstance({
     putRecord,
     rootDirectoryName,
   });
 
-  async function createRootDirectoryIfDoesNotExist(): Promise<void> {
+  const createRootDirectoryIfDoesNotExist = async (): Promise<void> => {
     const hasRootDirectory = await exists(rootDirectoryName);
 
     if (!hasRootDirectory) {
       await createRootDirectory();
     }
-  }
+  };
 
   const withRootDirectoryCheck =
     <TFunction extends AnyFunction>(callback: TFunction) =>
@@ -215,4 +214,4 @@ export function createFs({
     removeDirectory: withRootDirectoryCheck(removeDirectory),
     directoryDetails: withRootDirectoryCheck(directoryDetails),
   };
-}
+};

@@ -1,5 +1,5 @@
 import { IFileEntry, IDirectoryEntry } from '@types';
-import { IReadDirectoryDecoratorOutput } from './parts';
+import { IReadDirectoryInstanceOutput } from './parts';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type AnyFunction = (...args: any[]) => any;
@@ -24,7 +24,7 @@ export interface ICreateFsOutput {
   isFile: (fullPath: string) => Promise<boolean>;
   moveFile: <TData = unknown>(sourcePath: string, destinationPath: string) => Promise<IFileEntry<TData>>;
   objectStoreName: string;
-  readDirectory: (fullPath: string) => Promise<IReadDirectoryDecoratorOutput>;
+  readDirectory: (fullPath: string) => Promise<IReadDirectoryInstanceOutput>;
   readFile: <TData = unknown>(fullPath: string) => Promise<TData>;
   remove: (fullPath: string) => Promise<void>;
   removeDirectory: (fullPath: string) => Promise<void>;
