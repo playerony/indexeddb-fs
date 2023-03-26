@@ -1,2 +1,5 @@
 *.html
 *.ts.snap
+
+dist
+node_modules

@@ -4,6 +4,7 @@
 dist
 node_modules
 
+.eslintrc.js
 jest.config.js
 rollup.config.js
 commitlint.config.js
