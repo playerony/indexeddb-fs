@@ -1,6 +1,6 @@
 {
   "name": "indexeddb-fs",
-  "version": "2.1.1",
+  "version": "2.1.5",
   "description": "An 'fs' kind of library dedicated to the browser",
   "license": "MIT",
   "author": "Paweł Wojtasiński",
