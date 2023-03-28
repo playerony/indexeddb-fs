@@ -113,7 +113,6 @@ dist
 .yarn/cache
 .yarn/unplugged
 .yarn/build-state.yml
-install-state.gz
 .pnp.*
 
 temp
